@@ -1,0 +1,77 @@
+//
+//  hitaoq-Prefix.pch
+//  hitaoq
+//
+//  Created by lingminjun on 15/5/13.
+//  Copyright (c) 2015年 SSN. All rights reserved.
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+
+    //定义基类，预防棘手问题需要修正
+    #import "CNViewController.h"
+    #import "CNTableViewController.h"
+
+    //页面导航
+    #import "SSNRouter.h"
+    #import "SSNRouter+Nice.h"
+
+    //元素布局
+    #import "SSNPanel.h"
+    #import "UIView+SSNUIFrame.h"
+
+    //元素
+    #import "SSNUIEle.h"
+
+    //列表结果集控制
+    #import "UIViewController+SSNTableViewEasyConfigure.h"
+    #import "UIViewController+SSNTableViewDBConfigure.h"
+
+    //db使用
+    #import "SSNDBPool.h"
+    #import "SSNDBTable+Factory.h"
+    #import "SSNDBColumn.h"
+    #import "SSNDBFetch.h"
+
+    //数据绑定
+    #import "SSNDBBound.h"
+
+    //拓展uikit
+    #import "UIViewController+SSNCategory.h"
+    #import "UIAlertView+SSNCategory.h"
+    #import "UIApplication+SSNCategory.h"
+
+    //提示
+    #import "SSNToast.h"
+    #import "UIViewController+SSNToast.h"
+
+    //基础组件加入
+    #import "ssnbase.h"
+    #import "NSString+SSNPinyin.h"
+
+
+    //宏定义
+    #import "SSNRouter+CNCategory.h"
+
+    /**
+     请使用宏来打开url
+     */
+    #define cn_open_path(path)  [self.ssn_router open: cn_combine_path( path ) ]
+
+    /**
+     请使用此宏来组合url，方便以后修改schame
+     */
+    #define cn_combine_path(path) cn_combine_url( cn_app_schame , path)
+
+    #define cn_combine_url(schame,path) _cn_combine_url_(schame,path)
+    #define _cn_combine_url_(s,p) [NSString stringWithFormat:@"%@://%@",(s),(p)]
+
+    //文案设置宏
+    #define cn_localized(key) NSLocalizedString((key), nil)
+
+    //图片设置宏
+    #define cn_image(name) [UIImage imageNamed:(name)]
+
+#endif

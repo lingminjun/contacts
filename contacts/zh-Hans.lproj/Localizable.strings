@@ -1,0 +1,45 @@
+/* 
+  Localizable.strings
+  ChatDemo-UI2.0
+
+  Created by dhcdht on 15-1-20.
+  Copyright (c) 2015年 dhcdht. All rights reserved.
+*/
+//general
+
+/**********************************************
+ 共通
+ ***********************************************/
+"common.cancel.button"          = "取消";
+"common.close.button"           = "关闭";
+"common.edit.button"            = "编辑";
+"common.submit.button"          = "确定";
+"common.send.button"            = "发送";
+"common.done.button"            = "完成";
+"common.save.button"            = "保存";
+"common.delete.button"          = "删除";
+"common.next.button"            = "下一步";
+"common.takephoto.button"       = "拍照";
+
+
+"common.loading.message"        = "加载中...";
+"common.updating.message"       = "更新中...";
+"common.deleting.message"       = "删除中...";
+"common.waiting.message"        = "请稍后...";
+"common.sending.message"        = "发送中...";
+
+/**********************************************
+ 好友
+ ***********************************************/
+"friends.header.title"          = "朋友";
+"detail.header.title"           = "朋友信息";
+
+/**********************************************
+ 附近
+ ***********************************************/
+"nearby.header.title"           = "附近";
+
+/**********************************************
+ 设置
+ ***********************************************/
+"setting.header.title"          = "设置";

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>nav</key>
+	<string>CNNavigationViewController</string>
+	<key>login</key>
+	<string>CNLoginViewController</string>
+	<key>main</key>
+	<string>CNMainViewController</string>
+	<key>friends</key>
+	<string>CNFriendsViewController</string>
+	<key>nearby</key>
+	<string>CNNearbyViewController</string>
+	<key>setting</key>
+	<string>CNSettingViewController</string>
+	<key>detail</key>
+	<string>CNDetailViewController</string>
+	<key>welcome</key>
+	<string>CNWelcomeViewController</string>
+</dict>
+</plist>

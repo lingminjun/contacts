@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "SSNRouter+CNCategory.h"
+#import "CNURLDispatcher.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +19,22 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    //初始化router
+    [self.ssn_router application:application didFinishLaunchingWithOptions:launchOptions];
+    
+    //设置转发代理，控制整个应用的page调度
+    self.ssn_router.delegate = [CNURLDispatcher dispatcher];
+    
+    //根据是否登录情况决定跳转
+    //    if ([[TTUserCenter center] isLogin]) {
+        [self.ssn_router open:@"frenz://home"];
+    //    }
+    //    else
+    //    {
+    //        [self.ssn_router open:@"hitaoq://login"];
+    //    }
+    
     return YES;
 }
 
