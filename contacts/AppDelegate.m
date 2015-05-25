@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "SSNRouter+CNCategory.h"
 #import "CNURLDispatcher.h"
+#import "NSObject+SSNTracking.h"
 
 @interface AppDelegate ()
 
@@ -20,22 +21,25 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+#ifdef DEBUG
+    //追踪一下viewWillAppear
+    [NSObject ssn_tracking_class:[UIViewController class] selector:@selector(viewWillAppear:)];
+#endif
+    
     //初始化router
     [self.ssn_router application:application didFinishLaunchingWithOptions:launchOptions];
     
     //设置转发代理，控制整个应用的page调度
     self.ssn_router.delegate = [CNURLDispatcher dispatcher];
     
-    //根据是否登录情况决定跳转
-    //    if ([[TTUserCenter center] isLogin]) {
-        [self.ssn_router open:@"frenz://home"];
-    //    }
-    //    else
-    //    {
-    //        [self.ssn_router open:@"hitaoq://login"];
-    //    }
+    //进入首页，由CNURLDispatcher决定url页面的切换
+    [self.ssn_router open:@"frenz://home"];
     
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [self.ssn_router application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

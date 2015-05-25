@@ -27,43 +27,43 @@
 {
     if ([[url scheme] isEqualToString:cn_app_schame]) {//页面跳转可进行配置
         
+        NSString *latestVS = [SSNAppInfo latestLaunchAppVersion];
+        NSString *currentVS = [SSNAppInfo appWholeVersion];
+        if ([currentVS ssn_compareAppVersion:latestVS] == NSOrderedDescending) {//表示有更新
+            [SSNAppInfo updateLaunchAppVersion];
+            
+            NSString *path = [NSString stringWithFormat:@"welcome?animated=NO&url=%@",[url.absoluteString ssn_urlEncode]];
+            
+            return [NSURL URLWithString:cn_combine_path(path)];
+        }
+        
         //若要去登录的
         if ([url.absoluteString isEqualToString:cn_combine_path(@"login")])
         {
             [self.ssn_router open:cn_combine_path(@"nav")];
+            
             return [NSURL URLWithString:cn_combine_path(@"nav/login?root=yes")];
         }
         
         //直接进入主页
         if ([url.absoluteString isEqualToString:cn_combine_path(@"home")])
         {
-            
-            //先看是否刚刚升级，若需要新手引导时到welcome
-//            [[NSUserDefaults standardUserDefaults] stringForKey:@""]
-            
-            [self.ssn_router open:cn_combine_path(@"nav?animated=NO")];
+        
+            [self.ssn_router open:cn_combine_path(@"nav")];
             
             if (![self.ssn_router canOpenURL:[NSURL URLWithString:cn_combine_path(@"nav/main/friends")]]) {
                 
                 [self.ssn_router open:cn_combine_path(@"nav/main?root=yes&animated=NO")];
                 
-                [self.ssn_router open:cn_combine_path(@"nav/main/friends&animated=NO")];
+                [self.ssn_router open:cn_combine_path(@"nav/main/friends?animated=NO")];
                 
-                [self.ssn_router open:cn_combine_path(@"nav/main/nearby&animated=NO")];
+                [self.ssn_router open:cn_combine_path(@"nav/main/nearby?animated=NO")];
                 
-                [self.ssn_router open:cn_combine_path(@"nav/main/setting&animated=NO")];
+                [self.ssn_router open:cn_combine_path(@"nav/main/setting?animated=NO")];
                 
             }
             
-            if (YES) {
-                
-                [self.ssn_router open:cn_combine_path(@"nav/main/friends&animated=NO")];
-                
-                return [NSURL URLWithString:cn_combine_path(@"nav/welcome?isModal=YES&animated=NO")];
-            }
-            else {
-                return [NSURL URLWithString:cn_combine_path(@"nav/main/friends")];
-            }
+            return [NSURL URLWithString:cn_combine_path(@"nav/main/friends")];
         }
     }
     
