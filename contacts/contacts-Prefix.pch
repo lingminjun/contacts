@@ -24,6 +24,7 @@
 
     //元素
     #import "SSNUIEle.h"
+    #import "SSNPageControl.h"
 
     //列表结果集控制
     #import "UIViewController+SSNTableViewEasyConfigure.h"
@@ -73,5 +74,12 @@
 
     //图片设置宏
     #define cn_image(name) [UIImage imageNamed:(name)]
+
+    //字体
+    #define cn_normal_font [UIFont systemFontOfSize:14]
+    #define cn_title_font  [UIFont systemFontOfSize:18]
+    #define cn_assist_font [UIFont systemFontOfSize:12]
+
+    //色系
 
 #endif
