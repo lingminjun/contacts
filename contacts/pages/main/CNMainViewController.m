@@ -17,6 +17,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    if (![CNUserCenter center].isSign) {//是否设置过个人资料
+        [UIAlertView ssn_showConfirmationDialogWithTitle:@""
+                                                 message:cn_localized(@"")
+                                                  cancel:cn_localized(@"common.cancel.button")
+                                                 confirm:cn_localized(@"common.submit.button")
+                                                 handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                                     NSString *btnTitle = [alertView buttonTitleAtIndex:buttonIndex];
+                                                     if ([cn_localized(@"common.submit.button") isEqualToString:btnTitle]) {
+                                                         [alertView.ssn_router open:cn_combine_path(@"nav/detail?option=setuser")];
+                                                     }
+                                                 }];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

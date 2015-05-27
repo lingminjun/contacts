@@ -51,6 +51,7 @@
     //基础组件加入
     #import "ssnbase.h"
     #import "NSString+SSNPinyin.h"
+    #import "SSNLogger.h"
 
 
     //宏定义
@@ -81,5 +82,23 @@
     #define cn_assist_font [UIFont systemFontOfSize:12]
 
     //色系
+    #define cn_hex_color(hex)           [UIColor ssn_colorWithHex:(hex)]
+    #define cn_rgba_color(r,g,b,a)      [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+
+    #define cn_nav_bar_color            cn_hex_color(0xff5e56)          // 导航颜色
+    #define cn_backgroud_color          cn_rgba_color(242, 242, 242, 1) // vc背景颜色
+    #define text_normal_color           cn_hex_color(0x333333)          // 默认文本颜色
+    #define text_assist_color           cn_hex_color(0x989898)          // 辅助文本颜色
+    #define button_title_color          [UIColor whiteColor]            // 按钮title的颜色（深色背景）
+    #define button_disable_color        cn_hex_color(0xcccccc)          // 按钮不可用背景颜色
+    #define button_normal_color         cn_hex_color(0xdb5110)          // 按钮默认背景颜色
+    #define separator_line_color        cn_rgba_color(200, 200, 200, 1) // 分割线颜色
+
+    #define table_cell_normal_color     [UIColor whiteColor]            // cell 背景颜色
+    #define table_cell_selected_color   cn_hex_color(0xf6f6f6)          // cell 背景颜色
+    #define table_section_color         cn_rgba_color(243, 244, 248, 1) // table section 背景颜色
+
+    //业务基础对象引入
+    #import "CNUserCenter.h"
 
 #endif

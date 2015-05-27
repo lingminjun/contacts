@@ -1,0 +1,59 @@
+//
+//  CNUserCenter.h
+//  contacts
+//
+//  Created by lingminjun on 15/5/27.
+//  Copyright (c) 2015年 shield. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "CNPerson.h"
+
+/**
+ *  用户
+ */
+@interface CNUserCenter : NSObject
+
+/**
+ *  唯一实例
+ *
+ *  @return 单例
+ */
++ (instancetype)center;
+
+/**
+ *  是否在此设备上签署 (既是否完成个人信息注册)
+ *
+ *  @return 是否在此设备上签署
+ */
+- (BOOL)isSign;
+
+/**
+ *  当前用户的id （id唯一，自动分配）
+ *
+ *  @return 当前用户id
+ */
+- (NSString *)currentUID;
+
+/**
+ *  当前用户
+ *
+ *  @return 当前用户
+ */
+- (CNPerson *)currentUser;
+
+/**
+ *  当前用户的数据库
+ *
+ *  @return 当前用户的数据库
+ */
+- (SSNDB *)currentDatabase;
+
+/**
+ *  uid生成器，暂时没有联网，为了保证uid的唯一性，uid采用设备uuid+时间+自增数组合
+ *
+ *  @return uid生成器
+ */
++ (NSString *)uidGenerator;
+
+@end
