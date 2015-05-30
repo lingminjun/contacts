@@ -69,7 +69,12 @@
         _input.ssn_characterLimit = model.inputCharacterSet;
         _input.ssn_format = model.inputFormat;
         _input.placeholder = model.inputPlaceholder;
-        _input.text = model.input;
+        if (model.inputFormat) {
+            _input.text = model.inputFormat(model.input);
+        }
+        else {
+            _input.text = model.input;
+        }
         _input.keyboardType = model.keyboardType;
         _subTitle.text = model.subTitle;
     }

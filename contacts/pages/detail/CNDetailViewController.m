@@ -17,9 +17,28 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
 
 @property (nonatomic,strong) CNPerson *person;
 
+//本地通讯录选择
+@property (nonatomic,strong) UITableView *selectedTable;
+@property (nonatomic,strong) NSArray *selectPersons;
+
 @end
 
 @implementation CNDetailViewController
+
+- (UITableView *)selectedTable {
+    if (_selectedTable) {
+        return _selectedTable;
+    }
+    
+    _selectedTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.ssn_width - cn_left_edge_width - cn_right_edge_width, 0)];
+    _selectedTable.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    _selectedTable.backgroundColor = cn_text_assist_color;
+    _selectedTable.delegate = self;
+    _selectedTable.dataSource = self;
+    _selectedTable.rowHeight = 40;
+    
+    return _selectedTable;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -131,6 +150,122 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark delegate
+- (void)cellInputDidChange:(CNLabelInputCell *)cell {
+    CNLabelInputCellModel *model = (CNLabelInputCellModel *)cell.ssn_cellModel;
+    
+    if (![model.title isEqualToString:cn_localized(@"user.name.label")]) {
+        return ;
+    }
+    
+//    if ([CN_DETAIL_SET_USER_OPTION isEqualToString:_option]) {
+//        return ;
+//    }
+    
+    //此时需呀开启搜索本地通讯录
+    if (![SSNABContactsManager manager].isOpenService) {
+        [[SSNABContactsManager manager] openService];
+    }
+    
+    CGPoint point = cell.input.ssn_bottom_left_corner;
+    point = [cell.input convertPoint:point toView:self.view.window];
+    self.selectedTable.ssn_top = point.y;
+    self.selectedTable.ssn_center_x = self.view.ssn_center_x;
+    [self.view.window addSubview:self.selectedTable];
+    [self ssn_mainThreadAfter:0.1 block:^{
+        NSString *text = model.input;
+        if ([text length] == 0) {
+            self.selectedTable.hidden = YES;
+            self.selectPersons = nil;
+            [self.selectedTable reloadData];
+        }
+        else {
+            self.selectedTable.hidden = NO;
+            [[SSNABContactsManager manager] searchPersonsWithSearchText:text results:^(NSArray *results) {
+                [self ssn_mainThreadAsyncBlock:^{
+                    self.selectPersons = results;
+                    [self.selectedTable reloadData];
+                }];
+            }];
+        }
+    }];
+}
+
+- (void)dealloc {
+    [_selectedTable removeFromSuperview];
+}
+
+#pragma mark uitabledelegate
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (tableView == _selectedTable) {
+        NSUInteger row_count = [self.selectPersons count];
+        tableView.ssn_height = tableView.rowHeight * row_count;
+        return 1;
+    }
+    return 0;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (tableView == _selectedTable) {
+        NSUInteger row_count = [self.selectPersons count];
+//        tableView.ssn_height = tableView.rowHeight * row_count;
+        return row_count;
+    }
+    return 0;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
+    }
+    
+    if (tableView == _selectedTable) {
+        if (indexPath.row < [self.selectPersons count]) {
+            SSNABPerson *abperson = [self.selectPersons objectAtIndex:indexPath.row];
+            cell.textLabel.text = abperson.name;
+            cell.textLabel.textColor = cn_table_cell_normal_color;
+            cell.textLabel.font = cn_normal_font;
+            
+            cell.detailTextLabel.text = [abperson.mobile ssn_mobile344Format];
+            cell.detailTextLabel.textColor = cn_table_cell_normal_color;
+            cell.detailTextLabel.font = cn_normal_font;
+            
+            cell.backgroundView = [[UIView alloc] initWithFrame:cell.bounds];
+            cell.backgroundView.backgroundColor = cn_text_assist_color;
+        }
+    }
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (tableView == _selectedTable) {
+        if (indexPath.row < [self.selectPersons count]) {
+            SSNABPerson *abperson = [self.selectPersons objectAtIndex:indexPath.row];
+            
+            //check 名字
+            CNLabelInputCellModel *nameCell = [self.ssn_tableViewConfigurator.listFetchController objectAtIndexPath:cn_index_path(0,0)];
+            nameCell.input = abperson.name;
+            
+            //check mobile
+            CNLabelInputCellModel *mobileCell = [self.ssn_tableViewConfigurator.listFetchController objectAtIndexPath:cn_index_path(2,0)];
+            mobileCell.input = abperson.mobile;
+            
+            [self.ssn_tableViewConfigurator.listFetchController updateDatasAtIndexPaths:@[cn_index_path(0,0),cn_index_path(2,0)] withContext:nil];
+            
+            self.selectPersons = nil;
+            self.selectedTable.hidden = YES;
+            [self.selectedTable reloadData];
+            
+        }
+    }
+}
+
 
 #pragma mark - SSNTableViewConfiguratorDelegate
 //加载数据源

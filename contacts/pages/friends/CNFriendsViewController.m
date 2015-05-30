@@ -64,6 +64,11 @@
         self.dbFetchController.delegate = self;
         [self.dbFetchController performFetch];
     }
+    
+    //本地通讯录服务
+    if ([CNUserCenter center].isSign && ![SSNABContactsManager manager].isOpenService) {
+        [[SSNABContactsManager manager] openService];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -100,6 +105,15 @@
     }
     
     completion(items,NO,nil,YES);
+}
+
+- (void)ssn_configurator:(id<SSNTableViewConfigurator>)configurator tableView:(UITableView *)tableView didSelectModel:(CNPersonCellModel *)model atIndexPath:(NSIndexPath *)indexPath {
+    if (![model isKindOfClass:[CNPersonCellModel class]]) {
+        return ;
+    }
+    
+    NSString *path = [NSString stringWithFormat:@"nav/detail?uid=%@",model.person.uid];
+    [self.ssn_router open:cn_combine_path(path)];
 }
 
 #pragma mark - SSNPage

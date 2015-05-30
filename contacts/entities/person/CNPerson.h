@@ -32,4 +32,8 @@ typedef NS_ENUM(NSUInteger, CNPersonGender) {
 
 @property (nonatomic,copy) NSString *companyAddress;
 
+@property (nonatomic) float homeDistance;
+
+@property (nonatomic) float companyDistance;
+
 @end

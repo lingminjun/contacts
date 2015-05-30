@@ -36,6 +36,9 @@
     #import "SSNDBColumn.h"
     #import "SSNDBFetch.h"
 
+    //本地联系人
+    #import "SSNABContactsManager.h"
+
     //数据绑定
     #import "SSNDBBound.h"
 

@@ -10,7 +10,6 @@
 
 @implementation CNPerson
 
-
 - (void)setName:(NSString *)name {
     _pinyin = [name ssn_searchPinyinString];
     if ([_pinyin length] > 0) {
