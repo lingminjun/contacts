@@ -1,26 +1,25 @@
 //
-//  HTSettingViewController.m
-//  hitaoq
+//  CNQuestionViewController.m
+//  contacts
 //
-//  Created by lingminjun on 15/5/13.
-//  Copyright (c) 2015年 SSN. All rights reserved.
+//  Created by lingminjun on 15/5/31.
+//  Copyright (c) 2015年 shield. All rights reserved.
 //
 
-#import "CNSettingViewController.h"
+#import "CNQuestionViewController.h"
 #import "CNIconTitleCell.h"
 
-@interface CNSettingViewController ()
+@interface CNQuestionViewController ()
 
 @end
 
-@implementation CNSettingViewController
+@implementation CNQuestionViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // Do any additional setup after loading the view.
     
-    self.title = cn_localized(@"setting.header.title");
-    self.tabBarItem.image = cn_image(@"icon_setting_normal");
-    self.tabBarItem.selectedImage = cn_image(@"icon_setting_selected");
+    self.title = cn_localized(@"setting.question.title");
     
     //配置table
     self.ssn_tableViewConfigurator.tableView = self.tableView;
@@ -37,33 +36,23 @@
 //加载数据源
 - (void)ssn_configurator:(id<SSNTableViewConfigurator>)configurator controller:(id<SSNFetchControllerPrototol>)controller loadDataWithOffset:(NSUInteger)offset limit:(NSUInteger)limit userInfo:(NSDictionary *)userInfo completion:(void (^)(NSArray *results, BOOL hasMore, NSDictionary *userInfo, BOOL finished))completion {
     
-
+    
     //构建cell
     NSMutableArray *models = [NSMutableArray arrayWithCapacity:1];
     
     CNIconTitleCellModel *cell = nil;
     
     cell = [[CNIconTitleCellModel alloc] init];
-    cell.iconName = @"icon_info";
-    cell.title = cn_localized(@"setting.my.info.label");
+    cell.title = cn_localized(@"question.what.pengyou.label");
     [models addObject:cell];
     
     cell = [[CNIconTitleCellModel alloc] init];
-    cell.iconName = @"icon_question";
-    cell.title = cn_localized(@"setting.question.label");
+    cell.title = cn_localized(@"question.how.safety.label");
     [models addObject:cell];
     
     
     cell = [[CNIconTitleCellModel alloc] init];
-    cell.iconName = @"icon_opinion";
-    cell.title = cn_localized(@"setting.opinion.label");
-    [models addObject:cell];
-    
-    cell = [[CNIconTitleCellModel alloc] init];
-    cell.iconName = @"icon_info";
-    cell.title = cn_localized(@"setting.about.label");
-    cell.disabledSelect = YES;
-    cell.hiddenDisclosureIndicator = YES;
+    cell.title = cn_localized(@"question.info.disclosure.label");
     [models addObject:cell];
     
     
@@ -77,21 +66,20 @@
         return ;
     }
     
-    if ([model.title isEqualToString:cn_localized(@"setting.my.info.label")]) {
-        [self.ssn_router open:cn_combine_path(@"nav/detail") query:@{@"uid":[CNUserCenter center].currentUID}];
+    //进入地图选择
+    NSDictionary *query = nil;
+    if ([model.title isEqualToString:cn_localized(@"question.what.pengyou.label")]) {
+        query = @{@"answer":cn_localized(@"question.what.pengyou.answer")};
     }
-    else if ([model.title isEqualToString:cn_localized(@"setting.question.label")]) {
-        [self.ssn_router open:cn_combine_path(@"nav/question")];
+    else if ([model.title isEqualToString:cn_localized(@"question.how.safety.label")]) {
+        query = @{@"answer":cn_localized(@"question.how.safety.answer")};
     }
-    else if ([model.title isEqualToString:cn_localized(@"setting.opinion.label")]) {
-        [self.ssn_router open:cn_combine_path(@"nav/opinion")];
+    else if ([model.title isEqualToString:cn_localized(@"question.info.disclosure.label")]) {
+        query = @{@"answer":cn_localized(@"question.info.disclosure.answer")};
+        
     }
+    [self.ssn_router open:cn_combine_path(@"nav/answer") query:query];
 }
 
-
-#pragma mark - SSNPage
-- (BOOL)ssn_canRespondURL:(NSURL *)url query:(NSDictionary *)query {
-    return YES;
-}
 
 @end

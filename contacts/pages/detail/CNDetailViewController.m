@@ -64,6 +64,7 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     
     //配置table
     self.ssn_tableViewConfigurator.tableView = self.tableView;
+    self.ssn_tableViewConfigurator.isWithoutAnimation = YES;
     
     //开始加载数据
     [self.ssn_tableViewConfigurator.listFetchController loadData];

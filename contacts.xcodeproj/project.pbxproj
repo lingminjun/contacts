@@ -12,6 +12,13 @@
 		5323000A1B11634F00FC8658 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 532300091B11634F00FC8658 /* ViewController.m */; };
 		5323000F1B11634F00FC8658 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5323000E1B11634F00FC8658 /* Images.xcassets */; };
 		5323001E1B11635000FC8658 /* contactsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5323001D1B11635000FC8658 /* contactsTests.m */; };
+		5343A3F61B1A1577005BCDC4 /* CNIconTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5343A3F51B1A1577005BCDC4 /* CNIconTitleCell.m */; };
+		5343A3FB1B1A1A3B005BCDC4 /* icon_info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5343A3F81B1A1A3B005BCDC4 /* icon_info@2x.png */; };
+		5343A3FC1B1A1A3B005BCDC4 /* icon_opinion@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5343A3F91B1A1A3B005BCDC4 /* icon_opinion@2x.png */; };
+		5343A3FD1B1A1A3B005BCDC4 /* icon_question@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5343A3FA1B1A1A3B005BCDC4 /* icon_question@2x.png */; };
+		5343A4011B1A1E11005BCDC4 /* CNQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5343A4001B1A1E11005BCDC4 /* CNQuestionViewController.m */; };
+		5343A4041B1A2074005BCDC4 /* CNAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5343A4031B1A2074005BCDC4 /* CNAnswerViewController.m */; };
+		5343A4081B1A2955005BCDC4 /* CNOpinionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5343A4071B1A2955005BCDC4 /* CNOpinionViewController.m */; };
 		534CF5291B15FE6900369645 /* CNUserCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 534CF5281B15FE6900369645 /* CNUserCenter.m */; };
 		535306CE1B175CCA00EE92AA /* CNTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 535306CD1B175CCA00EE92AA /* CNTableViewCell.m */; };
 		5358DB481B14CE3B0082E726 /* welcome01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5358DB451B14CE3B0082E726 /* welcome01.jpg */; };
@@ -198,6 +205,17 @@
 		5323001C1B11635000FC8658 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5323001D1B11635000FC8658 /* contactsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = contactsTests.m; sourceTree = "<group>"; };
 		5323FFFE1B11634F00FC8658 /* contacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = contacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5343A3F41B1A1577005BCDC4 /* CNIconTitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNIconTitleCell.h; sourceTree = "<group>"; };
+		5343A3F51B1A1577005BCDC4 /* CNIconTitleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNIconTitleCell.m; sourceTree = "<group>"; };
+		5343A3F81B1A1A3B005BCDC4 /* icon_info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_info@2x.png"; sourceTree = "<group>"; };
+		5343A3F91B1A1A3B005BCDC4 /* icon_opinion@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_opinion@2x.png"; sourceTree = "<group>"; };
+		5343A3FA1B1A1A3B005BCDC4 /* icon_question@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_question@2x.png"; sourceTree = "<group>"; };
+		5343A3FF1B1A1E11005BCDC4 /* CNQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNQuestionViewController.h; sourceTree = "<group>"; };
+		5343A4001B1A1E11005BCDC4 /* CNQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNQuestionViewController.m; sourceTree = "<group>"; };
+		5343A4021B1A2074005BCDC4 /* CNAnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNAnswerViewController.h; sourceTree = "<group>"; };
+		5343A4031B1A2074005BCDC4 /* CNAnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNAnswerViewController.m; sourceTree = "<group>"; };
+		5343A4061B1A2955005BCDC4 /* CNOpinionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNOpinionViewController.h; sourceTree = "<group>"; };
+		5343A4071B1A2955005BCDC4 /* CNOpinionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNOpinionViewController.m; sourceTree = "<group>"; };
 		534CF5271B15FE6900369645 /* CNUserCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserCenter.h; sourceTree = "<group>"; };
 		534CF5281B15FE6900369645 /* CNUserCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserCenter.m; sourceTree = "<group>"; };
 		535306CC1B175CCA00EE92AA /* CNTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNTableViewCell.h; sourceTree = "<group>"; };
@@ -568,6 +586,36 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		5343A3F71B1A1A3B005BCDC4 /* setting */ = {
+			isa = PBXGroup;
+			children = (
+				5343A3F81B1A1A3B005BCDC4 /* icon_info@2x.png */,
+				5343A3F91B1A1A3B005BCDC4 /* icon_opinion@2x.png */,
+				5343A3FA1B1A1A3B005BCDC4 /* icon_question@2x.png */,
+			);
+			path = setting;
+			sourceTree = "<group>";
+		};
+		5343A3FE1B1A1DED005BCDC4 /* question */ = {
+			isa = PBXGroup;
+			children = (
+				5343A3FF1B1A1E11005BCDC4 /* CNQuestionViewController.h */,
+				5343A4001B1A1E11005BCDC4 /* CNQuestionViewController.m */,
+				5343A4021B1A2074005BCDC4 /* CNAnswerViewController.h */,
+				5343A4031B1A2074005BCDC4 /* CNAnswerViewController.m */,
+			);
+			path = question;
+			sourceTree = "<group>";
+		};
+		5343A4051B1A2937005BCDC4 /* opinion */ = {
+			isa = PBXGroup;
+			children = (
+				5343A4061B1A2955005BCDC4 /* CNOpinionViewController.h */,
+				5343A4071B1A2955005BCDC4 /* CNOpinionViewController.m */,
+			);
+			path = opinion;
+			sourceTree = "<group>";
+		};
 		534CF5261B15FE4900369645 /* auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -594,6 +642,8 @@
 				53A48D021B18AC0800AC46D3 /* CNLabelInputCell.m */,
 				535306CC1B175CCA00EE92AA /* CNTableViewCell.h */,
 				535306CD1B175CCA00EE92AA /* CNTableViewCell.m */,
+				5343A3F41B1A1577005BCDC4 /* CNIconTitleCell.h */,
+				5343A3F51B1A1577005BCDC4 /* CNIconTitleCell.m */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -629,6 +679,7 @@
 		537F396B1B11FC1900EE8230 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				5343A3F71B1A1A3B005BCDC4 /* setting */,
 				5358DB441B14CE3B0082E726 /* welcome */,
 				537F396C1B11FCC400EE8230 /* common */,
 				537F397B1B11FCC400EE8230 /* nearby */,
@@ -721,6 +772,8 @@
 		53918E791B116B2F00381368 /* pages */ = {
 			isa = PBXGroup;
 			children = (
+				5343A4051B1A2937005BCDC4 /* opinion */,
+				5343A3FE1B1A1DED005BCDC4 /* question */,
 				537F39A41B121D4B00EE8230 /* welcome */,
 				537F39931B12010B00EE8230 /* base */,
 				537F39601B11F3CB00EE8230 /* detail */,
@@ -1434,6 +1487,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5343A3FC1B1A1A3B005BCDC4 /* icon_opinion@2x.png in Resources */,
 				53A48D071B18B98600AC46D3 /* icon_radio_selected@2x.png in Resources */,
 				53A48E8A1B1A023400AC46D3 /* ssn_pull_refresh_black_arrow@3x.png in Resources */,
 				537F397E1B11FCC400EE8230 /* default_avatar_small@2x.png in Resources */,
@@ -1453,8 +1507,10 @@
 				53A48E921B1A023400AC46D3 /* ssn_pull_refresh_white_arrow@2x.png in Resources */,
 				53A48E5C1B1A023400AC46D3 /* ssn_hosting_task.json in Resources */,
 				537F39841B11FCC400EE8230 /* icon_setting_normal@3x.png in Resources */,
+				5343A3FB1B1A1A3B005BCDC4 /* icon_info@2x.png in Resources */,
 				53A48E8C1B1A023400AC46D3 /* ssn_pull_refresh_blue_arrow@2x.png in Resources */,
 				537F398B1B11FCC400EE8230 /* icon_user_comment@2x.png in Resources */,
+				5343A3FD1B1A1A3B005BCDC4 /* icon_question@2x.png in Resources */,
 				537F39831B11FCC400EE8230 /* icon_setting_normal@2x.png in Resources */,
 				5358DB481B14CE3B0082E726 /* welcome01.jpg in Resources */,
 				53A48E8F1B1A023400AC46D3 /* ssn_pull_refresh_gray_arrow@2x.png in Resources */,
@@ -1500,6 +1556,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5343A3F61B1A1577005BCDC4 /* CNIconTitleCell.m in Sources */,
 				53A48E661B1A023400AC46D3 /* SSNQuantum.m in Sources */,
 				53A48E791B1A023400AC46D3 /* SSNUISiteLayout.m in Sources */,
 				53A48E541B1A023400AC46D3 /* db.md in Sources */,
@@ -1538,6 +1595,7 @@
 				5323000A1B11634F00FC8658 /* ViewController.m in Sources */,
 				53A48E5A1B1A023400AC46D3 /* SSNVMCellItem.m in Sources */,
 				53A48E4C1B1A023400AC46D3 /* SSNABRecord.m in Sources */,
+				5343A4011B1A1E11005BCDC4 /* CNQuestionViewController.m in Sources */,
 				53918F761B116B2F00381368 /* CNSettingViewController.m in Sources */,
 				53A48E571B1A023400AC46D3 /* SSNDBFetch.m in Sources */,
 				53A48E861B1A023400AC46D3 /* SSNScrollEdgeView.m in Sources */,
@@ -1565,6 +1623,7 @@
 				53A48E631B1A023400AC46D3 /* NSString+SSNPinyin.m in Sources */,
 				53A48E4D1B1A023400AC46D3 /* SSNCrashReport.m in Sources */,
 				53A48E301B1A023400AC46D3 /* SSNLogger.m in Sources */,
+				5343A4041B1A2074005BCDC4 /* CNAnswerViewController.m in Sources */,
 				53A48E2C1B1A023400AC46D3 /* NSObject+SSNTracking.m in Sources */,
 				539190041B1174FB00381368 /* CNNearbyViewController.m in Sources */,
 				53A48E3A1B1A023400AC46D3 /* NSURL+SSN.m in Sources */,
@@ -1578,6 +1637,7 @@
 				53A48E5D1B1A023400AC46D3 /* SSNHosting.m in Sources */,
 				53A48E691B1A023400AC46D3 /* UIAlertView+SSNCategory.m in Sources */,
 				53A48E381B1A023400AC46D3 /* NSString+SSN.m in Sources */,
+				5343A4081B1A2955005BCDC4 /* CNOpinionViewController.m in Sources */,
 				53918F711B116B2F00381368 /* CNMainViewController.m in Sources */,
 				53A48E621B1A023400AC46D3 /* stt.cpp in Sources */,
 				53A48E731B1A023400AC46D3 /* UITextField+SSNUIKit.m in Sources */,

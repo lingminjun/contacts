@@ -18,5 +18,11 @@
 	<string>CNDetailViewController</string>
 	<key>welcome</key>
 	<string>CNWelcomeViewController</string>
+	<key>question</key>
+	<string>CNQuestionViewController</string>
+	<key>answer</key>
+	<string>CNAnswerViewController</string>
+	<key>opinion</key>
+	<string>CNOpinionViewController</string>
 </dict>
 </plist>

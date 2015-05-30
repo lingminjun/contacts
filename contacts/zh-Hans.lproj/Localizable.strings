@@ -64,6 +64,19 @@
  设置
  ***********************************************/
 "setting.header.title"          = "设置";
+"setting.my.info.label"         = "我的信息";
+"setting.question.label"        = "常见问题";
+"setting.opinion.label"         = "意见反馈";
+"setting.about.label"           = "关于我们";
+"setting.question.title"        = "常见问题";
+"question.what.pengyou.label"   = "朋友功能";
+"question.how.safety.label"     = "朋友安全吗";
+"question.info.disclosure.label" = "资料泄露怎么办";
+"answer.header.title"           = "答案";
+"question.what.pengyou.answer"  = "目前友朋1.0，还是单机版，主要功能有朋友距离查询、朋友地址导航";
+"question.how.safety.answer"    = "非常安全，不会公开您的任何信息";
+"question.info.disclosure.answer" = "寻找泄露源，谨慎处理";
+"opinion.header.title"          = "意见反馈";
 
 /**********************************************
  欢迎页
