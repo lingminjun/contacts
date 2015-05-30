@@ -8,6 +8,12 @@
 
 #import "CNEntity.h"
 
+typedef NS_ENUM(NSUInteger, CNPersonGender) {
+    CNPersonMaleGender,
+    CNPersonFemaleGender,
+};
+
+
 @interface CNPerson : CNEntity
 
 @property (nonatomic,copy) NSString *uid;//用户唯一id
@@ -16,7 +22,7 @@
 
 @property (nonatomic,copy) NSString *mobile;
 
-@property (nonatomic) NSInteger gender;
+@property (nonatomic) CNPersonGender gender;
 
 @property (nonatomic,copy) NSString *pinyin;//名字拼音，多音组合
 

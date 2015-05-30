@@ -85,20 +85,32 @@
     #define cn_hex_color(hex)           [UIColor ssn_colorWithHex:(hex)]
     #define cn_rgba_color(r,g,b,a)      [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 
-    #define cn_nav_bar_color            cn_hex_color(0xff5e56)          // 导航颜色
-    #define cn_backgroud_color          cn_rgba_color(242, 242, 242, 1) // vc背景颜色
-    #define text_normal_color           cn_hex_color(0x333333)          // 默认文本颜色
-    #define text_assist_color           cn_hex_color(0x989898)          // 辅助文本颜色
-    #define button_title_color          [UIColor whiteColor]            // 按钮title的颜色（深色背景）
-    #define button_disable_color        cn_hex_color(0xcccccc)          // 按钮不可用背景颜色
-    #define button_normal_color         cn_hex_color(0xdb5110)          // 按钮默认背景颜色
-    #define separator_line_color        cn_rgba_color(200, 200, 200, 1) // 分割线颜色
+    #define cn_clear_color                 [UIColor clearColor]            // 透明色
+    #define cn_nav_bar_color               cn_hex_color(0xff5e56)          // 导航颜色
+    #define cn_backgroud_color             cn_rgba_color(242, 242, 242, 1) // vc背景颜色
+    #define cn_text_normal_color           cn_hex_color(0x333333)          // 默认文本颜色
+    #define cn_text_assist_color           cn_hex_color(0x989898)          // 辅助文本颜色
+    #define cn_button_title_color          [UIColor whiteColor]            // 按钮title的颜色（深色背景）
+    #define cn_button_disable_color        cn_hex_color(0xcccccc)          // 按钮不可用背景颜色
+    #define cn_button_normal_color         cn_hex_color(0xdb5110)          // 按钮默认背景颜色
+    #define cn_separator_line_color        cn_rgba_color(200, 200, 200, 1) // 分割线颜色
 
-    #define table_cell_normal_color     [UIColor whiteColor]            // cell 背景颜色
-    #define table_cell_selected_color   cn_hex_color(0xf6f6f6)          // cell 背景颜色
-    #define table_section_color         cn_rgba_color(243, 244, 248, 1) // table section 背景颜色
+    #define cn_table_cell_normal_color     [UIColor whiteColor]            // cell 背景颜色
+    #define cn_table_cell_selected_color   cn_hex_color(0xf6f6f6)          // cell 背景颜色
+    #define cn_table_section_color         cn_rgba_color(243, 244, 248, 1) // table section 背景颜色
+
+    //边距
+    #define cn_left_edge_width             (10) // 左边距
+    #define cn_right_edge_width            (10) // 右边距
+    #define cn_top_edge_height             (10) // 上边距
+    #define cn_bottom_edge_height          (10) // 下边距
+    #define cn_hor_space_width             (10) // 水平间距
+    #define cn_ver_space_height            (10) // 垂直间距
+    #define cn_hor_inner_space_width       (6)  // 水平内部间距
+    #define cn_ver_inner_space_height      (6)  // 垂直内部间距
 
     //业务基础对象引入
     #import "CNUserCenter.h"
+    #import "SSNDBTableManager.h"
 
 #endif

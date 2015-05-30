@@ -29,6 +29,15 @@
 - (BOOL)isSign;
 
 /**
+ *  在此设备上签署
+ *
+ *  @param uid 签署uid
+ *
+ *  @return 操作是否成功
+ */
+- (BOOL)signWithUID:(NSString *)uid;
+
+/**
  *  当前用户的id （id唯一，自动分配）
  *
  *  @return 当前用户id

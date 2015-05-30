@@ -10,4 +10,25 @@
 
 @implementation CNPerson
 
+
+- (void)setName:(NSString *)name {
+    _pinyin = [name ssn_searchPinyinString];
+    if ([_pinyin length] > 0) {
+        unichar c = [_pinyin characterAtIndex:0];
+        if (c >= 'a' && c <= 'z') {
+            _firstSpell = c - ('a' - 'A');
+        }
+        else if (c >= 'A' && c <= 'Z') {
+            _firstSpell = c;
+        }
+        else {
+            _firstSpell = '#';
+        }
+    }
+    else {
+        _firstSpell = '#';
+    }
+    _name = [name copy];
+}
+
 @end

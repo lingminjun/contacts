@@ -20,7 +20,7 @@
     
     if (![CNUserCenter center].isSign) {//是否设置过个人资料
         [UIAlertView ssn_showConfirmationDialogWithTitle:@""
-                                                 message:cn_localized(@"")
+                                                 message:cn_localized(@"user.set.user.info.tip")
                                                   cancel:cn_localized(@"common.cancel.button")
                                                  confirm:cn_localized(@"common.submit.button")
                                                  handler:^(UIAlertView *alertView, NSInteger buttonIndex) {

@@ -14,6 +14,7 @@
 		5323001E1B11635000FC8658 /* contactsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5323001D1B11635000FC8658 /* contactsTests.m */; };
 		53355CEA1B1372BF009878B5 /* SSNAppInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 53355CE91B1372BF009878B5 /* SSNAppInfo.m */; };
 		534CF5291B15FE6900369645 /* CNUserCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 534CF5281B15FE6900369645 /* CNUserCenter.m */; };
+		535306CE1B175CCA00EE92AA /* CNTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 535306CD1B175CCA00EE92AA /* CNTableViewCell.m */; };
 		5358DB431B14CC1A0082E726 /* SSNPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5358DB421B14CC1A0082E726 /* SSNPageControl.m */; };
 		5358DB481B14CE3B0082E726 /* welcome01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5358DB451B14CE3B0082E726 /* welcome01.jpg */; };
 		5358DB491B14CE3B0082E726 /* welcome02.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5358DB461B14CE3B0082E726 /* welcome02.jpg */; };
@@ -160,6 +161,13 @@
 		53918FF61B1170D800381368 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53918FF51B1170D800381368 /* Foundation.framework */; };
 		539190011B1174E400381368 /* CNFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 539190001B1174E400381368 /* CNFriendsViewController.m */; };
 		539190041B1174FB00381368 /* CNNearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 539190031B1174FB00381368 /* CNNearbyViewController.m */; };
+		53A48D001B18ABF700AC46D3 /* CNGenderSelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A48CFF1B18ABF700AC46D3 /* CNGenderSelectionCell.m */; };
+		53A48D031B18AC0800AC46D3 /* CNLabelInputCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A48D021B18AC0800AC46D3 /* CNLabelInputCell.m */; };
+		53A48D061B18B98600AC46D3 /* icon_radio_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53A48D041B18B98600AC46D3 /* icon_radio_normal@2x.png */; };
+		53A48D071B18B98600AC46D3 /* icon_radio_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53A48D051B18B98600AC46D3 /* icon_radio_selected@2x.png */; };
+		53A48D0B1B18BD2600AC46D3 /* SSNDBTableManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A48D0A1B18BD2600AC46D3 /* SSNDBTableManager.m */; };
+		53A48D0E1B19432400AC46D3 /* icon_disclosure_indicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53A48D0D1B19432400AC46D3 /* icon_disclosure_indicator@2x.png */; };
+		53A48D121B195D3000AC46D3 /* CNPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A48D111B195D3000AC46D3 /* CNPersonCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -188,6 +196,8 @@
 		53355CE91B1372BF009878B5 /* SSNAppInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSNAppInfo.m; sourceTree = "<group>"; };
 		534CF5271B15FE6900369645 /* CNUserCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserCenter.h; sourceTree = "<group>"; };
 		534CF5281B15FE6900369645 /* CNUserCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserCenter.m; sourceTree = "<group>"; };
+		535306CC1B175CCA00EE92AA /* CNTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNTableViewCell.h; sourceTree = "<group>"; };
+		535306CD1B175CCA00EE92AA /* CNTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNTableViewCell.m; sourceTree = "<group>"; };
 		5358DB411B14CC1A0082E726 /* SSNPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSNPageControl.h; sourceTree = "<group>"; };
 		5358DB421B14CC1A0082E726 /* SSNPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSNPageControl.m; sourceTree = "<group>"; };
 		5358DB451B14CE3B0082E726 /* welcome01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = welcome01.jpg; sourceTree = "<group>"; };
@@ -439,6 +449,17 @@
 		539190001B1174E400381368 /* CNFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNFriendsViewController.m; sourceTree = "<group>"; };
 		539190021B1174FB00381368 /* CNNearbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNNearbyViewController.h; sourceTree = "<group>"; };
 		539190031B1174FB00381368 /* CNNearbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNNearbyViewController.m; sourceTree = "<group>"; };
+		53A48CFE1B18ABF700AC46D3 /* CNGenderSelectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNGenderSelectionCell.h; sourceTree = "<group>"; };
+		53A48CFF1B18ABF700AC46D3 /* CNGenderSelectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNGenderSelectionCell.m; sourceTree = "<group>"; };
+		53A48D011B18AC0800AC46D3 /* CNLabelInputCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNLabelInputCell.h; sourceTree = "<group>"; };
+		53A48D021B18AC0800AC46D3 /* CNLabelInputCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNLabelInputCell.m; sourceTree = "<group>"; };
+		53A48D041B18B98600AC46D3 /* icon_radio_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_radio_normal@2x.png"; sourceTree = "<group>"; };
+		53A48D051B18B98600AC46D3 /* icon_radio_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_radio_selected@2x.png"; sourceTree = "<group>"; };
+		53A48D091B18BD2600AC46D3 /* SSNDBTableManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSNDBTableManager.h; sourceTree = "<group>"; };
+		53A48D0A1B18BD2600AC46D3 /* SSNDBTableManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSNDBTableManager.m; sourceTree = "<group>"; };
+		53A48D0D1B19432400AC46D3 /* icon_disclosure_indicator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_disclosure_indicator@2x.png"; sourceTree = "<group>"; };
+		53A48D101B195D3000AC46D3 /* CNPersonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNPersonCell.h; sourceTree = "<group>"; };
+		53A48D111B195D3000AC46D3 /* CNPersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNPersonCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -465,6 +486,8 @@
 		532300001B11634F00FC8658 /* contacts */ = {
 			isa = PBXGroup;
 			children = (
+				53A48D081B18BCFF00AC46D3 /* utils */,
+				535306CA1B175BFC00EE92AA /* views */,
 				534CF5261B15FE4900369645 /* auth */,
 				537F398F1B11FFF800EE8230 /* entities */,
 				53918E791B116B2F00381368 /* pages */,
@@ -537,6 +560,36 @@
 			path = auth;
 			sourceTree = "<group>";
 		};
+		535306CA1B175BFC00EE92AA /* views */ = {
+			isa = PBXGroup;
+			children = (
+				53A48D0F1B195D1A00AC46D3 /* friends */,
+				535306CF1B1768EF00EE92AA /* detail */,
+				535306CB1B175CA800EE92AA /* base */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		535306CB1B175CA800EE92AA /* base */ = {
+			isa = PBXGroup;
+			children = (
+				53A48D011B18AC0800AC46D3 /* CNLabelInputCell.h */,
+				53A48D021B18AC0800AC46D3 /* CNLabelInputCell.m */,
+				535306CC1B175CCA00EE92AA /* CNTableViewCell.h */,
+				535306CD1B175CCA00EE92AA /* CNTableViewCell.m */,
+			);
+			path = base;
+			sourceTree = "<group>";
+		};
+		535306CF1B1768EF00EE92AA /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				53A48CFE1B18ABF700AC46D3 /* CNGenderSelectionCell.h */,
+				53A48CFF1B18ABF700AC46D3 /* CNGenderSelectionCell.m */,
+			);
+			path = detail;
+			sourceTree = "<group>";
+		};
 		5358DB401B14CC1A0082E726 /* pagecontrol */ = {
 			isa = PBXGroup;
 			children = (
@@ -578,6 +631,9 @@
 		537F396C1B11FCC400EE8230 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				53A48D0D1B19432400AC46D3 /* icon_disclosure_indicator@2x.png */,
+				53A48D041B18B98600AC46D3 /* icon_radio_normal@2x.png */,
+				53A48D051B18B98600AC46D3 /* icon_radio_selected@2x.png */,
 				537F396D1B11FCC400EE8230 /* default_avatar_big@2x.png */,
 				537F396E1B11FCC400EE8230 /* default_avatar_small@2x.png */,
 				537F396F1B11FCC400EE8230 /* icon_nearby_normal@2x.png */,
@@ -1222,6 +1278,24 @@
 			path = nearby;
 			sourceTree = "<group>";
 		};
+		53A48D081B18BCFF00AC46D3 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				53A48D091B18BD2600AC46D3 /* SSNDBTableManager.h */,
+				53A48D0A1B18BD2600AC46D3 /* SSNDBTableManager.m */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
+		53A48D0F1B195D1A00AC46D3 /* friends */ = {
+			isa = PBXGroup;
+			children = (
+				53A48D101B195D3000AC46D3 /* CNPersonCell.h */,
+				53A48D111B195D3000AC46D3 /* CNPersonCell.m */,
+			);
+			path = friends;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1308,6 +1382,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53A48D071B18B98600AC46D3 /* icon_radio_selected@2x.png in Resources */,
 				537F397E1B11FCC400EE8230 /* default_avatar_small@2x.png in Resources */,
 				5358DB491B14CE3B0082E726 /* welcome02.jpg in Resources */,
 				53918FD11B116B2F00381368 /* ssn_pull_refresh_blue_arrow.png in Resources */,
@@ -1322,6 +1397,7 @@
 				53918FCF1B116B2F00381368 /* ssn_pull_refresh_black_arrow@2x.png in Resources */,
 				53918FA41B116B2F00381368 /* ssn_hosting_task.json in Resources */,
 				537F39891B11FCC400EE8230 /* icon_friends_selected@2x.png in Resources */,
+				53A48D0E1B19432400AC46D3 /* icon_disclosure_indicator@2x.png in Resources */,
 				53918FAC1B116B2F00381368 /* unicode_to_pinyin.txt in Resources */,
 				537F39841B11FCC400EE8230 /* icon_setting_normal@3x.png in Resources */,
 				537F398B1B11FCC400EE8230 /* icon_user_comment@2x.png in Resources */,
@@ -1343,6 +1419,7 @@
 				53918FE81B116B3C00381368 /* Default~iphone.png in Resources */,
 				53918FD31B116B2F00381368 /* ssn_pull_refresh_blue_arrow@3x.png in Resources */,
 				537F397D1B11FCC400EE8230 /* default_avatar_big@2x.png in Resources */,
+				53A48D061B18B98600AC46D3 /* icon_radio_normal@2x.png in Resources */,
 				53918FCE1B116B2F00381368 /* ssn_pull_refresh_black_arrow.png in Resources */,
 				537F39881B11FCC400EE8230 /* icon_friends_normal@3x.png in Resources */,
 				53918FD51B116B2F00381368 /* ssn_pull_refresh_gray_arrow@2x.png in Resources */,
@@ -1371,12 +1448,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				53918FAF1B116B2F00381368 /* SSNRPCInvocation.m in Sources */,
+				53A48D0B1B18BD2600AC46D3 /* SSNDBTableManager.m in Sources */,
 				53918FA91B116B2F00381368 /* lock.cpp in Sources */,
 				53918FB11B116B2F00381368 /* UIAlertView+SSNCategory.m in Sources */,
 				53918FAB1B116B2F00381368 /* NSString+SSNPinyin.m in Sources */,
+				535306CE1B175CCA00EE92AA /* CNTableViewCell.m in Sources */,
 				53918FCD1B116B2F00381368 /* SSNNavigationController.m in Sources */,
 				53918F731B116B2F00381368 /* CNURLDispatcher.m in Sources */,
 				53918FBD1B116B2F00381368 /* SSNPanel.m in Sources */,
+				53A48D121B195D3000AC46D3 /* CNPersonCell.m in Sources */,
 				53918FCB1B116B2F00381368 /* SSNDefaultPullRefreshView.m in Sources */,
 				53918F9D1B116B2F00381368 /* SSNFileDownloader.m in Sources */,
 				53918FA61B116B2F00381368 /* SSNJson.m in Sources */,
@@ -1399,6 +1479,7 @@
 				53918F8B1B116B2F00381368 /* SSNMessageInterceptor.m in Sources */,
 				53918FC21B116B2F00381368 /* SSNUITableLayout.m in Sources */,
 				53918FDD1B116B2F00381368 /* SSNToast.m in Sources */,
+				53A48D031B18AC0800AC46D3 /* CNLabelInputCell.m in Sources */,
 				532300071B11634F00FC8658 /* AppDelegate.m in Sources */,
 				53918F751B116B2F00381368 /* SSNRouter+CNCategory.m in Sources */,
 				53918FC51B116B2F00381368 /* NiceQueue.m in Sources */,
@@ -1450,6 +1531,7 @@
 				53918F781B116B2F00381368 /* ssndiff.c in Sources */,
 				53918FC31B116B2F00381368 /* UIView+SSNUIFrame.m in Sources */,
 				53918FAE1B116B2F00381368 /* SSNQuantum.m in Sources */,
+				53A48D001B18ABF700AC46D3 /* CNGenderSelectionCell.m in Sources */,
 				53918FA81B116B2F00381368 /* inet.cpp in Sources */,
 				53918FB21B116B2F00381368 /* UIApplication+SSNCategory.m in Sources */,
 				53918F711B116B2F00381368 /* CNMainViewController.m in Sources */,

@@ -28,12 +28,32 @@
 "common.waiting.message"        = "请稍后...";
 "common.sending.message"        = "发送中...";
 
+"common.save.success"           = "保存成功";
+"common.delete.success"         = "删除成功";
+
+"common.male.label"             = "男";
+"common.female.label"           = "女";
+
 /**********************************************
  好友
  ***********************************************/
 "friends.header.title"          = "朋友";
 "detail.header.title"           = "朋友信息";
 "user.header.title"             = "个人资料";
+"user.set.user.info.tip"        = "请先设置个人信息";
+"user.name.label"               = "姓名";
+"user.name.placeholder"         = "姓名";
+"user.gender.label"             = "性别";
+"user.mobile.label"             = "手机";
+"user.mobile.placeholder"       = "移动手机号";
+"user.home.address.label"       = "家庭地址";
+"user.home.address.placeholder" = "家庭地址";
+"user.map.label"                = "地图标注";
+"user.company.address.label"    = "公司地址";
+"user.company.address.placeholder" = "公司地址";
+"user.name.input.tip"           = "请输入正确的姓名";
+"user.mobile.input.tip"         = "请输入正确的手机号";
+"user.home.address.input.tip"   = "请输入正确的家庭地址";
 
 /**********************************************
  附近
