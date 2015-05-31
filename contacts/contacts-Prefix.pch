@@ -115,5 +115,6 @@
     //业务基础对象引入
     #import "CNUserCenter.h"
     #import "SSNDBTableManager.h"
+    #import "CNBMKMapDelegate.h"
 
 #endif

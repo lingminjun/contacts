@@ -24,5 +24,7 @@
 	<string>CNAnswerViewController</string>
 	<key>opinion</key>
 	<string>CNOpinionViewController</string>
+	<key>location</key>
+	<string>CNLocationViewController</string>
 </dict>
 </plist>

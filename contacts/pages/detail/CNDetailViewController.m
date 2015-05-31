@@ -337,10 +337,10 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     
     //进入地图选择
     if ([model.title isEqualToString:cn_localized(@"user.home.address.label")]) {
-        //
+        [self.ssn_router open:cn_combine_path(@"nav/location")];
     }
     else if ([model.title isEqualToString:cn_localized(@"user.company.address.label")]) {
-        //
+        [self.ssn_router open:cn_combine_path(@"nav/location")];
     }
 }
 
