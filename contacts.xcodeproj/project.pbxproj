@@ -30,7 +30,8 @@
 		5343A41F1B1AB4C0005BCDC4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5343A41E1B1AB4C0005BCDC4 /* SystemConfiguration.framework */; };
 		5343A4211B1AB4C8005BCDC4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5343A4201B1AB4C8005BCDC4 /* Security.framework */; };
 		5343A4241B1AB6EB005BCDC4 /* Default-736h@3x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 5343A4231B1AB6EB005BCDC4 /* Default-736h@3x~iphone.png */; };
-		5343A4281B1ABE2A005BCDC4 /* CNLocationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5343A4271B1ABE2A005BCDC4 /* CNLocationViewController.mm */; };
+		5343A4281B1ABE2A005BCDC4 /* CNLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5343A4271B1ABE2A005BCDC4 /* CNLocationViewController.m */; };
+		5343A42A1B1AD023005BCDC4 /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5343A4291B1AD023005BCDC4 /* mapapi.bundle */; };
 		534CF5291B15FE6900369645 /* CNUserCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 534CF5281B15FE6900369645 /* CNUserCenter.m */; };
 		535306CE1B175CCA00EE92AA /* CNTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 535306CD1B175CCA00EE92AA /* CNTableViewCell.m */; };
 		5358DB481B14CE3B0082E726 /* welcome01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5358DB451B14CE3B0082E726 /* welcome01.jpg */; };
@@ -241,7 +242,8 @@
 		5343A4201B1AB4C8005BCDC4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		5343A4231B1AB6EB005BCDC4 /* Default-736h@3x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x~iphone.png"; sourceTree = "<group>"; };
 		5343A4261B1ABE2A005BCDC4 /* CNLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNLocationViewController.h; sourceTree = "<group>"; };
-		5343A4271B1ABE2A005BCDC4 /* CNLocationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CNLocationViewController.mm; sourceTree = "<group>"; };
+		5343A4271B1ABE2A005BCDC4 /* CNLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNLocationViewController.m; sourceTree = "<group>"; };
+		5343A4291B1AD023005BCDC4 /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = mapapi.bundle; path = parts/bmkmap/BaiduMapAPI.framework/Resources/mapapi.bundle; sourceTree = "<group>"; };
 		534CF5271B15FE6900369645 /* CNUserCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNUserCenter.h; sourceTree = "<group>"; };
 		534CF5281B15FE6900369645 /* CNUserCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNUserCenter.m; sourceTree = "<group>"; };
 		535306CC1B175CCA00EE92AA /* CNTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNTableViewCell.h; sourceTree = "<group>"; };
@@ -570,6 +572,7 @@
 		532300011B11634F00FC8658 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5343A4291B1AD023005BCDC4 /* mapapi.bundle */,
 				537F398C1B11FD9E00EE8230 /* Localizable.strings */,
 				537F396B1B11FC1900EE8230 /* images */,
 				53918FEF1B11700B00381368 /* contacts-Prefix.pch */,
@@ -668,7 +671,7 @@
 			isa = PBXGroup;
 			children = (
 				5343A4261B1ABE2A005BCDC4 /* CNLocationViewController.h */,
-				5343A4271B1ABE2A005BCDC4 /* CNLocationViewController.mm */,
+				5343A4271B1ABE2A005BCDC4 /* CNLocationViewController.m */,
 			);
 			path = location;
 			sourceTree = "<group>";
@@ -1554,6 +1557,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5343A42A1B1AD023005BCDC4 /* mapapi.bundle in Resources */,
 				5343A3FC1B1A1A3B005BCDC4 /* icon_opinion@2x.png in Resources */,
 				53A48D071B18B98600AC46D3 /* icon_radio_selected@2x.png in Resources */,
 				53A48E8A1B1A023400AC46D3 /* ssn_pull_refresh_black_arrow@3x.png in Resources */,
@@ -1701,7 +1705,7 @@
 				537F39A71B121D6800EE8230 /* CNWelcomeViewController.m in Sources */,
 				53A48E321B1A023400AC46D3 /* NSData+SSNBase64.m in Sources */,
 				53A48D001B18ABF700AC46D3 /* CNGenderSelectionCell.m in Sources */,
-				5343A4281B1ABE2A005BCDC4 /* CNLocationViewController.mm in Sources */,
+				5343A4281B1ABE2A005BCDC4 /* CNLocationViewController.m in Sources */,
 				53A48E461B1A023400AC46D3 /* SSNDataStore.m in Sources */,
 				53A48E5D1B1A023400AC46D3 /* SSNHosting.m in Sources */,
 				53A48E691B1A023400AC46D3 /* UIAlertView+SSNCategory.m in Sources */,

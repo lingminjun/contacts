@@ -29,8 +29,12 @@ typedef NS_ENUM(NSUInteger, CNPersonGender) {
 @property (nonatomic) char firstSpell;//首拼字母
 
 @property (nonatomic,copy) NSString *homeAddress;
+@property (nonatomic) float homeLongitude;//经度
+@property (nonatomic) float homeLatitude;//纬度
 
 @property (nonatomic,copy) NSString *companyAddress;
+@property (nonatomic) float companyLongitude;//经度
+@property (nonatomic) float companyLatitude;//纬度
 
 @property (nonatomic) float homeDistance;
 

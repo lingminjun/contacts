@@ -59,6 +59,9 @@
  附近
  ***********************************************/
 "nearby.header.title"           = "附近";
+"location.header.title"         = "选择位置";
+"location.selected.button"      = "标注位置";
+"location.select.error"         = "请标注详细位置";
 
 /**********************************************
  设置

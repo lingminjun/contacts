@@ -10,11 +10,27 @@
 #import "SSNLogger.h"
 #import <BaiduMapAPI/BMapKit.h>
 
-NSString *const BMKMapAppKey = @"Z6hpdBmTWvs7YNbzth8cUEPW";//@"CqbrjsjvEIfnRyILq9ZoiZhK";
+NSString *const BMKMapAppKey = @"CqbrjsjvEIfnRyILq9ZoiZhK";
+NSString *const BMKMapErrorDomain = @"CNBMKMap";
+
+const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.915101f};
+
+@interface CNBMKMapRequsetDelegate : NSObject<BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate>
+
+@property (nonatomic,strong) id service;
+@property (nonatomic,copy) void (^completion)(NSString *addr, NSString *city, CLLocationCoordinate2D coor, NSError *error);
+
++ (instancetype)geoCodeSearchDelegate;
+
+@end
+
 
 @interface CNBMKMapDelegate () <BMKGeneralDelegate> {
     BMKMapManager* _mapManager;
+    NSMutableDictionary *_requestQueue;
 }
+
+@property (nonatomic,strong,readonly) NSMutableDictionary *requestQueue;
 
 @end
 
@@ -34,7 +50,7 @@ NSString *const BMKMapAppKey = @"Z6hpdBmTWvs7YNbzth8cUEPW";//@"CqbrjsjvEIfnRyILq
 {
     self = [super init];
     if (self) {
-        //
+        _requestQueue = [[NSMutableDictionary alloc] initWithCapacity:1];
     }
     return self;
 }
@@ -48,6 +64,7 @@ NSString *const BMKMapAppKey = @"Z6hpdBmTWvs7YNbzth8cUEPW";//@"CqbrjsjvEIfnRyILq
     if (!ret) {
         SSNLogError(@"BMKMapManager start failed!");
     }
+    
     return YES;
 }
 
@@ -86,4 +103,292 @@ NSString *const BMKMapAppKey = @"Z6hpdBmTWvs7YNbzth8cUEPW";//@"CqbrjsjvEIfnRyILq
     }
 }
 
+#pragma mark - 地址与经纬度转化
+/**
+ *  地址转换成经纬度
+ *
+ *  @param address    地址信息
+ *  @param city       城市
+ *  @param completion 回调
+ */
+- (void)geoCodeWithAddress:(NSString *)address city:(NSString *)city completion:(void (^)(CLLocationCoordinate2D coor,NSError *error))completion {
+    
+    if ([address length] == 0) {
+        if (completion) {
+            completion(cn_default_location_coordinate,cn_error(BMKMapErrorDomain,-1,@"参数错误"));
+        }
+        return ;
+    }
+    
+    BMKGeoCodeSearchOption *geocodeSearchOption = [[BMKGeoCodeSearchOption alloc]init];
+    if ([city length] == 0) {
+        NSArray *arry = [address componentsSeparatedByString:@" "];
+        if ([arry count]) {
+            city = [arry firstObject];
+        }
+    }
+    geocodeSearchOption.city= city;
+    geocodeSearchOption.address = address;
+    
+    void (^inner_completion)(NSString *addr, NSString *city, CLLocationCoordinate2D coor, NSError *error) = ^(NSString *addr, NSString *city, CLLocationCoordinate2D coor, NSError *error) {
+        if (completion) {
+            completion(coor,error);
+        }
+    };
+    
+    CNBMKMapRequsetDelegate *delegate = [CNBMKMapRequsetDelegate geoCodeSearchDelegate];
+    delegate.completion = inner_completion;
+    
+    BMKGeoCodeSearch *geoCodeSearch = [[BMKGeoCodeSearch alloc] init];
+    geoCodeSearch.delegate = delegate;
+    delegate.service = geoCodeSearch;
+    
+    BOOL flag = [geoCodeSearch geoCode:geocodeSearchOption];
+    if(flag)
+    {
+        SSNLog(@"geo检索发送成功 %@",delegate);
+        [self.requestQueue setObject:delegate forKey:[NSString stringWithFormat:@"%p",delegate]];
+    }
+    else
+    {
+        SSNLog(@"geo检索发送失败");
+        if (completion) {
+            completion(cn_default_location_coordinate,cn_error(BMKMapErrorDomain, -1, @"eo检索发送失败"));
+        }
+    }
+
+}
+
+/**
+ *  坐标转化成精度
+ *
+ *  @param coor       坐标
+ *  @param completion 回调
+ */
+- (void)reverseGeoCodeWithLocationCoordinate:(CLLocationCoordinate2D)coor completion:(void (^)(NSString *addr,NSString *city,NSError *error))completion {
+    BMKReverseGeoCodeOption *reverseGeocodeSearchOption = [[BMKReverseGeoCodeOption alloc] init];
+    reverseGeocodeSearchOption.reverseGeoPoint = coor;
+    
+    void (^inner_completion)(NSString *addr, NSString *city, CLLocationCoordinate2D coor, NSError *error) = ^(NSString *addr, NSString *city, CLLocationCoordinate2D coor, NSError *error) {
+        if (completion) {
+            completion(addr,city,error);
+        }
+    };
+    
+    CNBMKMapRequsetDelegate *delegate = [CNBMKMapRequsetDelegate geoCodeSearchDelegate];
+    delegate.completion = inner_completion;
+    
+    BMKGeoCodeSearch *geoCodeSearch = [[BMKGeoCodeSearch alloc] init];
+    geoCodeSearch.delegate = delegate;
+    delegate.service = geoCodeSearch;
+    
+    BOOL flag = [geoCodeSearch reverseGeoCode:reverseGeocodeSearchOption];
+    if(flag)
+    {
+        SSNLog(@"反geo检索发送成功 %@",delegate);
+        [self.requestQueue setObject:delegate forKey:[NSString stringWithFormat:@"%p",delegate]];
+    }
+    else
+    {
+        SSNLog(@"反geo检索发送失败");
+        if (completion) {
+            completion(nil,nil,cn_error(BMKMapErrorDomain, -1, @"反geo检索发送失败"));
+        }
+    }
+}
+
+#pragma mark - 定位服务
+/**
+ *  定位服务，查找当前所在位置
+ *
+ *  @param completion 回调
+ */
+- (void)locationWithCopletion:(void (^)(CLLocationCoordinate2D coor,NSError *error))completion {
+    
+    void (^inner_completion)(NSString *addr, NSString *city, CLLocationCoordinate2D coor, NSError *error) = ^(NSString *addr, NSString *city, CLLocationCoordinate2D coor, NSError *error) {
+        if (completion) {
+            completion(coor,error);
+        }
+    };
+    
+    CNBMKMapRequsetDelegate *delegate = [CNBMKMapRequsetDelegate geoCodeSearchDelegate];
+    delegate.completion = inner_completion;
+    
+    BMKLocationService *localService = [[BMKLocationService alloc] init];
+    localService.delegate = delegate;
+    delegate.service = localService;
+    
+    SSNLog(@"开启定位服务 %@",delegate);
+    [self.requestQueue setObject:delegate forKey:[NSString stringWithFormat:@"%p",delegate]];
+    [localService startUserLocationService];
+}
+
 @end
+
+
+@implementation CNBMKMapRequsetDelegate
+
++ (instancetype)geoCodeSearchDelegate {
+    CNBMKMapRequsetDelegate *delegate = [[CNBMKMapRequsetDelegate alloc] init];
+    return delegate;
+}
+
+/*
+ BMK_SEARCH_NO_ERROR =0,///<检索结果正常返回
+ BMK_SEARCH_AMBIGUOUS_KEYWORD,///<检索词有岐义
+ BMK_SEARCH_AMBIGUOUS_ROURE_ADDR,///<检索地址有岐义
+ BMK_SEARCH_NOT_SUPPORT_BUS,///<该城市不支持公交搜索
+ BMK_SEARCH_NOT_SUPPORT_BUS_2CITY,///<不支持跨城市公交
+ BMK_SEARCH_RESULT_NOT_FOUND,///<没有找到检索结果
+ BMK_SEARCH_ST_EN_TOO_NEAR,///<起终点太近
+ BMK_SEARCH_KEY_ERROR,///<key错误
+ */
+
+- (NSError *)getGeoCodeErrorWithErrorCode:(BMKSearchErrorCode)error {
+    if (error == BMK_SEARCH_NO_ERROR) {
+        return  nil;
+    }
+    NSString *msg  = nil;
+    switch (error) {
+        case BMK_SEARCH_AMBIGUOUS_KEYWORD:
+            msg = @"检索词有岐义";
+            break;
+        case BMK_SEARCH_AMBIGUOUS_ROURE_ADDR:
+            msg = @"检索地址有岐义";
+            break;
+        case BMK_SEARCH_NOT_SUPPORT_BUS:
+            msg = @"该城市不支持公交搜索";
+            break;
+        case BMK_SEARCH_NOT_SUPPORT_BUS_2CITY:
+            msg = @"不支持跨城市公交";
+            break;
+        case BMK_SEARCH_RESULT_NOT_FOUND:
+            msg = @"没有找到检索结果";
+            break;
+        case BMK_SEARCH_ST_EN_TOO_NEAR:
+            msg = @"起终点太近";
+            break;
+        case BMK_SEARCH_KEY_ERROR:
+            msg = @"key错误";
+            break;
+        default:
+            msg = @"检索失败";
+            break;
+    }
+    return cn_error(@"CNBMKMap", error, msg);
+}
+
+- (void)onGetGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
+    
+    if (self.completion) {
+        self.completion(result.address, nil, result.location, [self getGeoCodeErrorWithErrorCode:error]);
+    }
+    
+    SSNLog(@"geo检索处理完成 %@",self);
+    NSString *key = [NSString stringWithFormat:@"%p",self];
+    [[CNBMKMapDelegate delegate].requestQueue removeObjectForKey:key];//必须放在最后一条语句
+}
+
+-(void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
+    
+        
+    if (self.completion) {
+        CLLocationCoordinate2D coor = result.location;
+        if (coor.latitude <= 0.00001f && coor.latitude >= -0.00001f) {
+            coor = cn_default_location_coordinate;
+        }
+        self.completion(result.address, result.addressDetail.city, coor, [self getGeoCodeErrorWithErrorCode:error]);
+    }
+    
+    SSNLog(@"反geo检索处理完成 %@ address:%@",self,result.address);
+    NSString *key = [NSString stringWithFormat:@"%p",self];
+    [[CNBMKMapDelegate delegate].requestQueue removeObjectForKey:key];//必须放在最后一条语句
+}
+
+#pragma mark - BMKLocationServiceDelegate
+/**
+ *在地图View将要启动定位时，会调用此函数
+ *@param mapView 地图View
+ */
+- (void)willStartLocatingUser
+{
+    SSNLog(@"start locate");
+}
+
+/**
+ *用户方向更新后，会调用此函数
+ *@param userLocation 新的用户位置
+ */
+/*
+- (void)didUpdateUserHeading:(BMKUserLocation *)userLocation
+{
+    [(BMKLocationService *)(self.service) setDelegate:nil];
+    [(BMKLocationService *)(self.service) stopUserLocationService];
+    
+    if (self.completion) {
+        self.completion(nil, nil, userLocation.location.coordinate, nil);
+    }
+    
+    SSNLog(@"heading is %@",userLocation.heading);
+    NSString *key = [NSString stringWithFormat:@"%p",self];
+    [[CNBMKMapDelegate delegate].requestQueue removeObjectForKey:key];
+    
+    SSNLog(@"定位服务完成 %@",self);
+}
+ */
+
+/**
+ *用户位置更新后，会调用此函数
+ *@param userLocation 新的用户位置
+ */
+- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
+{
+    [(BMKLocationService *)(self.service) setDelegate:nil];
+    [(BMKLocationService *)(self.service) stopUserLocationService];
+
+    if (self.completion) {
+        self.completion(nil, nil, userLocation.location.coordinate, nil);
+    }
+    
+    SSNLog(@"定位服务完成 %@ lat %f,long %f",self, userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+    NSString *key = [NSString stringWithFormat:@"%p",self];
+    [[CNBMKMapDelegate delegate].requestQueue removeObjectForKey:key];
+}
+
+/**
+ *在地图View停止定位后，会调用此函数
+ *@param mapView 地图View
+ */
+- (void)didStopLocatingUser
+{
+    [(BMKLocationService *)(self.service) setDelegate:nil];
+    
+    if (self.completion) {
+        self.completion(nil, nil, cn_default_location_coordinate, cn_error(BMKMapErrorDomain, -1, @"终止定位"));
+    }
+    
+    SSNLog(@"定位服务停止 %@",self);
+    NSString *key = [NSString stringWithFormat:@"%p",self];
+    [[CNBMKMapDelegate delegate].requestQueue removeObjectForKey:key];
+}
+
+/**
+ *定位失败后，会调用此函数
+ *@param mapView 地图View
+ *@param error 错误号，参考CLError.h中定义的错误号
+ */
+- (void)didFailToLocateUserWithError:(NSError *)error
+{
+    [(BMKLocationService *)(self.service) setDelegate:nil];
+    
+    if (self.completion) {
+        self.completion(nil, nil, cn_default_location_coordinate, cn_error(BMKMapErrorDomain, error.code, error.localizedFailureReason));
+    }
+    
+    SSNLog(@"定位服务失败 %@",self);
+    NSString *key = [NSString stringWithFormat:@"%p",self];
+    [[CNBMKMapDelegate delegate].requestQueue removeObjectForKey:key];
+}
+
+@end
+

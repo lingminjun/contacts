@@ -73,6 +73,10 @@
     #define cn_combine_url(schame,path) _cn_combine_url_(schame,path)
     #define _cn_combine_url_(s,p) [NSString stringWithFormat:@"%@://%@",(s),(p)]
 
+    #define cn_error(domain,code,message) _cn_error_(domain,code,message)
+    #define _cn_error_(d,c,m)   \
+        [NSError errorWithDomain:(d) code:(c) userInfo:@{NSLocalizedFailureReasonErrorKey:((m)?(m):@"")}]
+
     //文案设置宏
     #define cn_localized(key) NSLocalizedString((key), nil)
 

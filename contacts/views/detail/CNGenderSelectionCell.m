@@ -24,7 +24,7 @@
         _male.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         _male.ssn_normalImage = cn_image(@"icon_radio_normal");
         _male.ssn_selectedImage = cn_image(@"icon_radio_selected");
-        _male.ssn_selectedTitle = cn_localized(@"common.male.label");
+        _male.ssn_normalTitle = cn_localized(@"common.male.label");
         _male.titleEdgeInsets = UIEdgeInsetsMake(0, cn_hor_inner_space_width, 0, 0);
         [_male ssn_addTarget:self touchAction:@selector(maleAction:)];
         

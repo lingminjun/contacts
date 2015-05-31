@@ -17,9 +17,15 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
 
 @property (nonatomic,strong) CNPerson *person;
 
+@property (nonatomic,strong) NSArray *items;
+
 //本地通讯录选择
 @property (nonatomic,strong) UITableView *selectedTable;
 @property (nonatomic,strong) NSArray *selectPersons;
+@property (nonatomic,strong) CNLabelInputCellModel *selectItem;
+
+@property (nonatomic) CLLocationCoordinate2D homeCoor;
+@property (nonatomic) CLLocationCoordinate2D companyCoor;
 
 @end
 
@@ -105,8 +111,55 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     _person.name = [nameCell.input ssn_trimWhitespace];
     _person.gender = gender.gender;
     _person.mobile = [mobileCell.input ssn_trimAllWhitespace];
-    _person.homeAddress = [homeAddrCell.input ssn_trimWhitespace];
-    _person.companyAddress = [companyAddrCell.input ssn_trimWhitespace];
+    NSString *homeAddr = [homeAddrCell.input ssn_trimWhitespace];
+    if (!ssn_is_equal_to_string(_person.homeAddress, homeAddr)) {
+        _person.homeLongitude = _homeCoor.longitude;
+        _person.homeLatitude = _homeCoor.latitude;
+        _person.homeAddress = homeAddr;
+        
+        NSString *auid = _uid;
+        if ([homeAddr length] > 0 && _homeCoor.longitude == 0.0f) {
+            [[CNBMKMapDelegate delegate] geoCodeWithAddress:homeAddr city:nil completion:^(CLLocationCoordinate2D coor, NSError *error) {
+                
+                if (!error) {
+                    //将数据保存到数据库
+                    SSNDBTable *tb = [SSNDBTableManager personTable];
+                    NSArray *ary = [tb objectsWithClass:[CNPerson class] forConditions:@{@"uid":auid}];
+                    CNPerson *pn = [ary firstObject];
+                    pn.homeLatitude = coor.latitude;
+                    pn.homeLongitude = coor.longitude;
+                    
+                    [tb upinsertObject:pn fields:@[@"homeLatitude",@"homeLongitude"]];
+                }
+                
+            }];
+        }
+    }
+    
+    NSString *companyAddr = [companyAddrCell.input ssn_trimWhitespace];
+    if (!ssn_is_equal_to_string(_person.companyAddress, companyAddr)) {
+        _person.companyLongitude = _companyCoor.longitude;
+        _person.companyLatitude = _companyCoor.latitude;
+        _person.companyAddress = companyAddr;
+        
+        NSString *auid = _uid;
+        if ([companyAddr length] > 0 && _companyCoor.longitude == 0.0f) {
+            [[CNBMKMapDelegate delegate] geoCodeWithAddress:homeAddr city:nil completion:^(CLLocationCoordinate2D coor, NSError *error) {
+                
+                if (!error) {
+                    //将数据保存到数据库
+                    SSNDBTable *tb = [SSNDBTableManager personTable];
+                    NSArray *ary = [tb objectsWithClass:[CNPerson class] forConditions:@{@"uid":auid}];
+                    CNPerson *pn = [ary firstObject];
+                    pn.companyLatitude = coor.latitude;
+                    pn.companyLongitude = coor.longitude;
+                    
+                    [tb upinsertObject:pn fields:@[@"companyLatitude",@"companyLongitude"]];
+                }
+                
+            }];
+        }
+    }
     
     if (![CNUserCenter center].isSign) {
         if ([CN_DETAIL_SET_USER_OPTION isEqualToString:_option]) {
@@ -156,41 +209,44 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
 - (void)cellInputDidChange:(CNLabelInputCell *)cell {
     CNLabelInputCellModel *model = (CNLabelInputCellModel *)cell.ssn_cellModel;
     
-    if (![model.title isEqualToString:cn_localized(@"user.name.label")]) {
-        return ;
-    }
-    
-//    if ([CN_DETAIL_SET_USER_OPTION isEqualToString:_option]) {
-//        return ;
-//    }
-    
-    //此时需呀开启搜索本地通讯录
-    if (![SSNABContactsManager manager].isOpenService) {
-        [[SSNABContactsManager manager] openService];
-    }
-    
-    CGPoint point = cell.input.ssn_bottom_left_corner;
-    point = [cell.input convertPoint:point toView:self.view.window];
-    self.selectedTable.ssn_top = point.y;
-    self.selectedTable.ssn_center_x = self.view.ssn_center_x;
-    [self.view.window addSubview:self.selectedTable];
-    [self ssn_mainThreadAfter:0.1 block:^{
-        NSString *text = model.input;
-        if ([text length] == 0) {
-            self.selectedTable.hidden = YES;
-            self.selectPersons = nil;
-            [self.selectedTable reloadData];
+    if ([model.title isEqualToString:cn_localized(@"user.name.label")]) {
+        //此时需呀开启搜索本地通讯录
+        if (![SSNABContactsManager manager].isOpenService) {
+            [[SSNABContactsManager manager] openService];
         }
-        else {
-            self.selectedTable.hidden = NO;
-            [[SSNABContactsManager manager] searchPersonsWithSearchText:text results:^(NSArray *results) {
-                [self ssn_mainThreadAsyncBlock:^{
-                    self.selectPersons = results;
-                    [self.selectedTable reloadData];
+        
+        CGPoint point = cell.input.ssn_bottom_left_corner;
+        point = [cell.input convertPoint:point toView:self.view.window];
+        self.selectedTable.ssn_top = point.y;
+        self.selectedTable.ssn_center_x = self.view.ssn_center_x;
+        [self.view.window addSubview:self.selectedTable];
+        [self ssn_mainThreadAfter:0.1 block:^{
+            NSString *text = model.input;
+            if ([text length] == 0) {
+                self.selectedTable.hidden = YES;
+                self.selectPersons = nil;
+                [self.selectedTable reloadData];
+            }
+            else {
+                self.selectedTable.hidden = NO;
+                [[SSNABContactsManager manager] searchPersonsWithSearchText:text results:^(NSArray *results) {
+                    [self ssn_mainThreadAsyncBlock:^{
+                        self.selectPersons = results;
+                        [self.selectedTable reloadData];
+                    }];
                 }];
-            }];
-        }
-    }];
+            }
+        }];
+    }
+    else if ([model.title isEqualToString:cn_localized(@"user.home.address.label")]) {
+        _homeCoor.latitude = 0.0f;
+        _homeCoor.longitude = 0.0f;
+    }
+    else if ([model.title isEqualToString:cn_localized(@"user.company.address.label")]) {
+        _companyCoor.latitude = 0.0f;
+        _companyCoor.longitude = 0.0f;
+    }
+    
 }
 
 - (void)dealloc {
@@ -201,7 +257,12 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (tableView == _selectedTable) {
         NSUInteger row_count = [self.selectPersons count];
-        tableView.ssn_height = tableView.rowHeight * row_count;
+        if (row_count > 8) {
+            tableView.ssn_height = tableView.rowHeight * 8;
+        }
+        else {
+            tableView.ssn_height = tableView.rowHeight * row_count;
+        }
         return 1;
     }
     return 0;
@@ -284,48 +345,58 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
         }
     }
     
+    _homeCoor.longitude = _person.homeLongitude;
+    _homeCoor.latitude = _person.homeLatitude;
+    
+    _companyCoor.longitude = _person.companyLongitude;
+    _companyCoor.latitude = _person.companyLatitude;
+    
     //构建cell
-    NSMutableArray *models = [NSMutableArray arrayWithCapacity:1];
+    if (!_items) {
+        NSMutableArray *models = [NSMutableArray arrayWithCapacity:1];
+        
+        CNLabelInputCellModel *nameCell = [[CNLabelInputCellModel alloc] init];
+        nameCell.title = cn_localized(@"user.name.label");
+        nameCell.input = _person.name;
+        nameCell.inputMaxLength = 10;
+        nameCell.inputPlaceholder = cn_localized(@"user.name.placeholder");
+        nameCell.disabledSelect = YES;
+        [models addObject:nameCell];
+        
+        CNGenderSelectionCellModel *gender = [[CNGenderSelectionCellModel alloc] init];
+        gender.title = cn_localized(@"user.gender.label");
+        gender.gender = _person.gender;
+        [models addObject:gender];
+        
+        CNLabelInputCellModel *mobileCell = [[CNLabelInputCellModel alloc] init];
+        mobileCell.title = cn_localized(@"user.mobile.label");
+        mobileCell.input = _person.mobile;
+        mobileCell.inputMaxLength = 13;
+        mobileCell.inputCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+        mobileCell.inputFormat = ^(NSString *originText){ return [originText ssn_mobile344Format];};
+        mobileCell.inputPlaceholder = cn_localized(@"user.mobile.placeholder");
+        mobileCell.disabledSelect = YES;
+        mobileCell.keyboardType = UIKeyboardTypePhonePad;
+        [models addObject:mobileCell];
+        
+        CNLabelInputCellModel *homeAddrCell = [[CNLabelInputCellModel alloc] init];
+        homeAddrCell.title = cn_localized(@"user.home.address.label");
+        homeAddrCell.input = _person.homeAddress;
+        homeAddrCell.inputPlaceholder = cn_localized(@"user.home.address.placeholder");
+        homeAddrCell.subTitle = cn_localized(@"user.map.label");
+        [models addObject:homeAddrCell];
+        
+        CNLabelInputCellModel *companyAddrCell = [[CNLabelInputCellModel alloc] init];
+        companyAddrCell.title = cn_localized(@"user.company.address.label");
+        companyAddrCell.input = _person.companyAddress;
+        companyAddrCell.inputPlaceholder = cn_localized(@"user.company.address.placeholder");
+        companyAddrCell.subTitle = cn_localized(@"user.map.label");
+        [models addObject:companyAddrCell];
+        
+        _items = models;
+    }
     
-    CNLabelInputCellModel *nameCell = [[CNLabelInputCellModel alloc] init];
-    nameCell.title = cn_localized(@"user.name.label");
-    nameCell.input = _person.name;
-    nameCell.inputMaxLength = 10;
-    nameCell.inputPlaceholder = cn_localized(@"user.name.placeholder");
-    nameCell.disabledSelect = YES;
-    [models addObject:nameCell];
-    
-    CNGenderSelectionCellModel *gender = [[CNGenderSelectionCellModel alloc] init];
-    gender.title = cn_localized(@"user.gender.label");
-    gender.gender = _person.gender;
-    [models addObject:gender];
-    
-    CNLabelInputCellModel *mobileCell = [[CNLabelInputCellModel alloc] init];
-    mobileCell.title = cn_localized(@"user.mobile.label");
-    mobileCell.input = _person.mobile;
-    mobileCell.inputMaxLength = 13;
-    mobileCell.inputCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
-    mobileCell.inputFormat = ^(NSString *originText){ return [originText ssn_mobile344Format];};
-    mobileCell.inputPlaceholder = cn_localized(@"user.mobile.placeholder");
-    mobileCell.disabledSelect = YES;
-    mobileCell.keyboardType = UIKeyboardTypePhonePad;
-    [models addObject:mobileCell];
-    
-    CNLabelInputCellModel *homeAddrCell = [[CNLabelInputCellModel alloc] init];
-    homeAddrCell.title = cn_localized(@"user.home.address.label");
-    homeAddrCell.input = _person.homeAddress;
-    homeAddrCell.inputPlaceholder = cn_localized(@"user.home.address.placeholder");
-    homeAddrCell.subTitle = cn_localized(@"user.map.label");
-    [models addObject:homeAddrCell];
-    
-    CNLabelInputCellModel *companyAddrCell = [[CNLabelInputCellModel alloc] init];
-    companyAddrCell.title = cn_localized(@"user.company.address.label");
-    companyAddrCell.input = _person.companyAddress;
-    companyAddrCell.inputPlaceholder = cn_localized(@"user.company.address.placeholder");
-    companyAddrCell.subTitle = cn_localized(@"user.map.label");
-    [models addObject:companyAddrCell];
-    
-    completion(models,NO,nil,YES);
+    completion(_items,NO,nil,YES);
 }
 
 
@@ -336,12 +407,13 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     }
     
     //进入地图选择
-    if ([model.title isEqualToString:cn_localized(@"user.home.address.label")]) {
-        [self.ssn_router open:cn_combine_path(@"nav/location")];
-    }
-    else if ([model.title isEqualToString:cn_localized(@"user.company.address.label")]) {
-        [self.ssn_router open:cn_combine_path(@"nav/location")];
-    }
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithCapacity:1];
+    _selectItem = model;
+    [dic setValue:[model.input ssn_trimWhitespace] forKey:@"address"];
+    NSString *url = [[self ssn_currentURLPath] ssn_URLByAppendQuery:@{@"uid":_uid}].absoluteString;
+    [dic setValue:url forKey:@"url"];
+    
+    [self.ssn_router open:cn_combine_path(@"nav/location") query:dic];
 }
 
 
@@ -354,6 +426,39 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
 - (BOOL)ssn_canRespondURL:(NSURL *)url query:(NSDictionary *)query {
     NSString *uid = [query objectForKey:@"uid"];
     return [_uid isEqualToString:uid];
+}
+
+- (void)ssn_handleNoticeURL:(NSURL *)url query:(NSDictionary *)query {
+    if (!_selectItem) {
+        return ;
+    }
+    
+    NSString *address = [query objectForKey:@"address"];
+    NSString *city = [query objectForKey:@"city"];
+    
+    if ([address hasPrefix:city]) {
+        _selectItem.input = address;
+    }
+    else {
+        _selectItem.input = [NSString stringWithFormat:@"%@ %@",city,address];
+    }
+    
+    CGFloat longitude = [[query objectForKey:@"longitude"] floatValue];
+    CGFloat latitude = [[query objectForKey:@"latitude"] floatValue];
+    
+    if ([_selectItem.title isEqualToString:cn_localized(@"user.home.address.label")]) {
+        _homeCoor.longitude = longitude;
+        _homeCoor.latitude = latitude;
+    }
+    else if ([_selectItem.title isEqualToString:cn_localized(@"user.company.address.label")]) {
+        [self.ssn_router open:cn_combine_path(@"nav/location")];
+        _companyCoor.longitude = longitude;
+        _companyCoor.latitude = latitude;
+    }
+    
+    NSInteger index = [_items indexOfObject:_selectItem];
+    
+    [self.ssn_tableViewConfigurator.listFetchController updateDatasAtIndexPaths:@[cn_index_path(index,0)] withContext:nil];
 }
 
 @end

@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 shield. All rights reserved.
 //
 
-#import "CNTableViewController.h"
+#import "CNViewController.h"
 
-@interface CNFriendsViewController : CNTableViewController
+@interface CNFriendsViewController : CNViewController
 
 @end

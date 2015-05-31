@@ -10,8 +10,12 @@
                  {"name":"pinyin", "type":"Text", "level":"",        "fill":"",  "index":"",       "mapping":""},
                  {"name":"firstSpell", "type":"Int", "level":"",     "fill":"'#'",  "index":"Index",  "mapping":""},
                  {"name":"homeAddress", "type":"Text", "level":"",     "fill":"",  "index":"",  "mapping":""},
+                 {"name":"homeLongitude", "type":"Float", "level":"",     "fill":"",  "index":"",  "mapping":""},
+                 {"name":"homeLatitude", "type":"Float", "level":"",     "fill":"",  "index":"",  "mapping":""},
                  {"name":"homeDistance", "type":"Float", "level":"",     "fill":"",  "index":"",  "mapping":""},
                  {"name":"companyAddress", "type":"Text", "level":"",     "fill":"",  "index":"",  "mapping":""},
+                 {"name":"companyLongitude", "type":"Float", "level":"",     "fill":"",  "index":"",  "mapping":""},
+                 {"name":"companyLatitude", "type":"Float", "level":"",     "fill":"",  "index":"",  "mapping":""},
                  {"name":"companyDistance", "type":"Float", "level":"",     "fill":"",  "index":"",  "mapping":""}
                  ]
            }]
