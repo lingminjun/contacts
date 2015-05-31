@@ -8,6 +8,7 @@
 
 #import "CNSettingViewController.h"
 #import "CNIconTitleCell.h"
+#import "CNStatementCell.h"
 
 @interface CNSettingViewController ()
 
@@ -66,6 +67,11 @@
     cell.hiddenDisclosureIndicator = YES;
     [models addObject:cell];
     
+    
+    CNStatementCellModel *state = [[CNStatementCellModel alloc] init];
+    state.statement = cn_localized(@"setting.about.content");
+    state.leftEdgeWidth = cn_left_edge_width + 26 + 2*cn_hor_space_width;
+    [models addObject:state];
     
     completion(models,NO,nil,YES);
 }
