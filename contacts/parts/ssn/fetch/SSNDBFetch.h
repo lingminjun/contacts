@@ -71,7 +71,7 @@
 @end
 
 /**
- *  查询数据集描述默认实现
+ *  模糊查询数据集描述
  */
 @interface SSNDBLikeFetch : NSObject<SSNDBFetchRequest>
 

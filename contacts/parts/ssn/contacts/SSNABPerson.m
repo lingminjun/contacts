@@ -8,6 +8,7 @@
 
 #import "SSNABPerson.h"
 #import "NSObject+SSN.h"
+#import "NSString+SSN.h"
 #import "NSString+SSNPinyin.h"
 
 @implementation SSNABPerson
