@@ -14,6 +14,7 @@
 "common.close.button"           = "关闭";
 "common.edit.button"            = "编辑";
 "common.submit.button"          = "确定";
+"common.commit.button"          = "提交";
 "common.send.button"            = "发送";
 "common.done.button"            = "完成";
 "common.save.button"            = "保存";
@@ -81,6 +82,7 @@
 "question.info.disclosure.answer" = "寻找泄露源，谨慎处理";
 "opinion.header.title"          = "意见反馈";
 "setting.about.content"         = "友朋APP1.0版是一个针对商务人士，管理人脉、联络好友的应用软件。出门在外，随时查看自己周边有哪些老总或好友，一键导航，立即见面。";
+"setting.commit.button"         = "提  交";
 
 /**********************************************
  欢迎页
