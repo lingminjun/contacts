@@ -8,6 +8,7 @@
 
 #import "CNFriendsViewController.h"
 #import "CNPersonCell.h"
+#import "CNContactsSection.h"
 
 @interface CNFriendsViewController ()<SSNDBFetchControllerDelegate,UISearchBarDelegate,UISearchDisplayDelegate>
 
@@ -75,6 +76,7 @@
     [self.ssn_tableViewConfigurator configureWithTableView:self.tableView groupingFetchController:YES];//支持分组
     //快速索引
     self.ssn_tableViewConfigurator.showGroupIndexs = YES;
+    self.ssn_tableViewConfigurator.listFetchController.isMandatorySorting = YES;
     
     //由数据库fetch发起
     [self.dbFetchController performFetch];
@@ -111,6 +113,7 @@
     _searchConfigurator = [[SSNTableViewConfigurator alloc] init];
     _searchConfigurator.delegate = self;
     _searchConfigurator.tableView = _searchTable;
+    _searchConfigurator.listFetchController.isMandatorySorting = YES;
     
     return _searchTable;
 }
@@ -220,7 +223,9 @@
     else {
         section.sortIndex = '|';
     }
-    NSLog(@"section 需要排序 %@",identify);
+    
+    section.customHeaderView = [CNContactsSection sectionWithTitle:identify];
+//    NSLog(@"section 需要排序 %@",identify);
 }
 
 #pragma mark - UISearchBarDelegate

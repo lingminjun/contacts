@@ -38,6 +38,7 @@
 		5358DB481B14CE3B0082E726 /* welcome01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5358DB451B14CE3B0082E726 /* welcome01.jpg */; };
 		5358DB491B14CE3B0082E726 /* welcome02.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5358DB461B14CE3B0082E726 /* welcome02.jpg */; };
 		5358DB4A1B14CE3B0082E726 /* welcome03.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5358DB471B14CE3B0082E726 /* welcome03.jpg */; };
+		5364482F1B2C7230001F7CF2 /* location_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5364482E1B2C7230001F7CF2 /* location_icon@2x.png */; };
 		537F39631B11F3E300EE8230 /* CNDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 537F39621B11F3E300EE8230 /* CNDetailViewController.m */; };
 		537F397D1B11FCC400EE8230 /* default_avatar_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 537F396D1B11FCC400EE8230 /* default_avatar_big@2x.png */; };
 		537F397E1B11FCC400EE8230 /* default_avatar_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 537F396E1B11FCC400EE8230 /* default_avatar_small@2x.png */; };
@@ -193,6 +194,7 @@
 		53A48E951B1A023400AC46D3 /* UIViewController+SSNTableViewDBConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A48E231B1A023400AC46D3 /* UIViewController+SSNTableViewDBConfigure.m */; };
 		53A48E961B1A023400AC46D3 /* UIViewController+SSNTableViewEasyConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A48E251B1A023400AC46D3 /* UIViewController+SSNTableViewEasyConfigure.m */; };
 		53A48E971B1A023400AC46D3 /* SSNToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A48E281B1A023400AC46D3 /* SSNToast.m */; };
+		53C4BF011B2C2245006DE82B /* CNContactsSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C4BF001B2C2245006DE82B /* CNContactsSection.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -254,6 +256,7 @@
 		5358DB451B14CE3B0082E726 /* welcome01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = welcome01.jpg; sourceTree = "<group>"; };
 		5358DB461B14CE3B0082E726 /* welcome02.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = welcome02.jpg; sourceTree = "<group>"; };
 		5358DB471B14CE3B0082E726 /* welcome03.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = welcome03.jpg; sourceTree = "<group>"; };
+		5364482E1B2C7230001F7CF2 /* location_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location_icon@2x.png"; sourceTree = "<group>"; };
 		537F39611B11F3E300EE8230 /* CNDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNDetailViewController.h; sourceTree = "<group>"; };
 		537F39621B11F3E300EE8230 /* CNDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNDetailViewController.m; sourceTree = "<group>"; };
 		537F396D1B11FCC400EE8230 /* default_avatar_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_avatar_big@2x.png"; sourceTree = "<group>"; };
@@ -523,6 +526,8 @@
 		53A48E251B1A023400AC46D3 /* UIViewController+SSNTableViewEasyConfigure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+SSNTableViewEasyConfigure.m"; sourceTree = "<group>"; };
 		53A48E271B1A023400AC46D3 /* SSNToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSNToast.h; sourceTree = "<group>"; };
 		53A48E281B1A023400AC46D3 /* SSNToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSNToast.m; sourceTree = "<group>"; };
+		53C4BEFF1B2C2245006DE82B /* CNContactsSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNContactsSection.h; sourceTree = "<group>"; };
+		53C4BF001B2C2245006DE82B /* CNContactsSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNContactsSection.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -742,6 +747,14 @@
 			path = welcome;
 			sourceTree = "<group>";
 		};
+		5364482D1B2C7230001F7CF2 /* contacts */ = {
+			isa = PBXGroup;
+			children = (
+				5364482E1B2C7230001F7CF2 /* location_icon@2x.png */,
+			);
+			path = contacts;
+			sourceTree = "<group>";
+		};
 		537F39601B11F3CB00EE8230 /* detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -754,6 +767,7 @@
 		537F396B1B11FC1900EE8230 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				5364482D1B2C7230001F7CF2 /* contacts */,
 				5343A3F71B1A1A3B005BCDC4 /* setting */,
 				5358DB441B14CE3B0082E726 /* welcome */,
 				537F396C1B11FCC400EE8230 /* common */,
@@ -970,6 +984,8 @@
 			children = (
 				53A48D101B195D3000AC46D3 /* CNPersonCell.h */,
 				53A48D111B195D3000AC46D3 /* CNPersonCell.m */,
+				53C4BEFF1B2C2245006DE82B /* CNContactsSection.h */,
+				53C4BF001B2C2245006DE82B /* CNContactsSection.m */,
 			);
 			path = friends;
 			sourceTree = "<group>";
@@ -1593,6 +1609,7 @@
 				53A48E5C1B1A023400AC46D3 /* ssn_hosting_task.json in Resources */,
 				537F39841B11FCC400EE8230 /* icon_setting_normal@3x.png in Resources */,
 				5343A3FB1B1A1A3B005BCDC4 /* icon_info@2x.png in Resources */,
+				5364482F1B2C7230001F7CF2 /* location_icon@2x.png in Resources */,
 				53A48E8C1B1A023400AC46D3 /* ssn_pull_refresh_blue_arrow@2x.png in Resources */,
 				537F398B1B11FCC400EE8230 /* icon_user_comment@2x.png in Resources */,
 				5343A3FD1B1A1A3B005BCDC4 /* icon_question@2x.png in Resources */,
@@ -1747,6 +1764,7 @@
 				53A48E7F1B1A023400AC46D3 /* SSNPageControl.m in Sources */,
 				53A48E291B1A023400AC46D3 /* ssnbase64.c in Sources */,
 				53A48E3B1B1A023400AC46D3 /* objscope.mm in Sources */,
+				53C4BF011B2C2245006DE82B /* CNContactsSection.m in Sources */,
 				537F399B1B12010B00EE8230 /* CNTableViewController.m in Sources */,
 				53A48E871B1A023400AC46D3 /* SSNNavigationController.m in Sources */,
 				53A48E821B1A023400AC46D3 /* SSNRouter.m in Sources */,

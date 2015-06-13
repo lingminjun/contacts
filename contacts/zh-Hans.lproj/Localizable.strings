@@ -56,6 +56,7 @@
 "user.mobile.input.tip"         = "请输入正确的手机号";
 "user.home.address.input.tip"   = "请输入正确的家庭地址";
 "friends.search.placeholder"    = "搜索";
+"friends.distance.label"        = "距离";
 
 /**********************************************
  附近

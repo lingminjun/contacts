@@ -105,7 +105,7 @@
 
     #define cn_table_cell_normal_color     [UIColor whiteColor]            // cell 背景颜色
     #define cn_table_cell_selected_color   cn_hex_color(0xf6f6f6)          // cell 背景颜色
-    #define cn_table_section_color         cn_rgba_color(243, 244, 248, 1) // table section 背景颜色
+    #define cn_table_section_color         cn_hex_color(0xf7f7f7)          // table section 背景颜色
 
     #define cn_bar_color                   cn_hex_color(0x3c9afe)          //bar的背景色
 

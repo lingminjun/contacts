@@ -14,17 +14,20 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        NSUInteger name_width = 100;
+        NSUInteger name_width = cn_screen_width/2 - cn_left_edge_width - cn_hor_space_width;
         
         _name = [UILabel ssn_labelWithWidth:name_width font:cn_normal_font color:cn_text_normal_color backgroud:cn_clear_color alignment:NSTextAlignmentLeft multiLine:NO];
         
+        _distanceLabel = [UILabel ssn_labelWithWidth:name_width font:cn_normal_font color:cn_text_assist_color backgroud:cn_clear_color alignment:NSTextAlignmentLeft multiLine:NO];
+        
         
         //开始布局
-        SSNUITableLayout *layout = [self.contentView ssn_tableLayoutWithRowCount:1 columnCount:1];
+        SSNUITableLayout *layout = [self.contentView ssn_tableLayoutWithRowCount:1 columnCount:2];
         layout.contentInset = UIEdgeInsetsMake(0, cn_left_edge_width, 0, cn_right_edge_width + cn_hor_space_width + self.disclosureIndicator.ssn_width);
         
         //添加元素到cell中
         ssn_layout_add_v2(layout, _name, 0, ssn_layout_table_cell_v2(SSNUIContentModeLeft), name);
+        ssn_layout_add_v2(layout, _distanceLabel, 1, ssn_layout_table_cell(0, cn_hor_space_width, 0, 0, SSNUIContentModeLeft), distanceLabel);
         
     }
     return self;
@@ -34,6 +37,7 @@
     [super prepareForReuse];
     
     _name.text = nil;
+    _distanceLabel.text = nil;
 }
 
 
@@ -42,7 +46,11 @@
     
     if ([model isKindOfClass:[CNPersonCellModel class]]) {
         _name.text = model.person.name;
+        _distanceLabel.text = @"未知";
     }
+    
+    //根据位置隐藏底线
+    self.bottomLine.hidden = (indexPath.row + 1 >= [tableView numberOfRowsInSection:indexPath.section]);
 }
 
 
@@ -57,6 +65,7 @@
     self = [super init];
     if (self) {
         self.cellClass = [CNPersonCell class];
+        self.bottomLineHeaderSpace = cn_left_edge_width;
     }
     return self;
 }

@@ -11,6 +11,7 @@
 @interface CNPersonCell : CNTableViewCell
 
 @property (nonatomic,strong,readonly) UILabel *name;
+@property (nonatomic,strong,readonly) UILabel *distanceLabel;
 
 @end
 
