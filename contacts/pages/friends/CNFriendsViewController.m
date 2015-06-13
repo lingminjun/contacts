@@ -9,15 +9,18 @@
 #import "CNFriendsViewController.h"
 #import "CNPersonCell.h"
 
-@interface CNFriendsViewController ()<SSNDBFetchControllerDelegate,UISearchBarDelegate>
+@interface CNFriendsViewController ()<SSNDBFetchControllerDelegate,UISearchBarDelegate,UISearchDisplayDelegate>
 
 @property (nonatomic,strong) UITableView *tableView;
 
 @property (nonatomic,strong) SSNDBFetchController *dbFetchController;
 
+@property (nonatomic,strong) UIView *headerView;
+@property (nonatomic,strong) UISearchBar *searchBar;
 @property (nonatomic,strong) UITableView *searchTable;
 @property (nonatomic,strong) SSNDBFetchController *searchFetchController;
 @property (nonatomic,strong) SSNTableViewConfigurator *searchConfigurator;
+@property (nonatomic) BOOL isSearching;
 
 @end
 
@@ -47,11 +50,22 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"添加" style:UIBarButtonItemStylePlain target:self action:@selector(addPerson:)];
     
-    UISearchBar *searchBar = [[UISearchBar alloc] init];
-    [searchBar sizeToFit];
-    searchBar.delegate = self;
-    self.tableView.tableHeaderView = searchBar;
-//    self.searchDisplayController
+//    UISearchController 
+    self.searchBar = [[UISearchBar alloc] init];
+    [self.searchBar sizeToFit];
+    self.searchBar.delegate = self;
+    self.searchBar.placeholder = cn_localized(@"friends.search.placeholder");
+    self.searchBar.backgroundImage = [UIImage ssn_imageWithColor:cn_bar_color];
+    self.searchBar.searchBarStyle = UISearchBarStyleProminent;
+    
+    self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cn_screen_width, cn_tool_bar_height)];
+    self.headerView.backgroundColor = cn_bar_color;
+    self.searchBar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    [self.headerView addSubview:self.searchBar];
+    
+    [self.view addSubview:self.headerView];
+    self.tableView.ssn_top = self.headerView.ssn_bottom;
+    self.tableView.ssn_height = self.view.ssn_height - self.headerView.ssn_height;
     
     //因为数据库fetch默认不支持分组，所以仅仅作为数据源
     self.dbFetchController = [self loadDBFetchController];
@@ -59,6 +73,8 @@
     
     //用于界面显示数据
     [self.ssn_tableViewConfigurator configureWithTableView:self.tableView groupingFetchController:YES];//支持分组
+    //快速索引
+    self.ssn_tableViewConfigurator.showGroupIndexs = YES;
     
     //由数据库fetch发起
     [self.dbFetchController performFetch];
@@ -80,8 +96,8 @@
     }
     
     CGRect frame = self.view.bounds;
-    frame.origin.y = self.tableView.tableHeaderView.ssn_height;
-    frame.size.height -= self.tableView.tableHeaderView.ssn_height;
+    frame.origin.y = cn_tool_bar_height + cn_status_bar_height;
+    frame.size.height = self.view.ssn_height - frame.origin.y;
     _searchTable = [[UITableView alloc] initWithFrame:frame];
     _searchTable.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     
@@ -115,6 +131,13 @@
     //本地通讯录服务
     if ([CNUserCenter center].isSign && ![SSNABContactsManager manager].isOpenService) {
         [[SSNABContactsManager manager] openService];
+    }
+    
+    if (_isSearching) {
+        [self.navigationController setNavigationBarHidden:YES animated:animated];
+    }
+    else {
+        [self.navigationController setNavigationBarHidden:NO animated:animated];
     }
 }
 
@@ -175,6 +198,31 @@
     [self.ssn_router open:cn_combine_path(path)];
 }
 
+- (void)ssn_configurator:(id<SSNTableViewConfigurator>)configurator controller:(id<SSNFetchControllerPrototol>)controller sectionDidLoad:(SSNVMSectionInfo *)section sectionIdntify:(NSString *)identify {
+    
+    if (configurator == self.searchConfigurator) {
+        return ;
+    }
+    
+    //section需要排序
+    if ([identify length] > 0) {
+        unichar c = [identify characterAtIndex:0];
+        if (c >= 'a' && c <='z') {
+            section.sortIndex = c - 'a';
+        }
+        else if (c >= 'A' && c <= 'Z') {
+            section.sortIndex = c;
+        }
+        else {
+            section.sortIndex = '|';
+        }
+    }
+    else {
+        section.sortIndex = '|';
+    }
+    NSLog(@"section 需要排序 %@",identify);
+}
+
 #pragma mark - UISearchBarDelegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     SSNDBLikeFetch *fetch = (SSNDBLikeFetch *)self.searchFetchController.fetch;
@@ -185,32 +233,54 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     
+    self.headerView.ssn_height = cn_tool_bar_height + cn_status_bar_height;
+    self.tableView.ssn_top = self.headerView.ssn_bottom;
+    self.tableView.ssn_height = self.view.ssn_height - self.headerView.ssn_height;
+    
     self.searchTable.hidden = NO;
     [self.view addSubview:self.searchTable];
     SSNDBLikeFetch *fetch = (SSNDBLikeFetch *)self.searchFetchController.fetch;
     fetch.searchText = @"";
     [self.searchFetchController setFetch:fetch];
     [self.searchFetchController performFetch];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    _isSearching = YES;
     
     searchBar.showsCancelButton = YES;
+    for (UIView *v in searchBar.subviews) {
+        for (UIView *sbv in v.subviews) {
+            if ([sbv isKindOfClass:[UIButton class]]) {
+                [(UIButton *)sbv setSsn_normalTitleColor:cn_button_title_color];
+            }
+        }
+    }
+    
     return YES;
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    _isSearching = NO;
     self.searchTable.hidden = YES;
     [self.searchTable removeFromSuperview];
-    
-    searchBar.showsCancelButton = NO;
-    [searchBar resignFirstResponder];
-}
 
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
-    self.searchTable.hidden = YES;
-    [self.searchTable removeFromSuperview];
-    
     searchBar.showsCancelButton = NO;
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    
+    self.headerView.ssn_height = cn_tool_bar_height;
+    self.tableView.ssn_top = self.headerView.ssn_bottom;
+    self.tableView.ssn_height = self.view.ssn_height - self.headerView.ssn_height;
+    
     [searchBar resignFirstResponder];
 }
+//
+//- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+//    self.searchTable.hidden = YES;
+//    [self.searchTable removeFromSuperview];
+//    
+//    searchBar.showsCancelButton = NO;
+//    [self.navigationController setNavigationBarHidden:NO animated:YES];
+//    [searchBar resignFirstResponder];
+//}
 
 #pragma mark - SSNPage
 - (BOOL)ssn_canRespondURL:(NSURL *)url query:(NSDictionary *)query {
