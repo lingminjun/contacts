@@ -14,7 +14,7 @@
     self = [super initWithFrame:CGRectMake(0, 0, cn_screen_width, cn_contacts_section_height)];
     if (self) {
         
-        self.backgroundColor = cn_table_section_color;
+        self.backgroundColor = cn_table_plain_section_color;
         
         SSNUITableLayout *layout = [self ssn_tableLayoutWithRowCount:1 columnCount:3];
         layout.contentInset = UIEdgeInsetsMake(0, cn_left_edge_width, 0, cn_right_edge_width);

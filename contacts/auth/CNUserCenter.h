@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "CNPerson.h"
+#import "SSNDataStore.h"
+
+FOUNDATION_EXTERN NSString *const CN_USER_AVATAR_KEY;
 
 /**
  *  用户
@@ -57,6 +60,13 @@
  *  @return 当前用户的数据库
  */
 - (SSNDB *)currentDatabase;
+
+/**
+ *  当前用户头像存储
+ *
+ *  @return 头像存储
+ */
+- (SSNDataStore *)currentStore;
 
 /**
  *  uid生成器，暂时没有联网，为了保证uid的唯一性，uid采用设备uuid+时间+自增数组合

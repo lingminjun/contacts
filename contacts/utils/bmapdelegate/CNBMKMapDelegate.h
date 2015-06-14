@@ -52,4 +52,15 @@ FOUNDATION_EXTERN NSString *const BMKMapErrorDomain;
  */
 - (void)locationWithCopletion:(void (^)(CLLocationCoordinate2D coor,NSError *error))completion;
 
+#pragma mark - 距离计算
+/**
+ *  返回两个坐标之间的距离
+ *
+ *  @param fcoor 起始坐标
+ *  @param tcoor 终点坐标
+ *
+ *  @return 距离（km）
+ */
+- (double)kilometersFromCoordinate:(CLLocationCoordinate2D)fcoor toCoordinate:(CLLocationCoordinate2D)tcoor;
+
 @end

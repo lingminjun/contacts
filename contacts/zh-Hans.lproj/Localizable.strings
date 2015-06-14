@@ -40,23 +40,37 @@
  ***********************************************/
 "friends.header.title"          = "朋友";
 "detail.header.title"           = "朋友信息";
-"user.header.title"             = "个人资料";
+"user.header.title"             = "我的资料";
 "user.set.user.info.tip"        = "请先设置个人信息";
 "user.name.label"               = "姓名";
 "user.name.placeholder"         = "姓名";
 "user.gender.label"             = "性别";
 "user.mobile.label"             = "手机";
 "user.mobile.placeholder"       = "移动手机号";
-"user.home.address.label"       = "家庭地址";
-"user.home.address.placeholder" = "家庭地址";
+"user.home.address.label"       = "家";
 "user.map.label"                = "地图标注";
-"user.company.address.label"    = "公司地址";
-"user.company.address.placeholder" = "公司地址";
+"user.company.address.label"    = "公司";
+
+"user.biotope.label"            = "小区";
+"user.building.label"           = "大厦";
+"user.biotope.placeholder"      = "请填写小区名称";
+"user.building.placeholder"     = "请填写大厦或者街道名称";
+
+"user.room.label"               = "门牌";
+"user.floor.label"              = "楼层";
+"user.room.placeholder"         = "请填写几幢几室";
+"user.floor.placeholder"        = "请填写几楼几室";
+
 "user.name.input.tip"           = "请输入正确的姓名";
 "user.mobile.input.tip"         = "请输入正确的手机号";
 "user.home.address.input.tip"   = "请输入正确的家庭地址";
 "friends.search.placeholder"    = "搜索";
 "friends.distance.label"        = "距离";
+"user.detail.generally.address" = "常用地址";
+"user.address.type.label"       = "类别";
+"user.address.province.label"   = "省";
+"user.address.city.label"       = "城市";
+"user.address.province.city.label" = "省/市";
 
 /**********************************************
  附近

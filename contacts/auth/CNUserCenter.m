@@ -7,7 +7,9 @@
 //
 
 #import "CNUserCenter.h"
+#import "SSNDataStore+Factory.h"
 
+NSString *const CN_USER_AVATAR_KEY = @"cn.user.avatar";
 NSString *const CNUIDStoreKey   = @"cn.user.center.uid";
 
 @interface CNUserCenter ()
@@ -17,6 +19,7 @@ NSString *const CNUIDStoreKey   = @"cn.user.center.uid";
 @property (nonatomic,strong) CNPerson *user;
 
 @property (nonatomic,strong) SSNDB *db;
+@property (nonatomic,strong) SSNDataStore *store;
 
 @end
 
@@ -60,6 +63,7 @@ NSString *const CNUIDStoreKey   = @"cn.user.center.uid";
     if (![_uid isEqualToString:uid]) {
         _user = nil;
         _db = nil;
+        _store = nil;
     }
     
     if ([uid length] > 0) {
@@ -125,6 +129,24 @@ NSString *const CNUIDStoreKey   = @"cn.user.center.uid";
     
     _db = [[SSNDBPool shareInstance] dbWithScope:[_uid ssn_md5]];
     return _db;
+}
+
+/**
+ *  当前用户头像存储
+ *
+ *  @return 头像存储
+ */
+- (SSNDataStore *)currentStore {
+    if (!_isSign) {
+        return nil;
+    }
+    
+    if (_store) {
+        return _store;
+    }
+    
+    _store = [SSNDataStore dataStoreWithScope:[_uid ssn_md5]];
+    return _store;
 }
 
 /**

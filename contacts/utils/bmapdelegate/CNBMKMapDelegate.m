@@ -390,5 +390,21 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
     [[CNBMKMapDelegate delegate].requestQueue removeObjectForKey:key];
 }
 
+#pragma mark - 距离计算
+/**
+ *  返回两个坐标之间的距离
+ *
+ *  @param fcoor 起始坐标
+ *  @param tcoor 终点坐标
+ *
+ *  @return 距离（km）
+ */
+- (double)kilometersFromCoordinate:(CLLocationCoordinate2D)fcoor toCoordinate:(CLLocationCoordinate2D)tcoor {
+    BMKMapPoint fpoint = BMKMapPointForCoordinate(fcoor);//
+    BMKMapPoint tpoint = BMKMapPointForCoordinate(tcoor);
+    CLLocationDistance distance = BMKMetersBetweenMapPoints(fpoint, tpoint);
+    return distance/1000.0f;
+}
+
 @end
 

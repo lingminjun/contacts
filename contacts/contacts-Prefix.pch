@@ -94,7 +94,7 @@
 
     #define cn_clear_color                 [UIColor clearColor]            // 透明色
     #define cn_nav_bar_color               cn_hex_color(0xff5e56)          // 导航颜色
-    #define cn_backgroud_color             cn_rgba_color(242, 242, 242, 1) // vc背景颜色
+    #define cn_backgroud_color             cn_hex_color(0xeeedf3)          // vc背景颜色
     #define cn_backgroud_white_color       [UIColor whiteColor]            // vc背景颜色
     #define cn_text_normal_color           cn_hex_color(0x333333)          // 默认文本颜色
     #define cn_text_assist_color           cn_hex_color(0x989898)          // 辅助文本颜色
@@ -105,7 +105,8 @@
 
     #define cn_table_cell_normal_color     [UIColor whiteColor]            // cell 背景颜色
     #define cn_table_cell_selected_color   cn_hex_color(0xf6f6f6)          // cell 背景颜色
-    #define cn_table_section_color         cn_hex_color(0xf7f7f7)          // table section 背景颜色
+    #define cn_table_plain_section_color   cn_hex_color(0xf7f7f7)          // plain table section 背景颜色
+    #define cn_table_group_section_color   cn_hex_color(0xeeedf3)          // group table section 背景颜色
 
     #define cn_bar_color                   cn_hex_color(0x3c9afe)          //bar的背景色
 
@@ -126,6 +127,8 @@
     #define cn_bottom_edge_height          (10) // 下边距
     #define cn_hor_space_width             (10) // 水平间距
     #define cn_ver_space_height            (10) // 垂直间距
+    #define cn_hor_section_space_width     (20) // 水平分割间距
+    #define cn_ver_section_space_height    (20) // 垂直分割间距
     #define cn_hor_inner_space_width       (6)  // 水平内部间距
     #define cn_ver_inner_space_height      (6)  // 垂直内部间距
 

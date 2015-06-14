@@ -37,4 +37,17 @@
     _name = [name copy];
 }
 
+- (NSString *)addressCityDisplay {
+    if ([self.province length] > 0 && [self.city length] > 0) {
+        return [NSString stringWithFormat:@"%@,%@",self.province,self.city];
+    }
+    else if ([self.province length] > 0) {
+        return self.province;
+    }
+    else if ([self.city length] > 0) {
+        return self.city;
+    }
+    return nil;
+}
+
 @end
