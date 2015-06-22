@@ -63,7 +63,7 @@
 
 "user.name.input.tip"           = "请输入正确的姓名";
 "user.mobile.input.tip"         = "请输入正确的手机号";
-"user.home.address.input.tip"   = "请输入正确的家庭地址";
+"user.address.input.tip"        = "请输入正确详细的地址信息";
 "friends.search.placeholder"    = "搜索";
 "friends.distance.label"        = "距离";
 "user.detail.generally.address" = "常用地址";

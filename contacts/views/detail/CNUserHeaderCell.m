@@ -86,6 +86,7 @@
     if (self) {
         self.cellHeight = 113;
         self.cellClass = [CNUserHeaderCell class];
+        self.disabledSelect = YES;
         self.hiddenDisclosureIndicator = YES;
         self.hiddenBottomLine = YES;
     }

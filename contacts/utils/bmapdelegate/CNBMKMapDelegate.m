@@ -9,6 +9,7 @@
 #import "CNBMKMapDelegate.h"
 #import "SSNLogger.h"
 #import <BaiduMapAPI/BMapKit.h>
+#import "CNAddress.h"
 
 NSString *const BMKMapAppKey = @"CqbrjsjvEIfnRyILq9ZoiZhK";
 NSString *const BMKMapErrorDomain = @"CNBMKMap";
@@ -18,7 +19,7 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
 @interface CNBMKMapRequsetDelegate : NSObject<BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate>
 
 @property (nonatomic,strong) id service;
-@property (nonatomic,copy) void (^completion)(NSString *addr, NSString *city, CLLocationCoordinate2D coor, NSError *error);
+@property (nonatomic,copy) void (^completion)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error);
 
 + (instancetype)geoCodeSearchDelegate;
 
@@ -130,7 +131,7 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
     geocodeSearchOption.city= city;
     geocodeSearchOption.address = address;
     
-    void (^inner_completion)(NSString *addr, NSString *city, CLLocationCoordinate2D coor, NSError *error) = ^(NSString *addr, NSString *city, CLLocationCoordinate2D coor, NSError *error) {
+    void (^inner_completion)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error) = ^(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error) {
         if (completion) {
             completion(coor,error);
         }
@@ -165,13 +166,13 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
  *  @param coor       坐标
  *  @param completion 回调
  */
-- (void)reverseGeoCodeWithLocationCoordinate:(CLLocationCoordinate2D)coor completion:(void (^)(NSString *addr,NSString *city,NSError *error))completion {
+- (void)reverseGeoCodeWithLocationCoordinate:(CLLocationCoordinate2D)coor completion:(void (^)(CNAddress *address,NSString *addr,NSError *error))completion; {
     BMKReverseGeoCodeOption *reverseGeocodeSearchOption = [[BMKReverseGeoCodeOption alloc] init];
     reverseGeocodeSearchOption.reverseGeoPoint = coor;
     
-    void (^inner_completion)(NSString *addr, NSString *city, CLLocationCoordinate2D coor, NSError *error) = ^(NSString *addr, NSString *city, CLLocationCoordinate2D coor, NSError *error) {
+    void (^inner_completion)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error) = ^(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error) {
         if (completion) {
-            completion(addr,city,error);
+            completion(address,addr,error);
         }
     };
     
@@ -205,7 +206,7 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
  */
 - (void)locationWithCopletion:(void (^)(CLLocationCoordinate2D coor,NSError *error))completion {
     
-    void (^inner_completion)(NSString *addr, NSString *city, CLLocationCoordinate2D coor, NSError *error) = ^(NSString *addr, NSString *city, CLLocationCoordinate2D coor, NSError *error) {
+    void (^inner_completion)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error) = ^(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error) {
         if (completion) {
             completion(coor,error);
         }
@@ -221,6 +222,23 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
     SSNLog(@"开启定位服务 %@",delegate);
     [self.requestQueue setObject:delegate forKey:[NSString stringWithFormat:@"%p",delegate]];
     [localService startUserLocationService];
+}
+
+#pragma mark - 距离计算
+/**
+ *  返回两个坐标之间的距离
+ *
+ *  @param fcoor 起始坐标
+ *  @param tcoor 终点坐标
+ *
+ *  @return 距离（km）
+ */
+- (double)kilometersFromCoordinate:(CLLocationCoordinate2D)fcoor toCoordinate:(CLLocationCoordinate2D)tcoor {
+    //
+    BMKMapPoint a = BMKMapPointForCoordinate(fcoor);
+    BMKMapPoint b = BMKMapPointForCoordinate(tcoor);
+    CLLocationDistance distance = BMKMetersBetweenMapPoints(a, b);
+    return distance/1000;
 }
 
 @end
@@ -281,7 +299,7 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
 - (void)onGetGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
     
     if (self.completion) {
-        self.completion(result.address, nil, result.location, [self getGeoCodeErrorWithErrorCode:error]);
+        self.completion(nil, result.address, result.location, [self getGeoCodeErrorWithErrorCode:error]);
     }
     
     SSNLog(@"geo检索处理完成 %@",self);
@@ -297,7 +315,22 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
         if (coor.latitude <= 0.00001f && coor.latitude >= -0.00001f) {
             coor = cn_default_location_coordinate;
         }
-        self.completion(result.address, result.addressDetail.city, coor, [self getGeoCodeErrorWithErrorCode:error]);
+        CNAddress *address = [[CNAddress alloc] init];
+        [address ssn_setObject:result.addressDetail];
+        //修正几个数据，百度地图坑爹，直辖市带“省”字
+        if ([result.addressDetail.province hasPrefix:@"北京"]) {
+            address.province = @"北京";
+        }
+        else if ([result.addressDetail.province hasPrefix:@"上海"]) {
+            address.province = @"上海";
+        }
+        else if ([result.addressDetail.province hasPrefix:@"天津"]) {
+            address.province = @"天津";
+        }
+        else if ([result.addressDetail.province hasPrefix:@"重庆"]) {
+            address.province = @"重庆";
+        }
+        self.completion(address, result.address, coor, [self getGeoCodeErrorWithErrorCode:error]);
     }
     
     SSNLog(@"反geo检索处理完成 %@ address:%@",self,result.address);

@@ -36,8 +36,11 @@ typedef NS_ENUM(NSUInteger, CNAddressLabel) {
 @property (nonatomic) char firstSpell;              //首拼字母
 
 @property (nonatomic) CNAddressLabel addressLabel;  //地址类型
+
 @property (nonatomic,copy) NSString *province;      //省
 @property (nonatomic,copy) NSString *city;          //城市
+@property (nonatomic,copy) NSString *region;        //区
+
 @property (nonatomic,copy) NSString *street;        //存储大厦，或者街道信息
 @property (nonatomic,copy) NSString *addressDetail; //详情
 

@@ -17,4 +17,20 @@
  */
 + (instancetype)cn_normal_button;
 
+
+/**
+ *  done button，size:50x30
+ *
+ *  @return size:50x30
+ */
++ (instancetype)cn_done_button;
+
+
+/**
+ *  done button，size:90x30
+ *
+ *  @return size:90x30
+ */
++ (instancetype)cn_location_button;
+
 @end

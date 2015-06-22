@@ -35,7 +35,7 @@
         
         //添加元素到cell中
         ssn_layout_add_v2(layout, _title, 0, ssn_layout_table_cell_v2(SSNUIContentModeRight), title);
-        ssn_layout_add_v2(layout, _subTitle, 1, ssn_layout_table_cell_v2(SSNUIContentModeLeft), subTitle);
+        ssn_layout_add_v2(layout, _subTitle, 1, ssn_layout_table_cell(0, cn_hor_inner_space_width, 0, 0, SSNUIContentModeLeft), subTitle);
         
         
     }

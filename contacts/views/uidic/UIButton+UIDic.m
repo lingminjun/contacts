@@ -31,4 +31,46 @@
     return btn;
 }
 
+/**
+ *  done button，size:50x30
+ *
+ *  @return size:50x30
+ */
++ (instancetype)cn_done_button {
+    CGSize size = CGSizeMake(50, 30);
+    
+    UIImage *img1 = [[UIImage ssn_imageWithColor:cn_button_normal_color border:0 color:nil cornerRadius:2] ssn_centerStretchImage];
+    UIImage *img2 = [[UIImage ssn_imageWithColor:cn_button_disable_color border:0 color:nil cornerRadius:2] ssn_centerStretchImage];
+    UIButton *btn = [UIButton ssn_buttonWithSize:size
+                                            font:cn_normal_font
+                                           color:cn_button_title_color
+                                        selected:nil
+                                        disabled:nil
+                                       backgroud:img1
+                                        selected:nil
+                                        disabled:img2];
+    return btn;
+}
+
+/**
+ *  done button，size:90x30
+ *
+ *  @return size:90x30
+ */
++ (instancetype)cn_location_button {
+    CGSize size = CGSizeMake(90, 30);
+    
+    UIImage *img1 = [[UIImage ssn_imageWithColor:cn_hex_color(0xf95651) border:0 color:nil cornerRadius:2] ssn_centerStretchImage];
+    UIImage *img2 = [[UIImage ssn_imageWithColor:cn_button_disable_color border:0 color:nil cornerRadius:2] ssn_centerStretchImage];
+    UIButton *btn = [UIButton ssn_buttonWithSize:size
+                                            font:cn_normal_font
+                                           color:cn_button_title_color
+                                        selected:nil
+                                        disabled:nil
+                                       backgroud:img1
+                                        selected:nil
+                                        disabled:img2];
+    return btn;
+}
+
 @end

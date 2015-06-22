@@ -6,12 +6,12 @@
 //  Copyright (c) 2015年 shield. All rights reserved.
 //
 
-#import "CNTableViewController.h"
+#import "CNViewController.h"
 
 FOUNDATION_EXTERN NSString *const CN_DETAIL_SET_USER_OPTION;
 FOUNDATION_EXTERN NSString *const CN_DETAIL_ADD_FRIEND_OPTION;
 
-@interface CNDetailViewController : CNTableViewController
+@interface CNDetailViewController : CNViewController
 
 @property (nonatomic,copy) NSString *option;//setuser;addfriend;
 @property (nonatomic,copy) NSString *uid;//当前需要展示用户的uid

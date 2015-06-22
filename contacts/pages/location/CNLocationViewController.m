@@ -40,7 +40,7 @@
     _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:_mapView];
     
-    if ([_address length] > 0) {
+    if ([_addrdes length] > 0) {
         
         if (_longitude != 0 && _latitude != 0) {
             self.coor = CLLocationCoordinate2DMake(_latitude, _longitude);
@@ -48,7 +48,7 @@
         }
         else {
             __weak typeof(self) w_self = self;
-            [[CNBMKMapDelegate delegate] geoCodeWithAddress:_address city:nil completion:^(CLLocationCoordinate2D coor, NSError *error) {
+            [[CNBMKMapDelegate delegate] geoCodeWithAddress:_addrdes city:_addr.city completion:^(CLLocationCoordinate2D coor, NSError *error) {
                 __strong typeof(w_self) self = w_self;
                 self.coor = coor;
                 [self showAnnotationsWithZoom:0.04f];
@@ -68,17 +68,17 @@
 }
 
 - (void)doneAction:(id)sender {
-    if ([_address length] == 0) {
+    if ([_addrdes length] == 0) {
         [self ssn_showToast:cn_localized(@"location.select.error")];
         return ;
     }
     
     if ([_url length]) {
-        NSDictionary *query = @{@"address":_address,
-                                @"city":(_city?_city:@""),
-                                @"longitude":@(_coor.longitude),
-                                @"latitude":@(_coor.latitude)
-                                };
+        NSMutableDictionary*query = [NSMutableDictionary dictionaryWithCapacity:4];
+        [query setValue:_addrdes forKey:@"addrdes"];
+        [query setValue:_addr forKey:@"addr"];
+        [query setValue:@(_coor.longitude) forKey:@"longitude"];
+        [query setValue:@(_coor.latitude) forKey:@"latitude"];
         [self.ssn_router noticeURL:[NSURL URLWithString:_url] query:query];
     }
     
@@ -112,7 +112,8 @@
 
 - (void)ssn_handleOpenURL:(NSURL *)url query:(NSDictionary *)query {
     self.addrtitle = [query objectForKey:@"addrtitle"];
-    self.address = [query objectForKey:@"address"];
+    self.addrdes = [query objectForKey:@"addrdes"];
+    self.addr = [query objectForKey:@"addr"];
     self.longitude = [[query objectForKey:@"longitude"] floatValue];//经度
     self.latitude = [[query objectForKey:@"latitude"] floatValue];//纬度
     self.url = [[query objectForKey:@"url"] ssn_urlDecode];
@@ -140,7 +141,7 @@
     if (_pointAnnotation == nil) {
         _pointAnnotation = [[BMKPointAnnotation alloc]init];
         _pointAnnotation.title = self.addrtitle;
-        _pointAnnotation.subtitle = self.address;
+        _pointAnnotation.subtitle = self.addrdes;
     }
     _pointAnnotation.coordinate = _coor;
     [_mapView addAnnotation:_pointAnnotation];
@@ -155,13 +156,13 @@
     }
     
     __weak typeof(self) w_self = self;
-    [[CNBMKMapDelegate delegate] reverseGeoCodeWithLocationCoordinate:_coor completion:^(NSString *addr, NSString *city, NSError *error) {
+    [[CNBMKMapDelegate delegate] reverseGeoCodeWithLocationCoordinate:_coor completion:^(CNAddress *addr, NSString *addrDes, NSError *error) {
         __strong typeof(w_self) self = w_self;
         
-        if ([addr length]) {
-            self.city = city;
-            self.address = addr;
-            self.pointAnnotation.subtitle = addr;
+        if (addr) {
+            self.addr = addr;
+            self.addrdes = addrDes;
+            self.pointAnnotation.subtitle = addrDes;
         }
     }];
 }

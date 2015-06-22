@@ -12,6 +12,8 @@
 FOUNDATION_EXTERN const CLLocationCoordinate2D cn_default_location_coordinate;
 FOUNDATION_EXTERN NSString *const BMKMapErrorDomain;
 
+@class CNAddress;
+
 @interface CNBMKMapDelegate : NSObject<UIApplicationDelegate>
 
 /**
@@ -42,7 +44,7 @@ FOUNDATION_EXTERN NSString *const BMKMapErrorDomain;
  *  @param coor       坐标
  *  @param completion 回调
  */
-- (void)reverseGeoCodeWithLocationCoordinate:(CLLocationCoordinate2D)coor completion:(void (^)(NSString *addr,NSString *city,NSError *error))completion;
+- (void)reverseGeoCodeWithLocationCoordinate:(CLLocationCoordinate2D)coor completion:(void (^)(CNAddress *address,NSString *addr,NSError *error))completion;
 
 #pragma mark - 定位服务
 /**
