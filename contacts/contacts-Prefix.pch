@@ -25,6 +25,7 @@
     //元素
     #import "SSNUIEle.h"
     #import "SSNPageControl.h"
+    #import "SSNHorizontalTable.h"
 
     //列表结果集控制
     #import "UIViewController+SSNTableViewEasyConfigure.h"
@@ -108,7 +109,7 @@
     #define cn_table_plain_section_color   cn_hex_color(0xf7f7f7)          // plain table section 背景颜色
     #define cn_table_group_section_color   cn_hex_color(0xeeedf3)          // group table section 背景颜色
 
-    #define cn_bar_color                   cn_hex_color(0x3c9afe)          //bar的背景色
+    #define cn_bar_color                   cn_hex_color(0xcac9cf)//cn_hex_color(0x3c9afe)          //bar的背景色
 
     //尺寸
     #define cn_screen_width                 ([UIScreen mainScreen].bounds.size.width)

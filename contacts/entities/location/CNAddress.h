@@ -12,14 +12,14 @@
 @interface CNAddress : NSObject <NSCopying>
 
 /// 街道号码
-@property (nonatomic, strong) NSString* streetNumber;
+@property (nonatomic, copy) NSString* streetNumber;
 /// 街道名称
-@property (nonatomic, strong) NSString* streetName;
+@property (nonatomic, copy) NSString* streetName;
 /// 区县名称
-@property (nonatomic, strong) NSString* district;
+@property (nonatomic, copy) NSString* district;
 /// 城市名称
-@property (nonatomic, strong) NSString* city;
+@property (nonatomic, copy) NSString* city;
 /// 省份名称
-@property (nonatomic, strong) NSString* province;
+@property (nonatomic, copy) NSString* province;
 
 @end

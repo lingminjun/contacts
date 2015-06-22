@@ -9,17 +9,17 @@
 #import "CNBMKMapDelegate.h"
 #import "SSNLogger.h"
 #import <BaiduMapAPI/BMapKit.h>
-#import "CNAddress.h"
 
 NSString *const BMKMapAppKey = @"CqbrjsjvEIfnRyILq9ZoiZhK";
 NSString *const BMKMapErrorDomain = @"CNBMKMap";
 
 const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.915101f};
 
-@interface CNBMKMapRequsetDelegate : NSObject<BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate>
+@interface CNBMKMapRequsetDelegate : NSObject<BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,BMKPoiSearchDelegate>
 
 @property (nonatomic,strong) id service;
-@property (nonatomic,copy) void (^completion)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error);
+@property (nonatomic,copy) id completion;
+@property (nonatomic,copy) NSDictionary *userInfo;
 
 + (instancetype)geoCodeSearchDelegate;
 
@@ -224,6 +224,51 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
     [localService startUserLocationService];
 }
 
+#pragma mark - pio服务
+/**
+ *  搜索服务
+ *
+ *  @param city       城市，必填
+ *  @param searchText 搜索内容，不能为空
+ *  @param index      页码
+ *  @param size       页大小
+ *  @param completion 回调
+ */
+- (void)pointsSearchWithCity:(NSString *)city searchText:(NSString *)searchText pageIndex:(NSUInteger)index pageSize:(NSUInteger)size completion:(void (^)(NSArray *list,NSError *error))completion {
+    
+    void (^inner_completion)(NSArray *list,NSError *error) = ^(NSArray *list,NSError *error) {
+        if (completion) {
+            completion(list,error);
+        }
+    };
+    
+    CNBMKMapRequsetDelegate *delegate = [CNBMKMapRequsetDelegate geoCodeSearchDelegate];
+    delegate.completion = inner_completion;
+    delegate.userInfo = @{@"city":city};
+    
+    BMKPoiSearch *localService = [[BMKPoiSearch alloc] init];
+    
+    BMKCitySearchOption *citySearchOption = [[BMKCitySearchOption alloc] init];
+    citySearchOption.pageIndex = (int)index;
+    citySearchOption.pageCapacity = (int)size;
+    citySearchOption.city= city;
+    citySearchOption.keyword = searchText;
+    localService.delegate = delegate;
+    
+    delegate.service = localService;
+    
+    BOOL flag = [localService poiSearchInCity:citySearchOption];
+    if(flag)
+    {
+        [self.requestQueue setObject:delegate forKey:[NSString stringWithFormat:@"%p",delegate]];
+        SSNLog(@"城市内检索发送成功%@",delegate);
+    }
+    else
+    {
+        SSNLog(@"城市内检索发送失败%@",delegate);
+    }
+}
+
 #pragma mark - 距离计算
 /**
  *  返回两个坐标之间的距离
@@ -238,7 +283,7 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
     BMKMapPoint a = BMKMapPointForCoordinate(fcoor);
     BMKMapPoint b = BMKMapPointForCoordinate(tcoor);
     CLLocationDistance distance = BMKMetersBetweenMapPoints(a, b);
-    return distance/1000;
+    return distance/1000.0f;
 }
 
 @end
@@ -299,7 +344,8 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
 - (void)onGetGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
     
     if (self.completion) {
-        self.completion(nil, result.address, result.location, [self getGeoCodeErrorWithErrorCode:error]);
+        void (^inner_completion)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error) = (void (^)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error))self.completion;
+        inner_completion(nil, result.address, result.location, [self getGeoCodeErrorWithErrorCode:error]);
     }
     
     SSNLog(@"geo检索处理完成 %@",self);
@@ -330,7 +376,9 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
         else if ([result.addressDetail.province hasPrefix:@"重庆"]) {
             address.province = @"重庆";
         }
-        self.completion(address, result.address, coor, [self getGeoCodeErrorWithErrorCode:error]);
+        
+        void (^inner_completion)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error) = (void (^)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error))self.completion;
+        inner_completion(address, result.address, coor, [self getGeoCodeErrorWithErrorCode:error]);
     }
     
     SSNLog(@"反geo检索处理完成 %@ address:%@",self,result.address);
@@ -380,7 +428,8 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
     [(BMKLocationService *)(self.service) stopUserLocationService];
 
     if (self.completion) {
-        self.completion(nil, nil, userLocation.location.coordinate, nil);
+        void (^inner_completion)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error) = (void (^)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error))self.completion;
+        inner_completion(nil, nil, userLocation.location.coordinate, nil);
     }
     
     SSNLog(@"定位服务完成 %@ lat %f,long %f",self, userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
@@ -397,7 +446,8 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
     [(BMKLocationService *)(self.service) setDelegate:nil];
     
     if (self.completion) {
-        self.completion(nil, nil, cn_default_location_coordinate, cn_error(BMKMapErrorDomain, -1, @"终止定位"));
+        void (^inner_completion)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error) = (void (^)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error))self.completion;
+        inner_completion(nil, nil, cn_default_location_coordinate, cn_error(BMKMapErrorDomain, -1, @"终止定位"));
     }
     
     SSNLog(@"定位服务停止 %@",self);
@@ -415,7 +465,8 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
     [(BMKLocationService *)(self.service) setDelegate:nil];
     
     if (self.completion) {
-        self.completion(nil, nil, cn_default_location_coordinate, cn_error(BMKMapErrorDomain, error.code, error.localizedFailureReason));
+        void (^inner_completion)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error) = (void (^)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error))self.completion;
+        inner_completion(nil, nil, cn_default_location_coordinate, cn_error(BMKMapErrorDomain, error.code, error.localizedFailureReason));
     }
     
     SSNLog(@"定位服务失败 %@",self);
@@ -423,20 +474,44 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
     [[CNBMKMapDelegate delegate].requestQueue removeObjectForKey:key];
 }
 
-#pragma mark - 距离计算
+#pragma mark poi服务
 /**
- *  返回两个坐标之间的距离
- *
- *  @param fcoor 起始坐标
- *  @param tcoor 终点坐标
- *
- *  @return 距离（km）
+ *返回POI搜索结果
+ *@param searcher 搜索对象
+ *@param poiResult 搜索结果列表
+ *@param errorCode 错误号，@see BMKSearchErrorCode
  */
-- (double)kilometersFromCoordinate:(CLLocationCoordinate2D)fcoor toCoordinate:(CLLocationCoordinate2D)tcoor {
-    BMKMapPoint fpoint = BMKMapPointForCoordinate(fcoor);//
-    BMKMapPoint tpoint = BMKMapPointForCoordinate(tcoor);
-    CLLocationDistance distance = BMKMetersBetweenMapPoints(fpoint, tpoint);
-    return distance/1000.0f;
+- (void)onGetPoiResult:(BMKPoiSearch*)searcher result:(BMKPoiResult*)poiResult errorCode:(BMKSearchErrorCode)errorCode {
+    [(BMKPoiSearch *)(self.service) setDelegate:nil];
+    
+    if (self.completion) {
+        void (^inner_completion)(NSArray *list,NSError *error) = (void (^)(NSArray *list,NSError *error))self.completion;
+        
+        NSMutableArray *list = [NSMutableArray array];
+        NSString *city = [self.userInfo objectForKey:@"city"];
+        [poiResult.poiInfoList enumerateObjectsUsingBlock:^(BMKPoiInfo *obj, NSUInteger idx, BOOL *stop) {
+            if ([obj.city hasPrefix:city] || [city hasPrefix:obj.city]) {
+                CNLocationPoint *point = [[CNLocationPoint alloc] init];
+                [point ssn_setObject:obj];
+                [list addObject:point];
+            }
+        }];
+        
+        inner_completion(list, cn_error(BMKMapErrorDomain, errorCode, [self getGeoCodeErrorWithErrorCode:errorCode]));
+    }
+    
+    SSNLog(@"POI搜索结果 %@",self);
+    NSString *key = [NSString stringWithFormat:@"%p",self];
+    [[CNBMKMapDelegate delegate].requestQueue removeObjectForKey:key];
+}
+
+/**
+ *返回POI详情搜索结果
+ *@param searcher 搜索对象
+ *@param poiDetailResult 详情搜索结果
+ *@param errorCode 错误号，@see BMKSearchErrorCode
+ */
+- (void)onGetPoiDetailResult:(BMKPoiSearch*)searcher result:(BMKPoiDetailResult*)poiDetailResult errorCode:(BMKSearchErrorCode)errorCode {
 }
 
 @end

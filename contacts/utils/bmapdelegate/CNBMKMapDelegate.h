@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "CNAddress.h"
+#import "CNLocationPoint.h"
 
 FOUNDATION_EXTERN const CLLocationCoordinate2D cn_default_location_coordinate;
 FOUNDATION_EXTERN NSString *const BMKMapErrorDomain;
 
-@class CNAddress;
 
 @interface CNBMKMapDelegate : NSObject<UIApplicationDelegate>
 
@@ -53,6 +54,18 @@ FOUNDATION_EXTERN NSString *const BMKMapErrorDomain;
  *  @param completion 回调
  */
 - (void)locationWithCopletion:(void (^)(CLLocationCoordinate2D coor,NSError *error))completion;
+
+#pragma mark - pio服务
+/**
+ *  搜索服务
+ *
+ *  @param city       城市，必填
+ *  @param searchText 搜索内容，不能为空
+ *  @param index      页码
+ *  @param size       页大小
+ *  @param completion 回调
+ */
+- (void)pointsSearchWithCity:(NSString *)city searchText:(NSString *)searchText pageIndex:(NSUInteger)index pageSize:(NSUInteger)size completion:(void (^)(NSArray *list,NSError *error))completion;
 
 #pragma mark - 距离计算
 /**

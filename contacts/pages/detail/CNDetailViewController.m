@@ -60,6 +60,7 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
     _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.backgroundColor = [UIColor clearColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     

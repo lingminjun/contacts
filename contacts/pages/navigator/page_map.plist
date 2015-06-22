@@ -26,5 +26,7 @@
 	<string>CNOpinionViewController</string>
 	<key>location</key>
 	<string>CNLocationViewController</string>
+	<key>locationlist</key>
+	<string>CNLocationListViewController</string>
 </dict>
 </plist>

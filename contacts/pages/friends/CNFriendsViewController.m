@@ -88,6 +88,7 @@
     }
     _tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
     _tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    _tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_tableView];
     return _tableView;
 }

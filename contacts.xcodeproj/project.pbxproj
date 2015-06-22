@@ -48,6 +48,10 @@
 		536448691B3837FE001F7CF2 /* CNAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 536448681B3837FE001F7CF2 /* CNAddress.m */; };
 		5364486C1B3844D6001F7CF2 /* CNLocationInputCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5364486B1B3844D6001F7CF2 /* CNLocationInputCell.m */; };
 		5364486E1B3845E1001F7CF2 /* location_label_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5364486D1B3845E1001F7CF2 /* location_label_icon@2x.png */; };
+		536448711B38522A001F7CF2 /* CNLocationPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 536448701B38522A001F7CF2 /* CNLocationPoint.m */; };
+		536448741B385A93001F7CF2 /* CNLocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 536448731B385A93001F7CF2 /* CNLocationListViewController.m */; };
+		536448811B38623F001F7CF2 /* SSNHorizontalTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 5364487E1B38623F001F7CF2 /* SSNHorizontalTable.m */; };
+		536448821B38623F001F7CF2 /* SSNHorizontalTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 536448801B38623F001F7CF2 /* SSNHorizontalTableCell.m */; };
 		537F39631B11F3E300EE8230 /* CNDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 537F39621B11F3E300EE8230 /* CNDetailViewController.m */; };
 		537F397D1B11FCC400EE8230 /* default_avatar_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 537F396D1B11FCC400EE8230 /* default_avatar_big@2x.png */; };
 		537F397E1B11FCC400EE8230 /* default_avatar_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 537F396E1B11FCC400EE8230 /* default_avatar_small@2x.png */; };
@@ -281,6 +285,14 @@
 		5364486A1B3844D6001F7CF2 /* CNLocationInputCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNLocationInputCell.h; sourceTree = "<group>"; };
 		5364486B1B3844D6001F7CF2 /* CNLocationInputCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNLocationInputCell.m; sourceTree = "<group>"; };
 		5364486D1B3845E1001F7CF2 /* location_label_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location_label_icon@2x.png"; sourceTree = "<group>"; };
+		5364486F1B38522A001F7CF2 /* CNLocationPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNLocationPoint.h; sourceTree = "<group>"; };
+		536448701B38522A001F7CF2 /* CNLocationPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNLocationPoint.m; sourceTree = "<group>"; };
+		536448721B385A93001F7CF2 /* CNLocationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNLocationListViewController.h; sourceTree = "<group>"; };
+		536448731B385A93001F7CF2 /* CNLocationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNLocationListViewController.m; sourceTree = "<group>"; };
+		5364487D1B38623F001F7CF2 /* SSNHorizontalTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSNHorizontalTable.h; sourceTree = "<group>"; };
+		5364487E1B38623F001F7CF2 /* SSNHorizontalTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSNHorizontalTable.m; sourceTree = "<group>"; };
+		5364487F1B38623F001F7CF2 /* SSNHorizontalTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSNHorizontalTableCell.h; sourceTree = "<group>"; };
+		536448801B38623F001F7CF2 /* SSNHorizontalTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSNHorizontalTableCell.m; sourceTree = "<group>"; };
 		537F39611B11F3E300EE8230 /* CNDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNDetailViewController.h; sourceTree = "<group>"; };
 		537F39621B11F3E300EE8230 /* CNDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNDetailViewController.m; sourceTree = "<group>"; };
 		537F396D1B11FCC400EE8230 /* default_avatar_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default_avatar_big@2x.png"; sourceTree = "<group>"; };
@@ -705,6 +717,8 @@
 			children = (
 				5343A4261B1ABE2A005BCDC4 /* CNLocationViewController.h */,
 				5343A4271B1ABE2A005BCDC4 /* CNLocationViewController.m */,
+				536448721B385A93001F7CF2 /* CNLocationListViewController.h */,
+				536448731B385A93001F7CF2 /* CNLocationListViewController.m */,
 			);
 			path = location;
 			sourceTree = "<group>";
@@ -813,8 +827,21 @@
 			children = (
 				536448671B3837FE001F7CF2 /* CNAddress.h */,
 				536448681B3837FE001F7CF2 /* CNAddress.m */,
+				5364486F1B38522A001F7CF2 /* CNLocationPoint.h */,
+				536448701B38522A001F7CF2 /* CNLocationPoint.m */,
 			);
 			path = location;
+			sourceTree = "<group>";
+		};
+		5364487C1B38623F001F7CF2 /* horizontaltable */ = {
+			isa = PBXGroup;
+			children = (
+				5364487D1B38623F001F7CF2 /* SSNHorizontalTable.h */,
+				5364487E1B38623F001F7CF2 /* SSNHorizontalTable.m */,
+				5364487F1B38623F001F7CF2 /* SSNHorizontalTableCell.h */,
+				536448801B38623F001F7CF2 /* SSNHorizontalTableCell.m */,
+			);
+			path = horizontaltable;
 			sourceTree = "<group>";
 		};
 		537F39601B11F3CB00EE8230 /* detail */ = {
@@ -1523,6 +1550,7 @@
 		53A48E111B1A023400AC46D3 /* table */ = {
 			isa = PBXGroup;
 			children = (
+				5364487C1B38623F001F7CF2 /* horizontaltable */,
 				53A48E121B1A023400AC46D3 /* resources */,
 				53A48E1F1B1A023400AC46D3 /* SSNTableViewConfigureProtocol.h */,
 				53A48E201B1A023400AC46D3 /* UITableView+SSNPullRefresh.h */,
@@ -1745,6 +1773,7 @@
 				53A48D121B195D3000AC46D3 /* CNPersonCell.m in Sources */,
 				536448621B37CCF1001F7CF2 /* CNPicker.m in Sources */,
 				53A48E401B1A023400AC46D3 /* SSNRigidCache.m in Sources */,
+				536448741B385A93001F7CF2 /* CNLocationListViewController.m in Sources */,
 				53A48E841B1A023400AC46D3 /* SSNDefaultLoadMoreView.m in Sources */,
 				53A48E971B1A023400AC46D3 /* SSNToast.m in Sources */,
 				53A48E5B1B1A023400AC46D3 /* SSNVMSectionInfo.m in Sources */,
@@ -1762,6 +1791,7 @@
 				53A48E4E1B1A023400AC46D3 /* SSNDBBound.m in Sources */,
 				53A48E521B1A023400AC46D3 /* SSNDBTable+Factory.m in Sources */,
 				53A48E811B1A023400AC46D3 /* SSNRouter+Nice.m in Sources */,
+				536448811B38623F001F7CF2 /* SSNHorizontalTable.m in Sources */,
 				53A48E561B1A023400AC46D3 /* SSNFileDownloadOperation.m in Sources */,
 				5323000A1B11634F00FC8658 /* ViewController.m in Sources */,
 				53A48E5A1B1A023400AC46D3 /* SSNVMCellItem.m in Sources */,
@@ -1784,9 +1814,11 @@
 				537F39A01B12012700EE8230 /* CNEntity.m in Sources */,
 				53A48E491B1A023400AC46D3 /* SSNABContactsManager.m in Sources */,
 				53A48E941B1A023400AC46D3 /* UITableView+SSNPullRefresh.m in Sources */,
+				536448711B38522A001F7CF2 /* CNLocationPoint.m in Sources */,
 				53A48E2B1B1A023400AC46D3 /* ssndiff.c in Sources */,
 				539190011B1174E400381368 /* CNFriendsViewController.m in Sources */,
 				53A48E551B1A023400AC46D3 /* SSNFileDownloader.m in Sources */,
+				536448821B38623F001F7CF2 /* SSNHorizontalTableCell.m in Sources */,
 				53918F701B116B2F00381368 /* CNLoginViewController.m in Sources */,
 				532300041B11634F00FC8658 /* main.m in Sources */,
 				53A48E721B1A023400AC46D3 /* UILabel+SSNUIKit.m in Sources */,
