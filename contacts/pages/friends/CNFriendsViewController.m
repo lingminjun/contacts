@@ -23,6 +23,10 @@
 @property (nonatomic,strong) SSNTableViewConfigurator *searchConfigurator;
 @property (nonatomic) BOOL isSearching;
 
+@property (nonatomic,strong) UIView *noResultPlaceholder;
+
+@property (nonatomic,strong) NSString *titleCount;
+
 @end
 
 @implementation CNFriendsViewController
@@ -50,8 +54,6 @@
     self.tabBarItem.image = cn_image(@"icon_friends_normal");
     self.tabBarItem.selectedImage = cn_image(@"icon_friends_selected");
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"添加" style:UIBarButtonItemStylePlain target:self action:@selector(addPerson:)];
-    
 //    UISearchController 
     self.searchBar = [[UISearchBar alloc] init];
     [self.searchBar sizeToFit];
@@ -67,7 +69,8 @@
     
     [self.view addSubview:self.headerView];
     self.tableView.ssn_top = self.headerView.ssn_bottom;
-    self.tableView.ssn_height = self.view.ssn_height - self.headerView.ssn_height;
+    self.tableView.ssn_height = self.view.bounds.size.height - self.headerView.ssn_height;
+    self.tableView.sectionIndexBackgroundColor = [UIColor ssn_colorWithHex:0xcccccc alpha:0.2];
     
     //因为数据库fetch默认不支持分组，所以仅仅作为数据源
     self.dbFetchController = [self loadDBFetchController];
@@ -81,6 +84,37 @@
     
     //由数据库fetch发起
     [self.dbFetchController performFetch];
+    
+    //绑定标题
+    [self boundTitleCount];
+}
+
+- (void)boundTitleCount {
+    
+    SSNDBTable *tb = [SSNDBTableManager personTable];
+    
+    NSString *sql = [NSString stringWithFormat:@"select count(*) AS count from %@ where uid <> '%@'",tb.name,[CNUserCenter center].currentUID];
+    
+    __weak typeof(self) w_self = self;
+    [self ssn_boundTable:tb forSQL:sql tieField:@"titleCount" map:^id(SSNDBTable *table, NSString *sql, NSArray *changed_new_values) {
+        __strong typeof(w_self) self = w_self;
+        
+        NSArray *sums = [changed_new_values valueForKey:@"count"];
+        NSNumber *first = [sums firstObject];
+        if ([first integerValue] > 0) {
+            if (self.navigationItem.rightBarButtonItem == nil) {
+                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:cn_localized(@"friends.add.friend") style:UIBarButtonItemStylePlain target:self action:@selector(addPerson:)];
+                self.parentViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+            }
+            [self.noResultPlaceholder removeFromSuperview];
+            return [NSString stringWithFormat:cn_localized(@"friends.header.title.format"),first];
+        }
+        else {
+            self.navigationItem.rightBarButtonItem = nil;
+            [self.view addSubview:self.noResultPlaceholder];
+            return cn_localized(@"friends.header.title");
+        }
+    }];
 }
 
 - (UITableView *)tableView {
@@ -101,7 +135,7 @@
     
     CGRect frame = self.view.bounds;
     frame.origin.y = cn_tool_bar_height + cn_status_bar_height;
-    frame.size.height = self.view.ssn_height - frame.origin.y;
+    frame.size.height = self.view.bounds.size.height - frame.origin.y;
     _searchTable = [[UITableView alloc] initWithFrame:frame];
     _searchTable.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     
@@ -109,6 +143,7 @@
     fetch.searchText = @"";
     fetch.fields = @[@"name",@"pinyin",@"mobile"];
     fetch.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"pinyin" ascending:YES]];
+    fetch.predicate = [NSPredicate predicateWithFormat:@"%K!=%@",@"uid",[CNUserCenter center].currentUID];
     _searchFetchController = [SSNDBFetchController fetchControllerWithDB:[CNUserCenter center].currentDatabase fetch:fetch];
     _searchFetchController.delegate = self;
     
@@ -118,6 +153,31 @@
     _searchConfigurator.listFetchController.isMandatorySorting = YES;
     
     return _searchTable;
+}
+
+- (UIView *)noResultPlaceholder {
+    if (_noResultPlaceholder) {
+        return _noResultPlaceholder;
+    }
+    _noResultPlaceholder = [[UIView alloc] initWithFrame:self.view.bounds];
+    _noResultPlaceholder.ssn_top = _headerView.ssn_bottom;
+    _noResultPlaceholder.ssn_height = self.view.bounds.size.height - _headerView.ssn_height;
+    _noResultPlaceholder.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    {
+        UIImageView *icon = [UIImageView ssn_imageViewWithImage:cn_image(@"no_friends_icon")];
+        
+        UIButton *btn = [UIButton cn_normal_button];
+        btn.ssn_normalTitle = cn_localized(@"friends.add.friend.tip");
+        [btn ssn_addTarget:self touchAction:@selector(addPerson:)];
+        
+        SSNUIFlowLayout *layout = [_noResultPlaceholder ssn_flowLayoutWithRowCount:1 spacing:cn_ver_space_height];
+        layout.orientation = SSNUILayoutOrientationLandscapeLeft;
+        layout.contentInset = UIEdgeInsetsMake(0, 0, cn_tab_bar_height, 0);
+        layout.contentMode = SSNUIContentModeCenter;
+        ssn_layout_add(layout, icon, 0, icon);
+        ssn_layout_add(layout, btn, 1, btn);
+    }
+    return _noResultPlaceholder;
 }
 
 - (void)addPerson:(id)sender {
@@ -190,7 +250,6 @@
         cellModel.person = person;
         [items addObject:cellModel];
     }
-    
     completion(items,NO,nil,YES);
 }
 

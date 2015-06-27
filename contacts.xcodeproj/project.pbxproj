@@ -210,6 +210,7 @@
 		53C4BF011B2C2245006DE82B /* CNContactsSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C4BF001B2C2245006DE82B /* CNContactsSection.m */; };
 		53F2137E1B3E857600CA60B7 /* CNLocalPointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F2137D1B3E857600CA60B7 /* CNLocalPointCell.m */; };
 		53F213801B3E916C00CA60B7 /* icon_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53F2137F1B3E916C00CA60B7 /* icon_location@2x.png */; };
+		53F213821B3EE25A00CA60B7 /* no_friends_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53F213811B3EE25A00CA60B7 /* no_friends_icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -569,6 +570,7 @@
 		53F2137C1B3E857600CA60B7 /* CNLocalPointCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNLocalPointCell.h; sourceTree = "<group>"; };
 		53F2137D1B3E857600CA60B7 /* CNLocalPointCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNLocalPointCell.m; sourceTree = "<group>"; };
 		53F2137F1B3E916C00CA60B7 /* icon_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_location@2x.png"; sourceTree = "<group>"; };
+		53F213811B3EE25A00CA60B7 /* no_friends_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no_friends_icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -804,6 +806,7 @@
 		5364482D1B2C7230001F7CF2 /* contacts */ = {
 			isa = PBXGroup;
 			children = (
+				53F213811B3EE25A00CA60B7 /* no_friends_icon@2x.png */,
 				5364486D1B3845E1001F7CF2 /* location_label_icon@2x.png */,
 				536448401B2DDAB5001F7CF2 /* user_header_bg@2x.png */,
 				5364482E1B2C7230001F7CF2 /* location_icon@2x.png */,
@@ -1727,6 +1730,7 @@
 				5358DB481B14CE3B0082E726 /* welcome01.jpg in Resources */,
 				53A48E8F1B1A023400AC46D3 /* ssn_pull_refresh_gray_arrow@2x.png in Resources */,
 				53A48E881B1A023400AC46D3 /* ssn_pull_refresh_black_arrow.png in Resources */,
+				53F213821B3EE25A00CA60B7 /* no_friends_icon@2x.png in Resources */,
 				537F39801B11FCC400EE8230 /* icon_nearby_normal@3x.png in Resources */,
 				537F39871B11FCC400EE8230 /* icon_friends_normal@2x.png in Resources */,
 				537F39861B11FCC400EE8230 /* icon_setting_selected@3x.png in Resources */,

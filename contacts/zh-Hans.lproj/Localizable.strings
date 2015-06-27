@@ -39,6 +39,9 @@
  好友
  ***********************************************/
 "friends.header.title"          = "朋友";
+"friends.header.title.format"   = "朋友(%@)";
+"friends.add.friend"            = "添加";
+"friends.add.friend.tip"        = "添加朋友";
 "detail.header.title"           = "朋友信息";
 "user.header.title"             = "我的资料";
 "user.set.user.info.tip"        = "请先设置个人信息";
