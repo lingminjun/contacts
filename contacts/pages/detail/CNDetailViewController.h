@@ -16,4 +16,6 @@ FOUNDATION_EXTERN NSString *const CN_DETAIL_ADD_FRIEND_OPTION;
 @property (nonatomic,copy) NSString *option;//setuser;addfriend;
 @property (nonatomic,copy) NSString *uid;//当前需要展示用户的uid
 
+@property (nonatomic,copy) NSString *url;
+
 @end

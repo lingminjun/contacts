@@ -360,7 +360,13 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     
     //返回到上一个界面
     [self ssn_showToast:cn_localized(@"common.save.success")];
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    if ([self.url length] > 0) {
+        [self.ssn_router open:self.url];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -465,10 +471,10 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
             && [[_provinceCell.subTitle ssn_trimWhitespace] ssn_non_empty]
             && [[_streetAddrCell.input ssn_trimWhitespace] ssn_non_empty]
             && [[_addressDetailCell.input ssn_trimWhitespace] ssn_non_empty]) {
-            self.navigationItem.rightBarButtonItem.enabled = NO;
+            self.navigationItem.rightBarButtonItem.enabled = YES;
         }
         else {
-            self.navigationItem.rightBarButtonItem.enabled = YES;
+            self.navigationItem.rightBarButtonItem.enabled = NO;
         }
     }
 }
@@ -750,6 +756,7 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
 - (void)ssn_handleOpenURL:(NSURL *)url query:(NSDictionary *)query {
     self.uid = [query objectForKey:@"uid"];
     self.option = [query objectForKey:@"option"];
+    self.url = [[query objectForKey:@"url"] ssn_urlDecode];
 }
 
 - (BOOL)ssn_canRespondURL:(NSURL *)url query:(NSDictionary *)query {

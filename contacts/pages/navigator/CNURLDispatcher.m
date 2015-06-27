@@ -37,19 +37,26 @@
             return [NSURL URLWithString:cn_combine_path(path)];
         }
         
-        //若要去登录的
-        if ([url.absoluteString isEqualToString:cn_combine_path(@"login")])
-        {
-            [self.ssn_router open:cn_combine_path(@"nav")];
-            
-            return [NSURL URLWithString:cn_combine_path(@"nav/login?root=yes")];
-        }
+//        //若要去登录的
+//        if ([url.absoluteString isEqualToString:cn_combine_path(@"login")])
+//        {
+//            [self.ssn_router open:cn_combine_path(@"nav")];
+//            
+//            return [NSURL URLWithString:cn_combine_path(@"nav/login?root=yes")];
+//        }
         
         //直接进入主页
         if ([url.absoluteString isEqualToString:cn_combine_path(@"home")])
         {
         
             [self.ssn_router open:cn_combine_path(@"nav")];
+            
+            if (![CNUserCenter center].isSign) {//还没有登陆，直接跳转到设置个人资料页
+                
+                NSString *path = [NSString stringWithFormat:@"nav/detail?root=yes&option=setuser&animated=YES&url=%@",[url.absoluteString ssn_urlEncode]];
+                
+                return [NSURL URLWithString:cn_combine_path(path)];
+            }
             
             if (![self.ssn_router canOpenURL:[NSURL URLWithString:cn_combine_path(@"nav/main/friends")]]) {
                 
