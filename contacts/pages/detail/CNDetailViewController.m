@@ -596,14 +596,20 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
             SSNABPerson *abperson = [self.selectPersons objectAtIndex:indexPath.row];
             
             //check 名字
-            CNLabelInputCellModel *nameCell = [self.ssn_tableViewConfigurator.listFetchController objectAtIndexPath:cn_index_path(0,0)];
-            nameCell.input = abperson.name;
+            _nameCell.input = abperson.name;
             
             //check mobile
-            CNLabelInputCellModel *mobileCell = [self.ssn_tableViewConfigurator.listFetchController objectAtIndexPath:cn_index_path(2,0)];
-            mobileCell.input = abperson.mobile;
+            _mobileCell.input = abperson.mobile;
             
-            [self.ssn_tableViewConfigurator.listFetchController updateDatasAtIndexPaths:@[cn_index_path(0,0),cn_index_path(2,0)] withContext:nil];
+            
+            //
+            NSInteger nameCellRow = [_items indexOfObject:_provinceCell];
+            NSIndexPath *nameCellpath = cn_index_path(nameCellRow, 0);
+            
+            NSInteger mobileCellRow = [_items indexOfObject:_provinceCell];
+            NSIndexPath *mobileCellPath = cn_index_path(mobileCellRow, 0);
+            
+            [self.ssn_tableViewConfigurator.listFetchController updateDatasAtIndexPaths:@[nameCellpath,mobileCellPath] withContext:nil];
             
             self.selectPersons = nil;
             self.selectedTable.hidden = YES;

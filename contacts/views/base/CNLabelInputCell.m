@@ -107,6 +107,7 @@
     self = [super init];
     if (self) {
         self.cellClass = [CNLabelInputCell class];
+        self.hiddenDisclosureIndicator = YES;
     }
     return self;
 }
