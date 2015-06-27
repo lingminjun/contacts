@@ -46,7 +46,9 @@
     
     if ([model isKindOfClass:[CNPersonCellModel class]]) {
         _name.text = model.person.name;
-        _distanceLabel.text = @"未知";
+        if (model.person.distance > 0.009f ) {
+            _distanceLabel.text = [NSString stringWithFormat:@"%.2fkm",model.person.distance];
+        }
     }
     
     //根据位置隐藏底线

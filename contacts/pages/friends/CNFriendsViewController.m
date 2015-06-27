@@ -38,6 +38,7 @@
     
     //非级联测试
     SSNDBFetch *fetch = [SSNDBFetch fetchWithEntity:[CNPerson class] sortDescriptors:@[ sort1 ] predicate:nil offset:0 limit:0 fromTable:NSStringFromClass([CNPerson class])];
+    fetch.predicate = [NSPredicate predicateWithFormat:@"%K!=%@",@"uid",[CNUserCenter center].currentUID];
     
     return [SSNDBFetchController fetchControllerWithDB:[CNUserCenter center].currentDatabase fetch:fetch];
 }

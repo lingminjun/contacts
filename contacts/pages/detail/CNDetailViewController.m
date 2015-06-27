@@ -131,6 +131,7 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     }
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:cn_localized(@"common.done.button") style:UIBarButtonItemStylePlain target:self action:@selector(doneAction:)];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     
     //配置table
     self.ssn_tableViewConfigurator.tableView = self.tableView;
@@ -440,6 +441,36 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
         _coor.longitude = 0.0f;
     }
     
+    [self checkButtonStatus];
+}
+
+- (void)checkButtonStatus {
+    if (![CN_DETAIL_SET_USER_OPTION isEqualToString:_option]) {
+        if ([_person.name isEqualToString:[_nameCell.input ssn_trimWhitespace]]
+            && [_person.mobile isEqualToString:[_mobileCell.input ssn_trimAllWhitespace]]
+            && [_person.province isEqualToString:[_provinceCell.subTitle ssn_trimWhitespace]]
+            && [_person.street isEqualToString:[_streetAddrCell.input ssn_trimWhitespace]]
+            && [_person.addressDetail isEqualToString:[_addressDetailCell.input ssn_trimWhitespace]]
+            && _person.gender == (_genderCell.value == 1 ? CNPersonMaleGender : CNPersonFemaleGender)) {
+            self.navigationItem.rightBarButtonItem.enabled = NO;
+        }
+        else {
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        }
+    }
+    else {
+        //check 名字
+        if ([[_nameCell.input ssn_trimWhitespace] ssn_non_empty]
+            && [[_mobileCell.input ssn_trimAllWhitespace] ssn_non_empty]
+            && [[_provinceCell.subTitle ssn_trimWhitespace] ssn_non_empty]
+            && [[_streetAddrCell.input ssn_trimWhitespace] ssn_non_empty]
+            && [[_addressDetailCell.input ssn_trimWhitespace] ssn_non_empty]) {
+            self.navigationItem.rightBarButtonItem.enabled = NO;
+        }
+        else {
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        }
+    }
 }
 
 - (void)cellLocationButtonAction:(CNLocationInputCell *)cell {
@@ -473,6 +504,7 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
 - (void)cellRadioDidSelect:(CNSelectionCell *)cell {
     CNSelectionCellModel *model = (CNSelectionCellModel *)cell.ssn_cellModel;
     if (![model.title isEqualToString:cn_localized(@"user.address.type.label")]) {
+        [self checkButtonStatus];
         return ;
     }
     if (model.value == 0) {
@@ -752,6 +784,8 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     NSInteger street = [_items indexOfObject:_streetAddrCell];
     
     [self.ssn_tableViewConfigurator.listFetchController updateDatasAtIndexPaths:@[cn_index_path(addrIndex,0),cn_index_path(street,0)] withContext:nil];
+    
+    [self checkButtonStatus];
 }
 
 @end
