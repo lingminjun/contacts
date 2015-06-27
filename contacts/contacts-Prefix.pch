@@ -126,6 +126,7 @@
     #define cn_right_edge_width            (10) // 右边距
     #define cn_top_edge_height             (10) // 上边距
     #define cn_bottom_edge_height          (10) // 下边距
+    #define cn_panel_edge                  UIEdgeInsetsMake(cn_top_edge_height, cn_left_edge_width, cn_bottom_edge_height, cn_right_edge_width)
     #define cn_hor_space_width             (10) // 水平间距
     #define cn_ver_space_height            (10) // 垂直间距
     #define cn_hor_section_space_width     (20) // 水平分割间距

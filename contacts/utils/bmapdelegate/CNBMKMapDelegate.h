@@ -63,7 +63,7 @@ FOUNDATION_EXTERN NSString *const BMKMapErrorDomain;
  *  @param searchText 搜索内容，不能为空
  *  @param index      页码
  *  @param size       页大小
- *  @param completion 回调
+ *  @param completion 回调 list @see CNLocationPoint
  */
 - (void)pointsSearchWithCity:(NSString *)city searchText:(NSString *)searchText pageIndex:(NSUInteger)index pageSize:(NSUInteger)size completion:(void (^)(NSArray *list,NSError *error))completion;
 

@@ -21,7 +21,7 @@
     UIImage *img1 = [[UIImage ssn_imageWithColor:cn_button_normal_color border:0 color:nil cornerRadius:4] ssn_centerStretchImage];
     UIImage *img2 = [[UIImage ssn_imageWithColor:cn_button_disable_color border:0 color:nil cornerRadius:4] ssn_centerStretchImage];
     UIButton *btn = [UIButton ssn_buttonWithSize:size
-                                            font:cn_normal_font
+                                            font:cn_title_font
                                            color:cn_button_title_color
                                         selected:nil
                                         disabled:nil
