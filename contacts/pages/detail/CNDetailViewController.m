@@ -318,7 +318,17 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
                 pn.latitude = coor.latitude;
                 pn.longitude = coor.longitude;
                 
-                [tb upinsertObject:pn fields:@[@"latitude",@"longitude"]];
+                if ([CN_DETAIL_SET_USER_OPTION isEqualToString:_option] || [CNUserCenter center].currentUID == _uid) {
+                    //
+                }
+                else {
+                    CNPerson *me = [CNUserCenter center].currentUser;
+                    CLLocationCoordinate2D from = CLLocationCoordinate2DMake(me.latitude, me.longitude);
+                    CLLocationCoordinate2D to = CLLocationCoordinate2DMake(_person.latitude, _person.longitude);
+                    _person.distance = [[CNBMKMapDelegate delegate] kilometersFromCoordinate:from toCoordinate:to];
+                }
+                
+                [tb upinsertObject:pn fields:@[@"latitude",@"longitude",@"distance"]];
             }
             
         }];
@@ -326,6 +336,15 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     else {
         _person.latitude = _coor.latitude;
         _person.longitude = _coor.longitude;
+        if ([CN_DETAIL_SET_USER_OPTION isEqualToString:_option] || [CNUserCenter center].currentUID == _uid) {
+            //
+        }
+        else {
+            CNPerson *me = [CNUserCenter center].currentUser;
+            CLLocationCoordinate2D from = CLLocationCoordinate2DMake(me.latitude, me.longitude);
+            CLLocationCoordinate2D to = CLLocationCoordinate2DMake(_person.latitude, _person.longitude);
+            _person.distance = [[CNBMKMapDelegate delegate] kilometersFromCoordinate:from toCoordinate:to];
+        }
     }
     
     if (![CNUserCenter center].isSign) {

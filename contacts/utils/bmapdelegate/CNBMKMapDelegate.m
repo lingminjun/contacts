@@ -269,6 +269,56 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.91
     }
 }
 
+/**
+ *  搜索服务
+ *
+ *  @param city       城市，必填
+ *  @param pointType  结点类型 （POI类型，0:普通点 1:公交站 2:公交线路 3:地铁站 4:地铁线路）
+ *  @param searchText 搜索内容，不能为空
+ *  @param index      页码
+ *  @param size       页大小
+ *  @param completion 回调 list @see CNLocationPoint
+ */
+- (void)pointsSearchWithCity:(NSString *)city pointType:(CNLocationPointType)pointType searchText:(NSString *)searchText pageIndex:(NSUInteger)index pageSize:(NSUInteger)size completion:(void (^)(NSArray *list,NSError *error))completion {
+    void (^inner_completion)(NSArray *list,NSError *error) = ^(NSArray *list,NSError *error) {
+        if (completion) {
+            NSMutableArray *array = [NSMutableArray array];
+            [list enumerateObjectsUsingBlock:^(CNLocationPoint *obj, NSUInteger idx, BOOL *stop) {
+                if (obj.epoitype == pointType) {
+                    [array addObject:obj];
+                }
+            }];
+            completion(array,error);
+        }
+    };
+    
+    CNBMKMapRequsetDelegate *delegate = [CNBMKMapRequsetDelegate geoCodeSearchDelegate];
+    delegate.completion = inner_completion;
+    delegate.userInfo = @{@"city":city};
+    
+    BMKPoiSearch *localService = [[BMKPoiSearch alloc] init];
+    
+    BMKCitySearchOption *citySearchOption = [[BMKCitySearchOption alloc] init];
+    citySearchOption.pageIndex = (int)index;
+    citySearchOption.pageCapacity = (int)size;
+    citySearchOption.city= city;
+    citySearchOption.keyword = searchText;
+    localService.delegate = delegate;
+    
+    delegate.service = localService;
+    
+    BOOL flag = [localService poiSearchInCity:citySearchOption];
+    if(flag)
+    {
+        [self.requestQueue setObject:delegate forKey:[NSString stringWithFormat:@"%p",delegate]];
+        SSNLog(@"城市内检索发送成功%@",delegate);
+    }
+    else
+    {
+        SSNLog(@"城市内检索发送失败%@",delegate);
+    }
+}
+
 #pragma mark - 距离计算
 /**
  *  返回两个坐标之间的距离

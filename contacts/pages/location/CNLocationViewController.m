@@ -8,6 +8,7 @@
 #import "CNLocationViewController.h"
 #import <BaiduMapAPI/BMapKit.h>
 #import "CNTableViewCell.h"
+#import "CNLocalPointCell.h"
 
 @interface CNLocationViewController () <BMKMapViewDelegate,UIGestureRecognizerDelegate,UISearchBarDelegate>
 {
@@ -30,7 +31,7 @@
 @property (nonatomic,strong) UITableView *searchTable;
 @property (nonatomic,strong) NSMutableArray *pointAnnotations;//搜索出来的地址信息
 @property (nonatomic,strong) NSMutableArray *searchPoints;
-//@property (nonatomic,strong) SSNTableViewConfigurator *searchConfigurator;
+@property (nonatomic,strong) SSNTableViewConfigurator *searchConfigurator;
 
 @end
 
@@ -93,7 +94,7 @@
 
 - (void)showBottomPanelWithTitle:(NSString *)title detail:(NSString *)detail {
     if (self.bottomPanel.hidden) {
-        self.bottomPanel.ssn_bottom = self.view.ssn_bottom - cn_bottom_edge_height;
+        self.bottomPanel.ssn_bottom = self.view.bounds.size.height - cn_bottom_edge_height;
         self.bottomPanel.ssn_center_x = ssn_center(self.view.bounds).x;
         [self.view addSubview:self.bottomPanel];
         
@@ -118,14 +119,17 @@
         return _searchTable;
     }
     
-    CGRect frame = CGRectMake(0, 0, self.view.ssn_width, 200);
+    CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    frame.origin.y = _searchBar.ssn_height;
+    frame.size.height -= _searchBar.ssn_height;
+    
     _searchTable = [[UITableView alloc] initWithFrame:frame];
     _searchTable.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
     
-//    _searchConfigurator = [[SSNTableViewConfigurator alloc] init];
-//    _searchConfigurator.delegate = self;
-//    _searchConfigurator.tableView = _searchTable.table;
-//    _searchConfigurator.listFetchController.isMandatorySorting = YES;
+    _searchConfigurator = [[SSNTableViewConfigurator alloc] init];
+    _searchConfigurator.delegate = self;
+    _searchConfigurator.tableView = _searchTable;
+    _searchConfigurator.listFetchController.isMandatorySorting = YES;
     
     return _searchTable;
 }
@@ -238,6 +242,45 @@
     // Release any cached data, images, etc. that aren't in use.
 }
 
+
+#pragma mark - 绘制气泡
+- (void)showSearchPointsSelected:(CNLocationPoint *)apoint {
+    
+    if (self.pointAnnotations) {
+        [self.pointAnnotations removeObject:self.pointAnnotation];//选中不需要移除
+        [self->_mapView removeAnnotations:self.pointAnnotations];
+        [self.pointAnnotations removeAllObjects];
+    }
+    
+    //显示新的气泡
+    [self.searchPoints enumerateObjectsUsingBlock:^(CNLocationPoint *point, NSUInteger idx, BOOL *stop) {
+        NSString *subtitle = [NSString stringWithFormat:@"%@%@",point.name,point.address];
+        BMKPointAnnotation *annotation = [self loadPointAnnotationWithTitle:self.addrtitle subTitle:subtitle coor:point.pt];
+        [self.pointAnnotations addObject:annotation];
+        
+        if ((apoint == nil && idx == 0) || apoint == point) {
+            if (self.pointAnnotation) {
+                [self->_mapView removeAnnotation:self.pointAnnotation];
+            }
+            self.coor = point.pt;
+            self.pointAnnotation = annotation;
+            [self showAnnotationsWithZoom:0];
+        }
+    }];
+    
+    [self->_mapView addAnnotations:self.pointAnnotations];
+}
+
+- (void)removeSearchPoints {
+    if (self.pointAnnotations) {
+        [self.pointAnnotations removeObject:self.pointAnnotation];//选中不需要移除
+        [self->_mapView removeAnnotations:self.pointAnnotations];
+        [self.pointAnnotations removeAllObjects];
+    }
+    [self.searchPoints removeAllObjects];
+}
+
+
 #pragma mark - UISearchBarDelegate
 - (void)delaySearch {
     NSString *city = _addr.city;
@@ -245,44 +288,40 @@
         city = @"上海";
     }
     
-    __weak typeof(self) w_self = self;
-    [[CNBMKMapDelegate delegate] pointsSearchWithCity:city searchText:_searchBar.text pageIndex:0 pageSize:10 completion:^(NSArray *list, NSError *error) {
-        __strong typeof(w_self) self = w_self;
-        if (list) {
-            [self.searchPoints setArray:list];
+    NSString *searchText = _searchBar.text;
+    
+    if ([searchText ssn_non_empty]) {
+        __weak typeof(self) w_self = self;
+        [[CNBMKMapDelegate delegate] pointsSearchWithCity:city pointType:CNLocationNormalPoint searchText:_searchBar.text pageIndex:0 pageSize:10 completion:^(NSArray *list, NSError *error) {
+            __strong typeof(w_self) self = w_self;
             
-            if (self.pointAnnotations) {
-                [self.pointAnnotations removeObject:self.pointAnnotation];//选中不需要移除
-                [self->_mapView removeAnnotations:self.pointAnnotations];
-                [self.pointAnnotations removeAllObjects];
-            }
-            
-            //显示新的气泡
-            [self.searchPoints enumerateObjectsUsingBlock:^(CNLocationPoint *point, NSUInteger idx, BOOL *stop) {
-                NSString *subtitle = [NSString stringWithFormat:@"%@%@",point.name,point.address];
-                BMKPointAnnotation *annotation = [self loadPointAnnotationWithTitle:self.addrtitle subTitle:subtitle coor:point.pt];
-                [self.pointAnnotations addObject:annotation];
+            if ([list count]) {
                 
-                if (idx == 0) {
-                    if (self.pointAnnotation) {
-                        [self->_mapView removeAnnotation:self.pointAnnotation];
-                    }
-                    self.coor = point.pt;
-                    self.pointAnnotation = annotation;
-                    [self showAnnotationsWithZoom:0];
-                }
-            }];
-            
-            [self->_mapView addAnnotations:self.pointAnnotations];
-        }
-    }];
+                [self.view addSubview:self.searchTable];
+                
+                [self.searchPoints setArray:list];
+                
+                [self.searchConfigurator.listFetchController loadData];
+            }
+            else {
+                [self.searchPoints removeAllObjects];
+                [self.searchConfigurator.listFetchController loadData];
+            }
+        }];
+    }
+    else {
+        self.searchTable.hidden = YES;
+    }
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
 
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(delaySearch) object:nil];
     if ([searchText length] > 0) {
-        [self performSelector:@selector(delaySearch) withObject:nil afterDelay:1.5];
+        [self performSelector:@selector(delaySearch) withObject:nil afterDelay:0.1];
+    }
+    else {
+        self.searchTable.hidden = YES;
     }
 }
 
@@ -303,27 +342,15 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(delaySearch) object:nil];
     searchBar.showsCancelButton = NO;
-    searchBar.text = nil;
+//    searchBar.text = nil;
     [searchBar resignFirstResponder];
-
-    
-    if (self.pointAnnotations) {
-        [self.pointAnnotations enumerateObjectsUsingBlock:^(BMKPointAnnotation *annotation, NSUInteger idx, BOOL *stop) {
-            if (annotation != self.pointAnnotation) {
-                [self->_mapView removeAnnotation:annotation];
-            }
-        }];
-        
-        [self.pointAnnotations removeAllObjects];
-    }
-    [self.searchPoints removeAllObjects];
+    searchBar.text = nil;
+    [self removeSearchPoints];
+    _searchTable.hidden = YES;
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(delaySearch) object:nil];
-    if ([searchBar.text length] > 0) {
-        [self performSelector:@selector(delaySearch) withObject:nil afterDelay:0.1];
-    }
     [searchBar resignFirstResponder];
 }
 
@@ -417,12 +444,17 @@
     BMKPinAnnotationView *annotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:AnnotationViewID];
     if (annotationView == nil) {
         annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
-        // 设置颜色
-        annotationView.pinColor = BMKPinAnnotationColorPurple;
+        if (annotation == _pointAnnotation) {
+            annotationView.pinColor = BMKPinAnnotationColorRed;
+        }
+        else {
+            // 设置颜色
+            annotationView.pinColor = BMKPinAnnotationColorPurple;
+        }
         // 从天上掉下效果
 //        annotationView.animatesDrop = YES;
         // 设置可拖拽
-        annotationView.draggable = YES;
+        annotationView.draggable = NO;
         annotationView.canShowCallout = NO;
     }
     return annotationView;
@@ -444,12 +476,18 @@
 //    if (_pointAnnotation) {
 //        [mapView removeAnnotation:_pointAnnotation];
 //    }
+    
+    BMKAnnotationView *old = [mapView viewForAnnotation:_pointAnnotation];
+    [(BMKPinAnnotationView *)old setPinColor:BMKPinAnnotationColorPurple];
+    
     if ([view.annotation isKindOfClass:[BMKPointAnnotation class]]) {
         _pointAnnotation = view.annotation;
     }
     else {
         _pointAnnotation = [self loadPointAnnotationWithTitle:self.addrtitle subTitle:view.annotation.subtitle coor:_coor];
     }
+     [(BMKPinAnnotationView *)view setPinColor:BMKPinAnnotationColorRed];
+    
     [self showAnnotationsWithZoom:0];
 //    [self showBottomPanelWithTitle:view.annotation.title detail:view.annotation.subtitle];
 }
@@ -482,6 +520,39 @@
         [self showAnnotationsWithZoom:0];
     }
 
+}
+
+
+#pragma mark - SSNTableViewConfiguratorDelegate
+//加载数据源
+- (void)ssn_configurator:(id<SSNTableViewConfigurator>)configurator controller:(id<SSNFetchControllerPrototol>)controller loadDataWithOffset:(NSUInteger)offset limit:(NSUInteger)limit userInfo:(NSDictionary *)userInfo completion:(void (^)(NSArray *results, BOOL hasMore, NSDictionary *userInfo, BOOL finished))completion {
+    
+    //已经有新的数据了
+    NSArray *objs = [self.searchPoints copy];
+    
+    NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
+    for (CNLocationPoint *point in objs) {
+        CNLocalPointCellModel *cellModel = [[CNLocalPointCellModel alloc] init];
+        cellModel.point = point;
+        [items addObject:cellModel];
+    }
+    
+    self.searchTable.hidden = NO;
+    
+    completion(items,NO,nil,YES);
+}
+
+- (void)ssn_configurator:(id<SSNTableViewConfigurator>)configurator tableView:(UITableView *)tableView didSelectModel:(CNLocalPointCellModel *)model atIndexPath:(NSIndexPath *)indexPath {
+    if (![model isKindOfClass:[CNLocalPointCellModel class]]) {
+        return ;
+    }
+    
+    _searchTable.hidden = YES;
+    
+    //开始绘制
+    [self showSearchPointsSelected:model.point];
+    
+    [_searchBar resignFirstResponder];
 }
 
 @end

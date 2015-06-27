@@ -208,6 +208,8 @@
 		53A48E961B1A023400AC46D3 /* UIViewController+SSNTableViewEasyConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A48E251B1A023400AC46D3 /* UIViewController+SSNTableViewEasyConfigure.m */; };
 		53A48E971B1A023400AC46D3 /* SSNToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A48E281B1A023400AC46D3 /* SSNToast.m */; };
 		53C4BF011B2C2245006DE82B /* CNContactsSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C4BF001B2C2245006DE82B /* CNContactsSection.m */; };
+		53F2137E1B3E857600CA60B7 /* CNLocalPointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F2137D1B3E857600CA60B7 /* CNLocalPointCell.m */; };
+		53F213801B3E916C00CA60B7 /* icon_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53F2137F1B3E916C00CA60B7 /* icon_location@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -564,6 +566,9 @@
 		53A48E281B1A023400AC46D3 /* SSNToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSNToast.m; sourceTree = "<group>"; };
 		53C4BEFF1B2C2245006DE82B /* CNContactsSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNContactsSection.h; sourceTree = "<group>"; };
 		53C4BF001B2C2245006DE82B /* CNContactsSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNContactsSection.m; sourceTree = "<group>"; };
+		53F2137C1B3E857600CA60B7 /* CNLocalPointCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNLocalPointCell.h; sourceTree = "<group>"; };
+		53F2137D1B3E857600CA60B7 /* CNLocalPointCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNLocalPointCell.m; sourceTree = "<group>"; };
+		53F2137F1B3E916C00CA60B7 /* icon_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_location@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -744,6 +749,7 @@
 		535306CA1B175BFC00EE92AA /* views */ = {
 			isa = PBXGroup;
 			children = (
+				53F2137B1B3E853000CA60B7 /* location */,
 				5364485F1B37CCB9001F7CF2 /* picker */,
 				534F91AA1B272935003399D7 /* uidic */,
 				53A48D0F1B195D1A00AC46D3 /* friends */,
@@ -868,6 +874,7 @@
 		537F396C1B11FCC400EE8230 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				53F2137F1B3E916C00CA60B7 /* icon_location@2x.png */,
 				53A48D0D1B19432400AC46D3 /* icon_disclosure_indicator@2x.png */,
 				53A48D041B18B98600AC46D3 /* icon_radio_normal@2x.png */,
 				53A48D051B18B98600AC46D3 /* icon_radio_selected@2x.png */,
@@ -1591,6 +1598,15 @@
 			path = toast;
 			sourceTree = "<group>";
 		};
+		53F2137B1B3E853000CA60B7 /* location */ = {
+			isa = PBXGroup;
+			children = (
+				53F2137C1B3E857600CA60B7 /* CNLocalPointCell.h */,
+				53F2137D1B3E857600CA60B7 /* CNLocalPointCell.m */,
+			);
+			path = location;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1692,6 +1708,7 @@
 				537F398E1B11FD9E00EE8230 /* Localizable.strings in Resources */,
 				53A48E8B1B1A023400AC46D3 /* ssn_pull_refresh_blue_arrow.png in Resources */,
 				537F39851B11FCC400EE8230 /* icon_setting_selected@2x.png in Resources */,
+				53F213801B3E916C00CA60B7 /* icon_location@2x.png in Resources */,
 				53918FE41B116B3C00381368 /* Default-568h@2x~iphone.png in Resources */,
 				53A48E911B1A023400AC46D3 /* ssn_pull_refresh_white_arrow.png in Resources */,
 				537F39891B11FCC400EE8230 /* icon_friends_selected@2x.png in Resources */,
@@ -1843,6 +1860,7 @@
 				536448691B3837FE001F7CF2 /* CNAddress.m in Sources */,
 				53A48E5D1B1A023400AC46D3 /* SSNHosting.m in Sources */,
 				53A48E691B1A023400AC46D3 /* UIAlertView+SSNCategory.m in Sources */,
+				53F2137E1B3E857600CA60B7 /* CNLocalPointCell.m in Sources */,
 				53A48E381B1A023400AC46D3 /* NSString+SSN.m in Sources */,
 				5343A4081B1A2955005BCDC4 /* CNOpinionViewController.m in Sources */,
 				53918F711B116B2F00381368 /* CNMainViewController.m in Sources */,

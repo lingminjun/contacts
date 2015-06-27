@@ -8,6 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, CNLocationPointType) {
+    CNLocationNormalPoint,
+    CNLocationBusPoint,
+    CNLocationRoutePoint,
+    CNLocationMetroPoint,
+    CNLocationMetroLinePoint,
+};
+
+
 @interface CNLocationPoint : NSObject<NSCopying>
 
 ///POI名称
@@ -23,7 +32,7 @@
 ///POI邮编
 @property (nonatomic, copy) NSString* postcode;
 ///POI类型，0:普通点 1:公交站 2:公交线路 3:地铁站 4:地铁线路
-@property (nonatomic) int epoitype;
+@property (nonatomic) CNLocationPointType epoitype;
 ///POI坐标
 @property (nonatomic) CLLocationCoordinate2D pt;
 

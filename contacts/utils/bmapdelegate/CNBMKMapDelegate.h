@@ -67,6 +67,18 @@ FOUNDATION_EXTERN NSString *const BMKMapErrorDomain;
  */
 - (void)pointsSearchWithCity:(NSString *)city searchText:(NSString *)searchText pageIndex:(NSUInteger)index pageSize:(NSUInteger)size completion:(void (^)(NSArray *list,NSError *error))completion;
 
+/**
+ *  搜索服务
+ *
+ *  @param city       城市，必填
+ *  @param pointType  结点类型 （POI类型，0:普通点 1:公交站 2:公交线路 3:地铁站 4:地铁线路）
+ *  @param searchText 搜索内容，不能为空
+ *  @param index      页码
+ *  @param size       页大小
+ *  @param completion 回调 list @see CNLocationPoint
+ */
+- (void)pointsSearchWithCity:(NSString *)city pointType:(CNLocationPointType)pointType searchText:(NSString *)searchText pageIndex:(NSUInteger)index pageSize:(NSUInteger)size completion:(void (^)(NSArray *list,NSError *error))completion;
+
 #pragma mark - 距离计算
 /**
  *  返回两个坐标之间的距离
