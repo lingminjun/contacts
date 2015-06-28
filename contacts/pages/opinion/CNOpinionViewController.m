@@ -10,6 +10,8 @@
 
 @interface CNOpinionViewController ()
 
+@property (nonatomic, strong) UITextView *input;
+
 @end
 
 @implementation CNOpinionViewController
@@ -32,14 +34,14 @@
         input_height = 100;
     }
     
-    UITextView *input = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.ssn_width - cn_left_edge_width - cn_right_edge_width , input_height)];
-    input.layer.cornerRadius = 4;
+    _input = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, self.view.ssn_width - cn_left_edge_width - cn_right_edge_width , input_height)];
+    _input.layer.cornerRadius = 4;
     
     SSNUIFlowLayout *layout = [self.view ssn_flowLayoutWithRowCount:1 spacing:cn_ver_space_height];
     layout.orientation = SSNUILayoutOrientationLandscapeLeft;
     layout.contentInset = UIEdgeInsetsMake(cn_top_edge_height, 0, cn_bottom_edge_height, 0);
     layout.contentMode = SSNUIContentModeTop;
-    ssn_layout_add(layout, input, 0, input);
+    ssn_layout_add(layout, _input, 0, _input);
     
     UIButton *btn = [UIButton cn_normal_button];
     btn.ssn_normalTitle = cn_localized(@"setting.commit.button");
@@ -51,7 +53,7 @@
     layout2.contentMode = SSNUIContentModeBottom;
     ssn_layout_add(layout2, btn, 0, button);
     
-    [input becomeFirstResponder];
+    [_input becomeFirstResponder];
     
 }
 
@@ -61,6 +63,9 @@
 }
 
 - (void)submitAction:(id)sender {
+    NSString *url = [NSString stringWithFormat:@"mailto:li@example.com?subject=友朋-意见反馈&body=%@", _input.text];
+    url = [url stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
 }
 
 /*

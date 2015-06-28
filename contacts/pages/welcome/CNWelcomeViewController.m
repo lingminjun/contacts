@@ -59,8 +59,10 @@
 }
 
 - (UIButton *)skipButton {
-    UIButton *btn = [UIButton ssn_buttonWithSize:CGSizeMake(60, 40) font:[UIFont systemFontOfSize:14] color:[UIColor blackColor] selected:nil disabled:nil backgroud:nil selected:nil disabled:nil];
-    btn.ssn_center_y = 100;
+    UIButton *btn = [UIButton ssn_buttonWithSize:CGSizeMake(120, 40) font:[UIFont systemFontOfSize:14] color:[UIColor blackColor] selected:nil disabled:nil backgroud:nil selected:nil disabled:nil];
+    UIImage *img = [[UIImage ssn_imageWithColor:cn_button_normal_color border:0 color:nil cornerRadius:2] ssn_centerStretchImage];
+    btn.ssn_normalBackgroundImage = img;
+    btn.ssn_center_y = self.view.ssn_height - 70;
     btn.ssn_center_x = ssn_center([UIScreen mainScreen].bounds).x;
     [btn ssn_addTarget:self touchAction:@selector(skipAction:)];
     btn.ssn_normalTitleColor = [UIColor whiteColor];
