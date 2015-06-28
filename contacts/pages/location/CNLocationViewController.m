@@ -203,6 +203,7 @@
     
     if ([_url length]) {
         NSMutableDictionary*query = [NSMutableDictionary dictionaryWithCapacity:4];
+        [query setValue:_addrtitle forKey:@"name"];
         [query setValue:_addrdes forKey:@"addrdes"];
         [query setValue:_addr forKey:@"addr"];
         [query setValue:@(_coor.longitude) forKey:@"longitude"];
@@ -268,7 +269,7 @@
     //显示新的气泡
     [self.searchPoints enumerateObjectsUsingBlock:^(CNLocationPoint *point, NSUInteger idx, BOOL *stop) {
         NSString *subtitle = [NSString stringWithFormat:@"%@%@",point.name,point.address];
-        BMKPointAnnotation *annotation = [self loadPointAnnotationWithTitle:self.addrtitle subTitle:subtitle coor:point.pt];
+        BMKPointAnnotation *annotation = [self loadPointAnnotationWithTitle:point.name subTitle:subtitle coor:point.pt];
         [self.pointAnnotations addObject:annotation];
         
         if ((apoint == nil && idx == 0) || apoint == point) {
@@ -281,6 +282,7 @@
         }
     }];
     
+    self.addrtitle = apoint.name;
     [self->_mapView addAnnotations:self.pointAnnotations];
 }
 

@@ -34,6 +34,7 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
 @property (nonatomic,strong) CNSelectionCellModel *addressTypeCell;
 @property (nonatomic,strong) CNLabelCellModel *provinceCell;
 @property (nonatomic,strong) CNLocationInputCellModel *streetAddrCell;
+@property (nonatomic,strong) CNLabelInputCellModel *detailStreedAddrCell;//详细地址信息
 @property (nonatomic,strong) CNLabelInputCellModel *addressDetailCell;
 
 //本地通讯录选择
@@ -282,19 +283,19 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
         return ;
     }
     
-    //check mobile
-    if ([[_mobileCell.input ssn_trimAllWhitespace] length] == 0) {
-        [self ssn_showToast:cn_localized(@"user.mobile.input.tip")];
-        return ;
-    }
-    
-    //check addr
-    if ([[_provinceCell.subTitle ssn_trimWhitespace] length] == 0
-        || [[_streetAddrCell.input ssn_trimWhitespace] length] == 0
-        || [[_addressDetailCell.input ssn_trimWhitespace] length] == 0) {
-        [self ssn_showToast:cn_localized(@"user.address.input.tip")];
-        return ;
-    }
+//    //check mobile
+//    if ([[_mobileCell.input ssn_trimAllWhitespace] length] == 0) {
+//        [self ssn_showToast:cn_localized(@"user.mobile.input.tip")];
+//        return ;
+//    }
+//    
+//    //check addr
+//    if ([[_provinceCell.subTitle ssn_trimWhitespace] length] == 0
+//        || [[_streetAddrCell.input ssn_trimWhitespace] length] == 0
+//        || [[_addressDetailCell.input ssn_trimWhitespace] length] == 0) {
+//        [self ssn_showToast:cn_localized(@"user.address.input.tip")];
+//        return ;
+//    }
     
     //取得界面输入数据
     _person.name = [_nameCell.input ssn_trimWhitespace];
@@ -499,6 +500,10 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
         }
     }
     [dic setValue:addrdes forKey:@"addrdes"];
+    
+    if (_person.addrPOIName) {
+        [dic setObject:_person.addrPOIName forKey:@"addrtitle"];
+    }
     
     
     NSString *url = [[self ssn_currentURLPath] ssn_URLByAppendQuery:@{@"uid":_uid}].absoluteString;
@@ -719,12 +724,22 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
         {
             CNLocationInputCellModel *streetAddrCell = [[CNLocationInputCellModel alloc] init];
             streetAddrCell.title = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.biotope.label"):cn_localized(@"user.building.label"));
-            streetAddrCell.input = _person.street;
+            streetAddrCell.input = _person.addrPOIName;
             streetAddrCell.inputPlaceholder = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.biotope.placeholder"):cn_localized(@"user.building.placeholder"));
             streetAddrCell.subTitle = cn_localized(@"user.map.label");
             streetAddrCell.disabledSelect = YES;
             [models addObject:streetAddrCell];
             _streetAddrCell = streetAddrCell;
+        }
+        
+        {
+            CNLabelInputCellModel *detailStreedAddrCell = [[CNLabelInputCellModel alloc] init];
+            detailStreedAddrCell.title = cn_localized(@"user.detail.addr.label");
+            detailStreedAddrCell.input = _person.street;
+            detailStreedAddrCell.inputPlaceholder = cn_localized(@"user.detail.addr.placeholder");
+            detailStreedAddrCell.subTitle = nil;
+            [models addObject:detailStreedAddrCell];
+            _detailStreedAddrCell = detailStreedAddrCell;
         }
         
         {
@@ -771,15 +786,20 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
 }
 
 - (void)ssn_handleNoticeURL:(NSURL *)url query:(NSDictionary *)query {
-    
     NSString *addrdes = [query objectForKey:@"addrdes"];
+    NSString *addrName = [query objectForKey:@"name"];
     CNAddress *addr = [query objectForKey:@"addr"];
     
+    if ([addrName length]) {
+        _streetAddrCell.input = addrName;
+    }
+    
     if ([addrdes length]) {
-        _streetAddrCell.input = addrdes;
+        _detailStreedAddrCell.input = addrdes;
     }
     
     if (addr) {
+        _person.addrPOIName = [query objectForKey:@"name"];
         _person.province = addr.province;
         _person.city = addr.city;
         _person.region = addr.district;
