@@ -240,12 +240,16 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [_mapView viewWillAppear];
+    _mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
     [[CNNearbyServer server] start];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    [_mapView viewWillDisappear];
+    _mapView.delegate = nil; // 此处记得不用的时候需要置nil，否则影响内存的释放
     [[CNNearbyServer server] stop];
 }
 
@@ -435,9 +439,17 @@
     // 缓存没有命中，自己构造一个，一般首次添加annotation代码会运行到此处
     if (annotationView == nil) {
         annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
-        ((BMKPinAnnotationView*)annotationView).pinColor = BMKPinAnnotationColorRed;
         // 设置重天上掉下的效果(annotation)
-        ((BMKPinAnnotationView*)annotationView).animatesDrop = YES;
+        ((BMKPinAnnotationView*)annotationView).animatesDrop = NO;
+    }
+    
+    
+    if (annotation == _pointAnnotation) {
+        ((BMKPinAnnotationView*)annotationView).pinColor = BMKPinAnnotationColorRed;
+    }
+    else {
+        // 设置颜色
+        ((BMKPinAnnotationView*)annotationView).pinColor = BMKPinAnnotationColorPurple;
     }
     
     // 设置位置
@@ -449,9 +461,40 @@
     
     return annotationView;
 }
+
+/**
+ *点中底图标注后会回调此接口
+ *@param mapview 地图View
+ *@param mapPoi 标注点信息
+ */
+- (void)mapView:(BMKMapView *)mapView onClickedMapPoi:(BMKMapPoi*)mapPoi {
+    
+}
+
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view
 {
-    //展示
+    if (view.annotation == _pointAnnotation) {
+        return ;
+    }
+    
+    _coor = view.annotation.coordinate;
+    
+    BMKAnnotationView *old = [mapView viewForAnnotation:_pointAnnotation];
+    [(BMKPinAnnotationView *)old setPinColor:BMKPinAnnotationColorPurple];
+    
+    if ([view.annotation isKindOfClass:[BMKPointAnnotation class]]) {
+        _pointAnnotation = (BMKPointAnnotation *)(view.annotation);
+        NSInteger index = [self.annotations indexOfObject:_pointAnnotation];
+        if (index < [self.nearbyPersons count]) {
+            _selectdPerson = [self.nearbyPersons objectAtIndex:index];
+        }
+    }
+    else {
+//        _pointAnnotation = [self loadPointAnnotationWithTitle:self.addrtitle subTitle:view.annotation.subtitle coor:_coor];
+    }
+    
+    [(BMKPinAnnotationView *)view setPinColor:BMKPinAnnotationColorRed];
+    [self showAnnotationsWithZoom:0];
 }
 - (void)mapView:(BMKMapView *)mapView didAddAnnotationViews:(NSArray *)views
 {

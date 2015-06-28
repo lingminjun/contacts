@@ -16,8 +16,6 @@
     
     BMKPointAnnotation* _pointAnnotation;
     CLLocationCoordinate2D _coor;//经纬度
-    
-    
 }
 
 @property (nonatomic,strong) BMKPointAnnotation *pointAnnotation;
@@ -418,6 +416,8 @@
         
         //开始绘制
         CNLocationPoint *sel = [query objectForKey:@"selectedPoint"];
+        
+        _mapView.delegate = self;
         [self showSearchPointsSelected:sel];
     }
 }
@@ -436,6 +436,8 @@
         
         //开始绘制
         CNLocationPoint *sel = [query objectForKey:@"selectedPoint"];
+        
+        _mapView.delegate = self;
         [self showSearchPointsSelected:sel];
     }
     else {
