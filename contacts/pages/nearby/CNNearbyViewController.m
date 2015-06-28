@@ -259,8 +259,8 @@
         return ;
     }
     
-    NSString *mobile = [self.selectdPerson.mobile ssn_mobile344Format];
-    NSString *msg = [NSString stringWithFormat:@"确定呼叫%@:%@吗？",self.selectdPerson.name,mobile];
+    NSString *mobile = self.selectdPerson.mobile;
+    NSString *msg = [NSString stringWithFormat:@"确定呼叫%@:%@吗？",self.selectdPerson.name,[mobile ssn_mobile344FormatSeparatedByCharacter:'-']];
     
     [UIAlertView ssn_showConfirmationDialogWithTitle:@""
                                              message:msg
