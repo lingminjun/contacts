@@ -90,6 +90,7 @@
 "location.call.label"           = "电话";
 "location.gps.label"            = "导航";
 "location.gps.error"            = "定位失败";
+"location.me.location"          = "我的位置";
 
 /**********************************************
  设置
