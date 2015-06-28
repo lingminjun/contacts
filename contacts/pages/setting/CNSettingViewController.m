@@ -27,6 +27,25 @@
     self.ssn_tableViewConfigurator.tableView = self.tableView;
     self.ssn_tableViewConfigurator.isWithoutAnimation = YES;
     [self.ssn_tableViewConfigurator.listFetchController loadData];
+    
+    //header
+    
+    UIImageView * header = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.ssn_width, 175)];
+    header.image = cn_image(@"img_setting_header.jpg");
+    
+    UILabel *infoLabel = [UILabel ssn_labelWithWidth:(self.view.ssn_width - cn_left_edge_width - cn_right_edge_width) font:cn_normal_font color:cn_text_normal_color backgroud:cn_table_cell_normal_color alignment:NSTextAlignmentLeft multiLine:YES];
+    infoLabel.backgroundColor = [UIColor clearColor];
+    infoLabel.text = cn_localized(@"setting.about.content");
+    [infoLabel ssn_sizeToFit];
+    
+    SSNUIFlowLayout *layout = [header ssn_flowLayoutWithRowCount:1 spacing:cn_ver_space_height];
+    layout.orientation = SSNUILayoutOrientationLandscapeLeft;
+    layout.contentInset = UIEdgeInsetsMake(cn_top_edge_height, 0, cn_bottom_edge_height, 0);
+    layout.contentMode = SSNUIContentModeBottom;
+    ssn_layout_add(layout, infoLabel, 0, infoLabel);
+    
+    self.tableView.tableHeaderView = header;
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,18 +79,18 @@
     cell.title = cn_localized(@"setting.opinion.label");
     [models addObject:cell];
     
-    cell = [[CNIconTitleCellModel alloc] init];
-    cell.iconName = @"icon_info";
-    cell.title = cn_localized(@"setting.about.label");
-    cell.disabledSelect = YES;
-    cell.hiddenDisclosureIndicator = YES;
-    [models addObject:cell];
-    
-    
-    CNStatementCellModel *state = [[CNStatementCellModel alloc] init];
-    state.statement = cn_localized(@"setting.about.content");
-    state.leftEdgeWidth = cn_left_edge_width + 26 + 2*cn_hor_space_width;
-    [models addObject:state];
+//    cell = [[CNIconTitleCellModel alloc] init];
+//    cell.iconName = @"icon_info";
+//    cell.title = cn_localized(@"setting.about.label");
+//    cell.disabledSelect = YES;
+//    cell.hiddenDisclosureIndicator = YES;
+//    [models addObject:cell];
+//    
+//    
+//    CNStatementCellModel *state = [[CNStatementCellModel alloc] init];
+//    state.statement = cn_localized(@"setting.about.content");
+//    state.leftEdgeWidth = cn_left_edge_width + 26 + 2*cn_hor_space_width;
+//    [models addObject:state];
     
     completion(models,NO,nil,YES);
 }

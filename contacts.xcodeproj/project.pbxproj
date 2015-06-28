@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48165CAC1B3FF450002FF911 /* img_setting_header@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 48165CAB1B3FF450002FF911 /* img_setting_header@2x.jpg */; };
 		532300041B11634F00FC8658 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 532300031B11634F00FC8658 /* main.m */; };
 		532300071B11634F00FC8658 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 532300061B11634F00FC8658 /* AppDelegate.m */; };
 		5323000A1B11634F00FC8658 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 532300091B11634F00FC8658 /* ViewController.m */; };
@@ -224,6 +225,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		48165CAB1B3FF450002FF911 /* img_setting_header@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "img_setting_header@2x.jpg"; sourceTree = "<group>"; };
 		532300021B11634F00FC8658 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		532300031B11634F00FC8658 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		532300051B11634F00FC8658 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -674,6 +676,7 @@
 		5343A3F71B1A1A3B005BCDC4 /* setting */ = {
 			isa = PBXGroup;
 			children = (
+				48165CAB1B3FF450002FF911 /* img_setting_header@2x.jpg */,
 				5343A3F81B1A1A3B005BCDC4 /* icon_info@2x.png */,
 				5343A3F91B1A1A3B005BCDC4 /* icon_opinion@2x.png */,
 				5343A3FA1B1A1A3B005BCDC4 /* icon_question@2x.png */,
@@ -1735,6 +1738,7 @@
 				537F39871B11FCC400EE8230 /* icon_friends_normal@2x.png in Resources */,
 				537F39861B11FCC400EE8230 /* icon_setting_selected@3x.png in Resources */,
 				53918FE71B116B3C00381368 /* Default@2x~iphone.png in Resources */,
+				48165CAC1B3FF450002FF911 /* img_setting_header@2x.jpg in Resources */,
 				53A48E681B1A023400AC46D3 /* nav_back@2x.png in Resources */,
 				53918FE51B116B3C00381368 /* Default-667h@2x~iphone.png in Resources */,
 				5364486E1B3845E1001F7CF2 /* location_label_icon@2x.png in Resources */,
