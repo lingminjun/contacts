@@ -60,7 +60,7 @@
                 [ly setColumnInfo:ssn_layout_table_column_v2(local_width) atColumn:1];
                 
                 UILabel *label = [UILabel ssn_labelWithWidth:topView.ssn_width - local_width
-                                                        font:cn_normal_font
+                                                        font:cn_title_font
                                                        color:cn_text_normal_color
                                                    backgroud:[UIColor clearColor]
                                                    alignment:NSTextAlignmentLeft
@@ -78,8 +78,8 @@
             ssn_layout_add_v2(layout, topView, 0, ssn_layout_table_cell_v2(SSNUIContentModeCenter), topView);
             
             UILabel *label = [UILabel ssn_labelWithWidth:backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width)
-                                                    font:cn_title_font
-                                                   color:cn_text_normal_color
+                                                    font:cn_normal_font
+                                                   color:cn_text_assist_color
                                                backgroud:[UIColor clearColor]
                                                alignment:NSTextAlignmentLeft
                                                multiLine:NO];
@@ -242,6 +242,24 @@
 
 #pragma mark - action
 - (void)callAction:(id)sender {
+    if (self.selectdPerson == nil) {
+        return ;
+    }
+    
+    NSString *mobile = self.selectdPerson.mobile;
+    NSString *msg = [NSString stringWithFormat:@"确定呼叫%@ %@吗？",self.selectdPerson.name,mobile];
+    
+    [UIAlertView ssn_showConfirmationDialogWithTitle:@""
+                                             message:msg
+                                              cancel:cn_localized(@"common.cancel.button")
+                                             confirm:cn_localized(@"common.call.button")
+                                             handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+        if ([title isEqualToString:cn_localized(@"common.call.button")]) {
+            NSString *url = [NSString stringWithFormat:@"tel:%@",mobile];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+        }
+    }];
 }
 
 - (void)gpsAction:(id)sender {
@@ -282,7 +300,7 @@
         if (addr) {
             self.pointAnnotation.subtitle = addrDes;
             double distance = [[CNBMKMapDelegate delegate] kilometersFromCoordinate:_here toCoordinate:_coor];
-            NSString *distanceStr = [NSString stringWithFormat:@"%.2fkm",distance];
+            NSString *distanceStr = [NSString stringWithFormat:@"距离:%.2fkm",distance];
             [self showBottomPanelWithTitle:self.selectdPerson.name distance:distanceStr detail:addrDes];
         }
     }];

@@ -22,6 +22,8 @@
 "common.next.button"            = "下一步";
 "common.takephoto.button"       = "拍照";
 
+"common.call.button"            = "呼叫";
+
 
 "common.loading.message"        = "加载中...";
 "common.updating.message"       = "更新中...";
