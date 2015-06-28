@@ -65,6 +65,7 @@
         return ;
     }
     
+    [self restart];
 }
 
 - (void)restart {
@@ -154,35 +155,35 @@
     [[CNBMKMapDelegate delegate] locationWithCopletion:^(CLLocationCoordinate2D coor, NSError *error) {
         if (error) {
 //            [SSNToast showToastMessage:cn_localized(@"location.locate.error")];
-            if (_flush) {_flush(nil,error);}
+            if (_flush) {_flush(nil,coor,error);}
             return ;
         }
         
-        //2、计算范围
-        BMKMapPoint point = BMKMapPointForCoordinate(coor);
-        point.x -= _kilometers*1000;
-        double min_latitude = BMKCoordinateForMapPoint(point).latitude;
-        point.x += 2*(_kilometers*1000);
-        double max_latitude = BMKCoordinateForMapPoint(point).latitude;
-        point.x -= (_kilometers*1000);
-        
-        point.y -= _kilometers*1000;
-        double min_longitude = BMKCoordinateForMapPoint(point).longitude;
-        point.y += 2*(_kilometers*1000);
-        double max_longitude = BMKCoordinateForMapPoint(point).longitude;
+//        //2、计算范围
+//        BMKMapPoint point = BMKMapPointForCoordinate(coor);
+//        point.x -= _kilometers*1000;
+//        double min_latitude = BMKCoordinateForMapPoint(point).latitude;
+//        point.x += 2*(_kilometers*1000);
+//        double max_latitude = BMKCoordinateForMapPoint(point).latitude;
+//        point.x -= (_kilometers*1000);
+//        
+//        point.y -= _kilometers*1000;
+//        double min_longitude = BMKCoordinateForMapPoint(point).longitude;
+//        point.y += 2*(_kilometers*1000);
+//        double max_longitude = BMKCoordinateForMapPoint(point).longitude;
         
         NSString *sql = nil;
         NSString *text = _searchText;
         SSNDBTable *tb = [SSNDBTableManager personTable];
         if ([text ssn_non_empty]) {
-            sql = [NSString stringWithFormat:@"select * from %@ where uid <> '%@' and longitude >= %f and longitude <= %f and latitude >= %f and latitude <= %f and (name like '%%%@%%' or pinyin like '%%%@%%')",tb.name,[CNUserCenter center].currentUID,min_longitude,max_longitude,min_latitude,max_latitude,text,text];
+            sql = [NSString stringWithFormat:@"select * from %@ where uid <> '%@' and (name like '%%%@%%' or pinyin like '%%%@%%')",tb.name,[CNUserCenter center].currentUID,text,text];
         }
         else {
-            sql = [NSString stringWithFormat:@"select * from %@ where uid <> '%@' and longitude >= %f and longitude <= %f and latitude >= %f and latitude <= %f",tb.name,[CNUserCenter center].currentUID,min_longitude,max_longitude,min_latitude,max_latitude];
+            sql = [NSString stringWithFormat:@"select * from %@ where uid <> '%@'",tb.name,[CNUserCenter center].currentUID];
         }
         
         NSArray *persons = [[CNUserCenter center].currentDatabase objects:[CNPerson class] sql:sql arguments:nil];
-        if (_flush) {_flush(persons,nil);}
+        if (_flush) {_flush(persons,coor,nil);}
     }];
     
 }

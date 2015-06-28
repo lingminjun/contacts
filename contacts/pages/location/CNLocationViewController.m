@@ -470,8 +470,8 @@
 - (BMKPointAnnotation *)loadPointAnnotationWithTitle:(NSString *)title subTitle:(NSString *)subTitle coor:(CLLocationCoordinate2D)coor {
     
     BMKPointAnnotation *point = [[BMKPointAnnotation alloc]init];
-    point.title = self.addrtitle;
-    point.subtitle = self.addrdes;
+    point.title = title;
+    point.subtitle = subTitle;
     point.coordinate = coor;
     
     return point;

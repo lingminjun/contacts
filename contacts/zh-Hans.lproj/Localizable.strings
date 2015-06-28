@@ -85,6 +85,9 @@
 "location.selected.button"      = "标注位置";
 "location.select.error"         = "请标注详细位置";
 "location.locate.error"         = "定位失败！";
+"location.call.label"           = "电话";
+"location.gps.label"            = "导航";
+"location.gps.error"            = "定位失败";
 
 /**********************************************
  设置

@@ -55,6 +55,6 @@
 /**
  *  结果刷新
  */
-@property (nonatomic,copy) void(^flush)(NSArray *persons,NSError *error);
+@property (nonatomic,copy) void(^flush)(NSArray *persons,CLLocationCoordinate2D here,NSError *error);
 
 @end

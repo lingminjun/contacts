@@ -33,4 +33,12 @@
  */
 + (instancetype)cn_location_button;
 
+
+/**
+ *  done button，size:100x30
+ *
+ *  @return size:100x30
+ */
++ (instancetype)cn_transparent_button;
+
 @end

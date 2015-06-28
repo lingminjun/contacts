@@ -73,4 +73,24 @@
     return btn;
 }
 
+/**
+ *  done button，size:100x30
+ *
+ *  @return size:100x30
+ */
++ (instancetype)cn_transparent_button {
+    CGSize size = CGSizeMake(100, 30);
+    
+    UIButton *btn = [UIButton ssn_buttonWithSize:size
+                                            font:cn_title_font
+                                           color:cn_text_normal_color
+                                        selected:nil
+                                        disabled:nil
+                                       backgroud:nil
+                                        selected:nil
+                                        disabled:nil];
+    btn.titleEdgeInsets = UIEdgeInsetsMake(0, cn_hor_space_width, 0, 0);
+    return btn;
+}
+
 @end
