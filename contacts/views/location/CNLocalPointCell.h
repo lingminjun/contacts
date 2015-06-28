@@ -11,6 +11,7 @@
 
 @interface CNLocalPointCell : CNTableViewCell
 
+@property (nonatomic,strong,readonly) UILabel *name;
 @property (nonatomic,strong,readonly) UILabel *address;
 @property (nonatomic,strong,readonly) UIImageView *icon;
 

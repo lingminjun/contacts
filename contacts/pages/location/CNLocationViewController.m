@@ -215,6 +215,21 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)gotoList:(id)sender {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    
+    NSString *city = _addr.city;
+    if (![city ssn_non_empty]) {
+        city = @"上海";
+    }
+    
+    [dic setValue:[NSArray arrayWithArray:self.searchPoints] forKey:@"results"];
+    [dic setValue:self.searchBar.text forKey:@"searchText"];
+    [dic setValue:city forKey:@"city"];
+    
+    [self.ssn_router open:cn_combine_path(@"nav/locationlist") query:dic];
+}
+
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [_mapView viewWillAppear];
@@ -264,7 +279,7 @@
             }
             self.coor = point.pt;
             self.pointAnnotation = annotation;
-            [self showAnnotationsWithZoom:0];
+            [self showAnnotationsWithZoom:0.01f];
         }
     }];
     
@@ -282,7 +297,7 @@
 
 
 #pragma mark - UISearchBarDelegate
-- (void)delaySearch {
+- (void)searchWithShow:(BOOL)show {
     NSString *city = _addr.city;
     if (![city ssn_non_empty]) {
         city = @"上海";
@@ -290,21 +305,30 @@
     
     NSString *searchText = _searchBar.text;
     
+    if (!show) {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+    
     if ([searchText ssn_non_empty]) {
         __weak typeof(self) w_self = self;
-        [[CNBMKMapDelegate delegate] pointsSearchWithCity:city pointType:CNLocationNormalPoint searchText:_searchBar.text pageIndex:0 pageSize:10 completion:^(NSArray *list, NSError *error) {
+        [[CNBMKMapDelegate delegate] pointsSearchWithCity:city pointType:CNLocationNormalPoint searchText:_searchBar.text pageIndex:0 pageSize:30 completion:^(NSArray *list, NSError *error) {
             __strong typeof(w_self) self = w_self;
             
             if ([list count]) {
-                
-                [self.view addSubview:self.searchTable];
-                
                 [self.searchPoints setArray:list];
-                
-                [self.searchConfigurator.listFetchController loadData];
             }
             else {
                 [self.searchPoints removeAllObjects];
+            }
+            
+            if (show) {
+                [self showSearchPointsSelected:nil];
+            }
+            else {
+                if ([list count]) {
+                    [self.view addSubview:self.searchTable];
+                }
+                
                 [self.searchConfigurator.listFetchController loadData];
             }
         }];
@@ -312,6 +336,10 @@
     else {
         self.searchTable.hidden = YES;
     }
+}
+
+- (void)delaySearch {
+    [self searchWithShow:NO];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
@@ -328,13 +356,13 @@
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
     
     searchBar.showsCancelButton = YES;
-    for (UIView *v in searchBar.subviews) {
-        for (UIView *sbv in v.subviews) {
-            if ([sbv isKindOfClass:[UIButton class]]) {
-                [(UIButton *)sbv setSsn_normalTitleColor:cn_button_title_color];
-            }
-        }
-    }
+//    for (UIView *v in searchBar.subviews) {
+//        for (UIView *sbv in v.subviews) {
+//            if ([sbv isKindOfClass:[UIButton class]]) {
+//                [(UIButton *)sbv setSsn_normalTitleColor:cn_button_title_color];
+//            }
+//        }
+//    }
     
     return YES;
 }
@@ -347,11 +375,18 @@
     searchBar.text = nil;
     [self removeSearchPoints];
     _searchTable.hidden = YES;
+    
+    self.navigationItem.rightBarButtonItem = nil;
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(delaySearch) object:nil];
     [searchBar resignFirstResponder];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:cn_image(@"location_list") style:UIBarButtonItemStylePlain target:self action:@selector(gotoList:)];
+    self.searchTable.hidden = YES;
+    
+    [self searchWithShow:YES];
 }
 
 //
@@ -370,13 +405,47 @@
     return YES;
 }
 
+- (void)ssn_handleNoticeURL:(NSURL *)url query:(NSDictionary *)query {
+    BOOL listCallBack = [[query objectForKey:@"listCallback"] boolValue];
+    if (listCallBack) {
+        NSArray *results = [query objectForKey:@"results"];
+        
+        if (results) {
+            [self.searchPoints setArray:results];
+        }
+        
+        _searchTable.hidden = YES;
+        
+        //开始绘制
+        CNLocationPoint *sel = [query objectForKey:@"selectedPoint"];
+        [self showSearchPointsSelected:sel];
+    }
+}
+
 - (void)ssn_handleOpenURL:(NSURL *)url query:(NSDictionary *)query {
-    self.addrtitle = [query objectForKey:@"addrtitle"];
-    self.addrdes = [query objectForKey:@"addrdes"];
-    self.addr = [query objectForKey:@"addr"];
-    self.longitude = [[query objectForKey:@"longitude"] floatValue];//经度
-    self.latitude = [[query objectForKey:@"latitude"] floatValue];//纬度
-    self.url = [[query objectForKey:@"url"] ssn_urlDecode];
+    
+    BOOL listCallBack = [[query objectForKey:@"listCallback"] boolValue];
+    if (listCallBack) {
+        NSArray *results = [query objectForKey:@"results"];
+        
+        if (results) {
+            [self.searchPoints setArray:results];
+        }
+        
+        _searchTable.hidden = YES;
+        
+        //开始绘制
+        CNLocationPoint *sel = [query objectForKey:@"selectedPoint"];
+        [self showSearchPointsSelected:sel];
+    }
+    else {
+        self.addrtitle = [query objectForKey:@"addrtitle"];
+        self.addrdes = [query objectForKey:@"addrdes"];
+        self.addr = [query objectForKey:@"addr"];
+        self.longitude = [[query objectForKey:@"longitude"] floatValue];//经度
+        self.latitude = [[query objectForKey:@"latitude"] floatValue];//纬度
+        self.url = [[query objectForKey:@"url"] ssn_urlDecode];
+    }
 }
 
 #pragma mark - BMKMapViewDelegate
@@ -444,19 +513,21 @@
     BMKPinAnnotationView *annotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:AnnotationViewID];
     if (annotationView == nil) {
         annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewID];
-        if (annotation == _pointAnnotation) {
-            annotationView.pinColor = BMKPinAnnotationColorRed;
-        }
-        else {
-            // 设置颜色
-            annotationView.pinColor = BMKPinAnnotationColorPurple;
-        }
         // 从天上掉下效果
 //        annotationView.animatesDrop = YES;
         // 设置可拖拽
         annotationView.draggable = NO;
         annotationView.canShowCallout = NO;
     }
+    
+    if (annotation == _pointAnnotation) {
+        annotationView.pinColor = BMKPinAnnotationColorRed;
+    }
+    else {
+        // 设置颜色
+        annotationView.pinColor = BMKPinAnnotationColorPurple;
+    }
+    
     return annotationView;
     
 }
@@ -481,7 +552,7 @@
     [(BMKPinAnnotationView *)old setPinColor:BMKPinAnnotationColorPurple];
     
     if ([view.annotation isKindOfClass:[BMKPointAnnotation class]]) {
-        _pointAnnotation = view.annotation;
+        _pointAnnotation = (BMKPointAnnotation *)(view.annotation);
     }
     else {
         _pointAnnotation = [self loadPointAnnotationWithTitle:self.addrtitle subTitle:view.annotation.subtitle coor:_coor];
@@ -551,8 +622,9 @@
     
     //开始绘制
     [self showSearchPointsSelected:model.point];
-    
     [_searchBar resignFirstResponder];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:cn_image(@"location_list") style:UIBarButtonItemStylePlain target:self action:@selector(gotoList:)];
 }
 
 @end

@@ -211,6 +211,8 @@
 		53F2137E1B3E857600CA60B7 /* CNLocalPointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F2137D1B3E857600CA60B7 /* CNLocalPointCell.m */; };
 		53F213801B3E916C00CA60B7 /* icon_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53F2137F1B3E916C00CA60B7 /* icon_location@2x.png */; };
 		53F213821B3EE25A00CA60B7 /* no_friends_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53F213811B3EE25A00CA60B7 /* no_friends_icon@2x.png */; };
+		53F213861B3EF21500CA60B7 /* CNNearbyServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F213851B3EF21500CA60B7 /* CNNearbyServer.m */; };
+		53F213881B3FE23F00CA60B7 /* location_list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53F213871B3FE23F00CA60B7 /* location_list@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -571,6 +573,9 @@
 		53F2137D1B3E857600CA60B7 /* CNLocalPointCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNLocalPointCell.m; sourceTree = "<group>"; };
 		53F2137F1B3E916C00CA60B7 /* icon_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_location@2x.png"; sourceTree = "<group>"; };
 		53F213811B3EE25A00CA60B7 /* no_friends_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "no_friends_icon@2x.png"; sourceTree = "<group>"; };
+		53F213841B3EF21500CA60B7 /* CNNearbyServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNNearbyServer.h; sourceTree = "<group>"; };
+		53F213851B3EF21500CA60B7 /* CNNearbyServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNNearbyServer.m; sourceTree = "<group>"; };
+		53F213871B3FE23F00CA60B7 /* location_list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location_list@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -806,6 +811,7 @@
 		5364482D1B2C7230001F7CF2 /* contacts */ = {
 			isa = PBXGroup;
 			children = (
+				53F213871B3FE23F00CA60B7 /* location_list@2x.png */,
 				53F213811B3EE25A00CA60B7 /* no_friends_icon@2x.png */,
 				5364486D1B3845E1001F7CF2 /* location_label_icon@2x.png */,
 				536448401B2DDAB5001F7CF2 /* user_header_bg@2x.png */,
@@ -1073,6 +1079,7 @@
 		53A48D081B18BCFF00AC46D3 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				53F213831B3EF1F500CA60B7 /* nearbyserver */,
 				5343A4101B1AAE18005BCDC4 /* bmapdelegate */,
 				5343A40C1B1AADDE005BCDC4 /* dbtablemanager */,
 			);
@@ -1610,6 +1617,15 @@
 			path = location;
 			sourceTree = "<group>";
 		};
+		53F213831B3EF1F500CA60B7 /* nearbyserver */ = {
+			isa = PBXGroup;
+			children = (
+				53F213841B3EF21500CA60B7 /* CNNearbyServer.h */,
+				53F213851B3EF21500CA60B7 /* CNNearbyServer.m */,
+			);
+			path = nearbyserver;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1700,6 +1716,7 @@
 				5343A42A1B1AD023005BCDC4 /* mapapi.bundle in Resources */,
 				5343A3FC1B1A1A3B005BCDC4 /* icon_opinion@2x.png in Resources */,
 				53A48D071B18B98600AC46D3 /* icon_radio_selected@2x.png in Resources */,
+				53F213881B3FE23F00CA60B7 /* location_list@2x.png in Resources */,
 				53A48E8A1B1A023400AC46D3 /* ssn_pull_refresh_black_arrow@3x.png in Resources */,
 				537F397E1B11FCC400EE8230 /* default_avatar_small@2x.png in Resources */,
 				53A48E641B1A023400AC46D3 /* unicode_to_pinyin.txt in Resources */,
@@ -1861,6 +1878,7 @@
 				53A48D001B18ABF700AC46D3 /* CNSelectionCell.m in Sources */,
 				5343A4281B1ABE2A005BCDC4 /* CNLocationViewController.m in Sources */,
 				53A48E461B1A023400AC46D3 /* SSNDataStore.m in Sources */,
+				53F213861B3EF21500CA60B7 /* CNNearbyServer.m in Sources */,
 				536448691B3837FE001F7CF2 /* CNAddress.m in Sources */,
 				53A48E5D1B1A023400AC46D3 /* SSNHosting.m in Sources */,
 				53A48E691B1A023400AC46D3 /* UIAlertView+SSNCategory.m in Sources */,

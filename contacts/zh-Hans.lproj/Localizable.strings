@@ -75,6 +75,8 @@
 "user.address.city.label"       = "城市";
 "user.address.province.city.label" = "省/市";
 
+"location.list.header.title"    = "搜索结果";
+
 /**********************************************
  附近
  ***********************************************/
@@ -82,6 +84,7 @@
 "location.header.title"         = "选择位置";
 "location.selected.button"      = "标注位置";
 "location.select.error"         = "请标注详细位置";
+"location.locate.error"         = "定位失败！";
 
 /**********************************************
  设置

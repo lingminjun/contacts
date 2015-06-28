@@ -313,13 +313,13 @@
     _isSearching = YES;
     
     searchBar.showsCancelButton = YES;
-    for (UIView *v in searchBar.subviews) {
-        for (UIView *sbv in v.subviews) {
-            if ([sbv isKindOfClass:[UIButton class]]) {
-                [(UIButton *)sbv setSsn_normalTitleColor:cn_button_title_color];
-            }
-        }
-    }
+//    for (UIView *v in searchBar.subviews) {
+//        for (UIView *sbv in v.subviews) {
+//            if ([sbv isKindOfClass:[UIButton class]]) {
+//                [(UIButton *)sbv setSsn_normalTitleColor:cn_button_title_color];
+//            }
+//        }
+//    }
     
     return YES;
 }

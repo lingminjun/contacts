@@ -8,18 +8,125 @@
 
 #import "CNNearbyViewController.h"
 #import <BaiduMapAPI/BMapKit.h>
+#import "CNNearbyServer.h"
 
 @interface CNNearbyViewController ()<BMKMapViewDelegate,UIGestureRecognizerDelegate>
 {
-    BMKMapView* _mapView;
-//    
-//    BMKPointAnnotation* _pointAnnotation;
-//    CLLocationCoordinate2D _coor;//经纬度
 }
+
+@property (nonatomic,strong) BMKMapView *mapView;
+
+@property (nonatomic,strong) BMKPointAnnotation *pointAnnotation;//选中
+@property (nonatomic) CLLocationCoordinate2D coor;//选中
+
+@property (nonatomic,strong) NSMutableArray *nearbyPersons;//附近的小伙伴
+@property (nonatomic,strong) NSMutableArray *annotations;//附近的小伙伴
+
+@property (nonatomic,strong) UIView *bottomPanel;//显示选中地址信息
 
 @end
 
 @implementation CNNearbyViewController
+
+- (UIView *)bottomPanel {
+    if (_bottomPanel) {
+        return _bottomPanel;
+    }
+    
+    CGRect frame = CGRectMake(0, 0, self.view.ssn_width, 120);
+    _bottomPanel = [[UIView alloc] initWithFrame:frame];
+    _bottomPanel.backgroundColor = [UIColor clearColor];
+    _bottomPanel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
+    {
+        UIImageView *backgroud = [[UIImageView alloc] initWithFrame:_bottomPanel.bounds];
+        backgroud.ssn_width = _bottomPanel.ssn_width - (cn_left_edge_width + cn_right_edge_width);
+        backgroud.image = [[UIImage ssn_imageWithColor:cn_backgroud_white_color cornerRadius:2] ssn_centerStretchImage];
+        backgroud.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        backgroud.userInteractionEnabled = YES;
+        backgroud.center = ssn_center(_bottomPanel.bounds);
+        ssn_panel_set(_bottomPanel, backgroud, backgroud);
+        
+        {
+            SSNUITableLayout *layout = [backgroud ssn_tableLayoutWithRowCount:3 columnCount:1];
+            layout.contentInset = cn_panel_edge;
+            
+            UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width), 30)];
+            {
+                int local_width = 100;
+                SSNUITableLayout *ly = [topView ssn_tableLayoutWithRowCount:1 columnCount:2];
+                [ly setColumnInfo:ssn_layout_table_column_v2(local_width) atColumn:1];
+                
+                UILabel *label = [UILabel ssn_labelWithWidth:topView.ssn_width - local_width
+                                                        font:cn_normal_font
+                                                       color:cn_text_normal_color
+                                                   backgroud:[UIColor clearColor]
+                                                   alignment:NSTextAlignmentLeft
+                                                   multiLine:NO];
+                ssn_layout_add_v2(ly, label, 0, ssn_layout_table_cell_v2(SSNUIContentModeCenter), name);
+                
+                label = [UILabel ssn_labelWithWidth:local_width
+                                               font:cn_assist_font
+                                              color:cn_text_assist_color
+                                          backgroud:[UIColor clearColor]
+                                          alignment:NSTextAlignmentRight
+                                          multiLine:NO];
+                ssn_layout_add_v2(ly, label, 0, ssn_layout_table_cell_v2(SSNUIContentModeCenter), distance);
+            }
+            ssn_layout_add_v2(layout, topView, 0, ssn_layout_table_cell_v2(SSNUIContentModeCenter), topView);
+            
+            UILabel *label = [UILabel ssn_labelWithWidth:backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width)
+                                                    font:cn_title_font
+                                                   color:cn_text_normal_color
+                                               backgroud:[UIColor clearColor]
+                                               alignment:NSTextAlignmentLeft
+                                               multiLine:NO];
+            ssn_layout_add_v2(layout, label, 1, ssn_layout_table_cell_v2(SSNUIContentModeCenter), content);
+            
+            UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width), 40)];
+            {
+                int btn_width = 100;
+                SSNUITableLayout *ly = [topView ssn_tableLayoutWithRowCount:1 columnCount:3];
+                [ly setColumnInfo:ssn_layout_table_column_v2(1) atColumn:1];
+
+                UIButton *btn = [UIButton cn_normal_button];
+                btn.ssn_normalTitle = cn_localized(@"common.submit.button");
+                [btn ssn_addTarget:self touchAction:@selector(doneAction:)];
+                btn.ssn_width = backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width);
+            }
+            
+            [layout setRowInfo:ssn_layout_table_row(bottomView.ssn_height) atRow:2];
+            ssn_layout_add_v2(layout, bottomView, 2, ssn_layout_table_cell_v2(SSNUIContentModeCenter), bottomView);
+        }
+        
+        self.bottomPanel.hidden = YES;
+        
+    }
+    
+    return _bottomPanel;
+}
+
+- (void)showBottomPanelWithTitle:(NSString *)title detail:(NSString *)detail {
+    if (self.bottomPanel.hidden) {
+        self.bottomPanel.ssn_bottom = self.view.bounds.size.height - cn_bottom_edge_height;
+        self.bottomPanel.ssn_center_x = ssn_center(self.view.bounds).x;
+        [self.view addSubview:self.bottomPanel];
+        
+        _bottomPanel.hidden = NO;
+    }
+    
+    UIView *backgroud = ssn_panel_get(UIView, _bottomPanel, backgroud);
+    
+    UILabel *label = ssn_panel_get(UILabel, backgroud, title);
+    label.text = title;
+    
+    label = ssn_panel_get(UILabel, backgroud, content);
+    label.text = detail;
+}
+
+- (void)dismissBottomPanel {
+    _bottomPanel.hidden = YES;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -29,6 +136,9 @@
     self.tabBarItem.image = cn_image(@"icon_nearby_normal");
     self.tabBarItem.selectedImage = cn_image(@"icon_nearby_selected");
     
+    _nearbyPersons = [[NSMutableArray alloc] initWithCapacity:1];
+    
+    
     _mapView = [[BMKMapView alloc] initWithFrame:self.view.bounds];
     _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:_mapView];
@@ -37,6 +147,16 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
 }
 
 /*
@@ -77,16 +197,14 @@
     annotationView.centerOffset = CGPointMake(0, -(annotationView.frame.size.height * 0.5));
     annotationView.annotation = annotation;
     // 单击弹出泡泡，弹出泡泡前提annotation必须实现title属性
-    annotationView.canShowCallout = YES;
-    // 设置是否可以拖拽
+    annotationView.canShowCallout = NO;
     annotationView.draggable = NO;
     
     return annotationView;
 }
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view
 {
-    [mapView bringSubviewToFront:view];
-    [mapView setNeedsDisplay];
+    //展示
 }
 - (void)mapView:(BMKMapView *)mapView didAddAnnotationViews:(NSArray *)views
 {
@@ -96,60 +214,7 @@
 #pragma mark -
 #pragma mark implement BMKSearchDelegate
 
-- (void)onGetCloudPoiResult:(NSArray*)poiResultList searchType:(int)type errorCode:(int)error
-{
-    // 清楚屏幕中所有的annotation
-    NSArray* array = [NSArray arrayWithArray:_mapView.annotations];
-    [_mapView removeAnnotations:array];
-    
-    if (error == BMKErrorOk) {
-        BMKCloudPOIList* result = [poiResultList objectAtIndex:0];
-        for (int i = 0; i < result.POIs.count; i++) {
-            BMKCloudPOIInfo* poi = [result.POIs objectAtIndex:i];
-            //自定义字段
-            if(poi.customDict!=nil&&poi.customDict.count>1)
-            {
-                NSString* customStringField = [poi.customDict objectForKey:@"custom"];
-                NSLog(@"customFieldOutput=%@",customStringField);
-                NSNumber* customDoubleField = [poi.customDict objectForKey:@"double"];
-                NSLog(@"customDoubleFieldOutput=%f",customDoubleField.doubleValue);
-                
-            }
-            
-            BMKPointAnnotation* item = [[BMKPointAnnotation alloc]init];
-            CLLocationCoordinate2D pt = (CLLocationCoordinate2D){ poi.longitude,poi.latitude};
-            item.coordinate = pt;
-            item.title = poi.title;
-            [_mapView addAnnotation:item];
-            if(i == 0)
-            {
-                //将第一个点的坐标移到屏幕中央
-                _mapView.centerCoordinate = pt;
-            }
-        }
-    } else {
-        NSLog(@"error ==%d",error);
-    }
-}
-//- (void)onGetCloudPoiDetailResult:(BMKCloudPOIInfo*)poiDetailResult searchType:(int)type errorCode:(int)error
-//{
-//    // 清楚屏幕中所有的annotation
-//    NSArray* array = [NSArray arrayWithArray:_mapView.annotations];
-//    [_mapView removeAnnotations:array];
-//    
-//    if (error == BMKErrorOk) {
-//        BMKCloudPOIInfo* poi = poiDetailResult;
-//        BMKPointAnnotation* item = [[BMKPointAnnotation alloc]init];
-//        CLLocationCoordinate2D pt = (CLLocationCoordinate2D){ poi.longitude,poi.latitude};
-//        item.coordinate = pt;
-//        item.title = poi.title;
-//        [_mapView addAnnotation:item];
-//        //将第一个点的坐标移到屏幕中央
-//        _mapView.centerCoordinate = pt;
-//    } else {
-//        NSLog(@"error ==%d",error);
-//    }
-//}
+
 
 #pragma mark - SSNPage
 - (BOOL)ssn_canRespondURL:(NSURL *)url query:(NSDictionary *)query {

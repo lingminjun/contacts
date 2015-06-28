@@ -11,12 +11,8 @@
 
 @interface CNLocationListViewController : CNTableViewController
 
-@property (nonatomic,copy) NSString *addrtitle;//自己命名
-@property (nonatomic,copy) NSString *addrdes;//地址描述
-@property (nonatomic,copy) CNAddress *addr;
-@property (nonatomic) float longitude;//经度
-@property (nonatomic) float latitude;//纬度
-
-@property (nonatomic,copy) NSString *url;//请求的url，等待响应的url
+@property (nonatomic,strong) NSString *searchText;
+@property (nonatomic,strong) NSString *city;
+@property (nonatomic,strong,readonly) NSMutableArray *results;
 
 @end
