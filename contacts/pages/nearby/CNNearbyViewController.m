@@ -8,6 +8,7 @@
 
 #import "CNNearbyViewController.h"
 #import <BaiduMapAPI/BMapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "CNNearbyServer.h"
 #import "CNPerson.h"
 
@@ -47,7 +48,7 @@
         return _bottomPanel;
     }
     
-    CGRect frame = CGRectMake(0, 0, self.view.ssn_width, 120);
+    CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, 120);
     _bottomPanel = [[UIView alloc] initWithFrame:frame];
     _bottomPanel.backgroundColor = [UIColor clearColor];
     _bottomPanel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
@@ -165,6 +166,7 @@
     self.tabBarItem.image = cn_image(@"icon_nearby_normal");
     self.tabBarItem.selectedImage = cn_image(@"icon_nearby_selected");
     
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:cn_image(@"location_list") style:UIBarButtonItemStylePlain target:self action:@selector(gotoList:)];
     
     _mapView = [[BMKMapView alloc] initWithFrame:self.view.bounds];
     _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
@@ -173,6 +175,10 @@
     [self loadCoor];
     
     [self flushLocation];
+}
+
+- (void)gotoList:(id)sender {
+    
 }
 
 - (void)loadCoor {
@@ -229,6 +235,14 @@
         }];
         
         [self.mapView addAnnotations:self.annotations];
+        
+        //定位
+        BMKUserLocation *userLocation = [[BMKUserLocation alloc] init];
+        userLocation.title = cn_localized(@"location.me.location");
+//        userLocation.subtitle
+        [userLocation setValue:[[CLLocation alloc] initWithLatitude:here.latitude longitude:here.longitude] forKey:@"location"];
+//        userLocation.location = ;
+        [self.mapView updateLocationData:userLocation];
     }];
 }
 
@@ -242,6 +256,9 @@
     
     [_mapView viewWillAppear];
     _mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
+    _mapView.userTrackingMode = BMKUserTrackingModeNone;
+    _mapView.showsUserLocation = YES;
+    
     [[CNNearbyServer server] start];
 }
 
@@ -250,6 +267,8 @@
     
     [_mapView viewWillDisappear];
     _mapView.delegate = nil; // 此处记得不用的时候需要置nil，否则影响内存的释放
+    _mapView.showsUserLocation = NO;
+    
     [[CNNearbyServer server] stop];
 }
 
@@ -392,9 +411,9 @@
         BMKCoordinateRegion region = BMKCoordinateRegionMake(_coor, BMKCoordinateSpanMake(zoom, zoom));
         [_mapView setRegion:region animated:YES];
     }
-    else {
-        [_mapView setCenterCoordinate:_coor animated:YES];
-    }
+//    else {
+//        [_mapView setCenterCoordinate:_coor animated:YES];
+//    }
     
     __weak typeof(self) w_self = self;
     [[CNBMKMapDelegate delegate] reverseGeoCodeWithLocationCoordinate:_coor completion:^(CNAddress *addr, NSString *addrDes, NSError *error) {
