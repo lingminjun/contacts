@@ -176,10 +176,10 @@
         NSString *text = _searchText;
         SSNDBTable *tb = [SSNDBTableManager personTable];
         if ([text ssn_non_empty]) {
-            sql = [NSString stringWithFormat:@"select * from %@ where uid <> '%@' and (name like '%%%@%%' or pinyin like '%%%@%%')",tb.name,[CNUserCenter center].currentUID,text,text];
+            sql = [NSString stringWithFormat:@"select * from %@ where uid <> '%@' and longitude <> 0.0 and latitude <> 0.0 and (name like '%%%@%%' or pinyin like '%%%@%%')",tb.name,[CNUserCenter center].currentUID,text,text];
         }
         else {
-            sql = [NSString stringWithFormat:@"select * from %@ where uid <> '%@'",tb.name,[CNUserCenter center].currentUID];
+            sql = [NSString stringWithFormat:@"select * from %@ where uid <> '%@' and longitude <> 0.0 and latitude <> 0.0",tb.name,[CNUserCenter center].currentUID];
         }
         
         NSArray *persons = [[CNUserCenter center].currentDatabase objects:[CNPerson class] sql:sql arguments:nil];

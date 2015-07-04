@@ -18,6 +18,9 @@
         _locationButton.ssn_normalImage = cn_image(@"location_label_icon");
         [_locationButton ssn_addTarget:self touchAction:@selector(locationAction:)];
         
+        [self.layout setColumnCount:3];
+        [self.layout setColumnInfo:ssn_layout_table_column_v2(80) atColumn:2];
+        
         //开始布局
         SSNUITableLayout *layout = [self.contentView ssn_tableLayoutWithRowCount:1 columnCount:3];
         layout.contentInset = UIEdgeInsetsMake(0, cn_left_edge_width, 0, cn_right_edge_width);

@@ -33,8 +33,8 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
 @property (nonatomic,strong) CNLabelInputCellModel *mobileCell;
 @property (nonatomic,strong) CNSelectionCellModel *addressTypeCell;
 @property (nonatomic,strong) CNLabelCellModel *provinceCell;
-@property (nonatomic,strong) CNLocationInputCellModel *streetAddrCell;
-@property (nonatomic,strong) CNLabelInputCellModel *detailStreedAddrCell;//详细地址信息
+@property (nonatomic,strong) CNLocationInputCellModel *locationPointNameCell;
+@property (nonatomic,strong) CNLabelInputCellModel *streetAddrCell;//详细地址信息
 @property (nonatomic,strong) CNLabelInputCellModel *addressDetailCell;
 
 //本地通讯录选择
@@ -300,52 +300,70 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     //取得界面输入数据
     _person.name = [_nameCell.input ssn_trimWhitespace];
     _person.gender = _genderCell.value == 0 ? CNPersonMaleGender : CNPersonFemaleGender;
-    _person.mobile = [_mobileCell.input ssn_trimAllWhitespace];
+    _person.mobile = [[_mobileCell.input ssn_trimAllWhitespace] ssn_trimCountryCodePhoneNumber];
     _person.addressLabel = _addressTypeCell.value == 0 ? CNHomeAddressLabel : CNCompanyAddressLabel;
-//    _person.province = _provinceCell.subTitle;//前半段
-//    _person.city = _provinceCell.subTitle;//后半段
-//    _person.region = _provinceCell.subTitle;//后半段
+    _person.locationPointName = [_locationPointNameCell.input ssn_trimWhitespace];
     _person.street = [_streetAddrCell.input ssn_trimWhitespace];
     _person.addressDetail = [_addressDetailCell.input ssn_trimWhitespace];
     
     NSString *auid = self.uid;
     if (_coor.longitude == 0.0f) {
-        [[CNBMKMapDelegate delegate] geoCodeWithAddress:_person.street city:_person.city completion:^(CLLocationCoordinate2D coor, NSError *error) {
-            
-            if (!error) {
-                //将数据保存到数据库
-                SSNDBTable *tb = [SSNDBTableManager personTable];
-                NSArray *ary = [tb objectsWithClass:[CNPerson class] forConditions:@{@"uid":auid}];
-                CNPerson *pn = [ary firstObject];
-                pn.latitude = coor.latitude;
-                pn.longitude = coor.longitude;
+        if ([_person.street ssn_non_empty] && [_person.city ssn_non_empty]) {
+            [[CNBMKMapDelegate delegate] geoCodeWithAddress:_person.street city:_person.city completion:^(CLLocationCoordinate2D coor, NSError *error) {
                 
-                if ([CN_DETAIL_SET_USER_OPTION isEqualToString:_option] || [CNUserCenter center].currentUID == _uid) {
-                    //
-                }
-                else {
-                    CNPerson *me = [CNUserCenter center].currentUser;
-                    CLLocationCoordinate2D from = CLLocationCoordinate2DMake(me.latitude, me.longitude);
-                    CLLocationCoordinate2D to = CLLocationCoordinate2DMake(_person.latitude, _person.longitude);
-                    _person.distance = [[CNBMKMapDelegate delegate] kilometersFromCoordinate:from toCoordinate:to];
+                if (!error) {
+                    //将数据保存到数据库
+                    SSNDBTable *tb = [SSNDBTableManager personTable];
+                    NSArray *ary = [tb objectsWithClass:[CNPerson class] forConditions:@{@"uid":auid}];
+                    CNPerson *pn = [ary firstObject];
+                    pn.latitude = coor.latitude;
+                    pn.longitude = coor.longitude;
+                    
+                    if ([CN_DETAIL_SET_USER_OPTION isEqualToString:_option]) {//设置自己的信息，不需要管
+                    }
+                    else if ([CNUserCenter center].currentUID == _uid) {//修改自己的信息，计算所有数据位置
+                        [self updateAllFriendsDistance];
+                    }
+                    else {
+                        CNPerson *me = [CNUserCenter center].currentUser;
+                        if (me.longitude != 0.0f) {
+                            CLLocationCoordinate2D from = CLLocationCoordinate2DMake(me.latitude, me.longitude);
+                            CLLocationCoordinate2D to = CLLocationCoordinate2DMake(_person.latitude, _person.longitude);
+                            _person.distance = [[CNBMKMapDelegate delegate] kilometersFromCoordinate:from toCoordinate:to];
+                        }
+                    }
+                    
+                    [tb upinsertObject:pn fields:@[@"latitude",@"longitude",@"distance"]];
                 }
                 
-                [tb upinsertObject:pn fields:@[@"latitude",@"longitude",@"distance"]];
-            }
-            
-        }];
+            }];
+        }
     }
     else {
-        _person.latitude = _coor.latitude;
-        _person.longitude = _coor.longitude;
-        if ([CN_DETAIL_SET_USER_OPTION isEqualToString:_option] || [CNUserCenter center].currentUID == _uid) {
-            //
+        BOOL changed = NO;
+        if (_person.latitude != _coor.latitude) {
+            _person.latitude = _coor.latitude;
+            changed = YES;
+        }
+        if (_person.longitude != _coor.longitude) {
+            _person.longitude = _coor.longitude;
+            changed = YES;
+        }
+        
+        if ([CN_DETAIL_SET_USER_OPTION isEqualToString:_option]) {//设置自己的信息，不需要管
+        }
+        else if ([CNUserCenter center].currentUID == _uid) {//修改自己的信息，计算所有数据位置
+            if (changed) {
+                [self updateAllFriendsDistance];
+            }
         }
         else {
             CNPerson *me = [CNUserCenter center].currentUser;
-            CLLocationCoordinate2D from = CLLocationCoordinate2DMake(me.latitude, me.longitude);
-            CLLocationCoordinate2D to = CLLocationCoordinate2DMake(_person.latitude, _person.longitude);
-            _person.distance = [[CNBMKMapDelegate delegate] kilometersFromCoordinate:from toCoordinate:to];
+            if (me.longitude != 0.0f) {
+                CLLocationCoordinate2D from = CLLocationCoordinate2DMake(me.latitude, me.longitude);
+                CLLocationCoordinate2D to = CLLocationCoordinate2DMake(_person.latitude, _person.longitude);
+                _person.distance = [[CNBMKMapDelegate delegate] kilometersFromCoordinate:from toCoordinate:to];
+            }
         }
     }
     
@@ -368,6 +386,27 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     else {
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+- (void)updateAllFriendsDistance {
+    CNPerson *me = [CNUserCenter center].currentUser;
+    if (me.longitude == 0.0f) {
+        return ;
+    }
+    
+    SSNDBTable *tb = [SSNDBTableManager personTable];
+    
+    NSString *sql = [NSString stringWithFormat:@"select * from %@ where uid <> '%@' and longitude <> 0.0 and latitude <> 0.0",tb.name,[CNUserCenter center].currentUID];
+    NSArray *persons = [[CNUserCenter center].currentDatabase objects:[CNPerson class] sql:sql arguments:nil];
+    
+    CLLocationCoordinate2D from = CLLocationCoordinate2DMake(me.latitude, me.longitude);
+    
+    for (CNPerson *person in persons) {
+        CLLocationCoordinate2D to = CLLocationCoordinate2DMake(person.latitude, person.longitude);
+        person.distance = [[CNBMKMapDelegate delegate] kilometersFromCoordinate:from toCoordinate:to];
+    }
+    
+    [tb upinsertObjects:persons fields:@[@"distance"]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -456,6 +495,7 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
         if ([_person.name isEqualToString:[_nameCell.input ssn_trimWhitespace]]
             && [_person.mobile isEqualToString:[_mobileCell.input ssn_trimAllWhitespace]]
             && [_person.province isEqualToString:[_provinceCell.subTitle ssn_trimWhitespace]]
+            && [_person.locationPointName isEqualToString:[_locationPointNameCell.input ssn_trimWhitespace]]
             && [_person.street isEqualToString:[_streetAddrCell.input ssn_trimWhitespace]]
             && [_person.addressDetail isEqualToString:[_addressDetailCell.input ssn_trimWhitespace]]
             && _person.gender == (_genderCell.value == 1 ? CNPersonMaleGender : CNPersonFemaleGender)) {
@@ -467,11 +507,7 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     }
     else {
         //check 名字
-        if ([[_nameCell.input ssn_trimWhitespace] ssn_non_empty]
-            && [[_mobileCell.input ssn_trimAllWhitespace] ssn_non_empty]
-            && [[_provinceCell.subTitle ssn_trimWhitespace] ssn_non_empty]
-            && [[_streetAddrCell.input ssn_trimWhitespace] ssn_non_empty]
-            && [[_addressDetailCell.input ssn_trimWhitespace] ssn_non_empty]) {
+        if ([[_nameCell.input ssn_trimWhitespace] ssn_non_empty]) {
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }
         else {
@@ -501,8 +537,13 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     }
     [dic setValue:addrdes forKey:@"addrdes"];
     
-    if (_person.addrPOIName) {
-        [dic setObject:_person.addrPOIName forKey:@"addrtitle"];
+    if ([[_locationPointNameCell.input ssn_trimWhitespace] ssn_non_empty]) {
+        [dic setObject:[_locationPointNameCell.input ssn_trimWhitespace] forKey:@"addrtitle"];
+    }
+    else {
+        if ([_person.locationPointName ssn_non_empty]) {
+            [dic setObject:_person.locationPointName forKey:@"addrtitle"];
+        }
     }
     
     
@@ -525,15 +566,14 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
         _person.addressLabel = CNCompanyAddressLabel;
     }
     
-    _streetAddrCell.title = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.biotope.label"):cn_localized(@"user.building.label"));
-    _streetAddrCell.input = _person.street;
-    _streetAddrCell.inputPlaceholder = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.biotope.placeholder"):cn_localized(@"user.building.placeholder"));
-    _streetAddrCell.subTitle = cn_localized(@"user.map.label");
+    _locationPointNameCell.title = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.biotope.label"):cn_localized(@"user.building.label"));
+    _locationPointNameCell.input = _person.locationPointName;
+    _locationPointNameCell.inputPlaceholder = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.biotope.placeholder"):cn_localized(@"user.building.placeholder"));
+    _locationPointNameCell.subTitle = cn_localized(@"user.map.label");
     
     _addressDetailCell.title = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.room.label"):cn_localized(@"user.floor.label"));
     _addressDetailCell.input = _person.addressDetail;
     _addressDetailCell.inputPlaceholder = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.room.placeholder"):cn_localized(@"user.floor.placeholder"));
-    _addressDetailCell.subTitle = nil;//cn_localized(@"user.map.label");
     
     [self.ssn_tableViewConfigurator.listFetchController loadData];
 }
@@ -724,12 +764,12 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
         {
             CNLocationInputCellModel *streetAddrCell = [[CNLocationInputCellModel alloc] init];
             streetAddrCell.title = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.biotope.label"):cn_localized(@"user.building.label"));
-            streetAddrCell.input = _person.addrPOIName;
+            streetAddrCell.input = _person.locationPointName;
             streetAddrCell.inputPlaceholder = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.biotope.placeholder"):cn_localized(@"user.building.placeholder"));
             streetAddrCell.subTitle = cn_localized(@"user.map.label");
             streetAddrCell.disabledSelect = YES;
             [models addObject:streetAddrCell];
-            _streetAddrCell = streetAddrCell;
+            _locationPointNameCell = streetAddrCell;
         }
         
         {
@@ -737,9 +777,8 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
             detailStreedAddrCell.title = cn_localized(@"user.detail.addr.label");
             detailStreedAddrCell.input = _person.street;
             detailStreedAddrCell.inputPlaceholder = cn_localized(@"user.detail.addr.placeholder");
-            detailStreedAddrCell.subTitle = nil;
             [models addObject:detailStreedAddrCell];
-            _detailStreedAddrCell = detailStreedAddrCell;
+            _streetAddrCell = detailStreedAddrCell;
         }
         
         {
@@ -747,7 +786,6 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
             addressDetailCell.title = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.room.label"):cn_localized(@"user.floor.label"));
             addressDetailCell.input = _person.addressDetail;
             addressDetailCell.inputPlaceholder = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.room.placeholder"):cn_localized(@"user.floor.placeholder"));
-            addressDetailCell.subTitle = nil;//cn_localized(@"user.map.label");
             [models addObject:addressDetailCell];
             _addressDetailCell = addressDetailCell;
         }
@@ -791,15 +829,14 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     CNAddress *addr = [query objectForKey:@"addr"];
     
     if ([addrName length]) {
-        _streetAddrCell.input = addrName;
+        _locationPointNameCell.input = addrName;
     }
     
     if ([addrdes length]) {
-        _detailStreedAddrCell.input = addrdes;
+        _streetAddrCell.input = addrdes;
     }
     
     if (addr) {
-        _person.addrPOIName = [query objectForKey:@"name"];
         _person.province = addr.province;
         _person.city = addr.city;
         _person.region = addr.district;
@@ -815,8 +852,9 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     
     NSInteger addrIndex= [_items indexOfObject:_provinceCell];
     NSInteger street = [_items indexOfObject:_streetAddrCell];
+    NSInteger location = [_items indexOfObject:_locationPointNameCell];
     
-    [self.ssn_tableViewConfigurator.listFetchController updateDatasAtIndexPaths:@[cn_index_path(addrIndex,0),cn_index_path(street,0)] withContext:nil];
+    [self.ssn_tableViewConfigurator.listFetchController updateDatasAtIndexPaths:@[cn_index_path(addrIndex,0),cn_index_path(street,0),cn_index_path(location,0)] withContext:nil];
     
     [self checkButtonStatus];
 }

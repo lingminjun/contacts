@@ -203,7 +203,13 @@
     
     if ([_url length]) {
         NSMutableDictionary*query = [NSMutableDictionary dictionaryWithCapacity:4];
-        [query setValue:_addrtitle forKey:@"name"];
+        if ([_addrtitle isEqualToString:cn_localized(@"location.selected.button")]) {
+            //
+        }
+        else {
+            [query setValue:_addrtitle forKey:@"name"];
+        }
+        
         [query setValue:_addrdes forKey:@"addrdes"];
         [query setValue:_addr forKey:@"addr"];
         [query setValue:@(_coor.longitude) forKey:@"longitude"];
@@ -268,8 +274,7 @@
     
     //显示新的气泡
     [self.searchPoints enumerateObjectsUsingBlock:^(CNLocationPoint *point, NSUInteger idx, BOOL *stop) {
-        NSString *subtitle = [NSString stringWithFormat:@"%@%@",point.name,point.address];
-        BMKPointAnnotation *annotation = [self loadPointAnnotationWithTitle:point.name subTitle:subtitle coor:point.pt];
+        BMKPointAnnotation *annotation = [self loadPointAnnotationWithTitle:point.name subTitle:point.address coor:point.pt];
         [self.pointAnnotations addObject:annotation];
         
         if ((apoint == nil && idx == 0) || apoint == point) {
@@ -277,12 +282,12 @@
                 [self->_mapView removeAnnotation:self.pointAnnotation];
             }
             self.coor = point.pt;
+            self.addrtitle = apoint.name;
             self.pointAnnotation = annotation;
             [self showAnnotationsWithZoom:0.01f];
         }
     }];
     
-    self.addrtitle = apoint.name;
     [self->_mapView addAnnotations:self.pointAnnotations];
 }
 
@@ -460,6 +465,8 @@
 - (void)mapView:(BMKMapView *)mapView onClickedMapBlank:(CLLocationCoordinate2D)coordinate {
     _coor = coordinate;
     
+    _pointAnnotation.title = cn_localized(@"location.selected.button");
+    
     SSNLog(@"选择精度维度%f,%f",_coor.longitude,_coor.latitude);
     [self showAnnotationsWithZoom:0];
 }
@@ -505,7 +512,10 @@
             self.addr = addr;
             self.addrdes = addrDes;
             self.pointAnnotation.subtitle = addrDes;
-            [self showBottomPanelWithTitle:_pointAnnotation.title detail:addrDes];
+            if (self.pointAnnotation.title) {
+                self.addrtitle = self.pointAnnotation.title;
+            }
+            [self showBottomPanelWithTitle:self.pointAnnotation.title detail:addrDes];
         }
     }];
 }
@@ -525,11 +535,13 @@
     }
     
     if (annotation == _pointAnnotation) {
-        annotationView.pinColor = BMKPinAnnotationColorRed;
+        annotationView.image = cn_image(@"icon_selected_nail");
+//        annotationView.pinColor = BMKPinAnnotationColorRed;
     }
     else {
         // 设置颜色
-        annotationView.pinColor = BMKPinAnnotationColorPurple;
+        annotationView.image = cn_image(@"icon_normal_nail");
+//        annotationView.pinColor = BMKPinAnnotationColorPurple;
     }
     
     return annotationView;
@@ -553,7 +565,8 @@
 //    }
     
     BMKAnnotationView *old = [mapView viewForAnnotation:_pointAnnotation];
-    [(BMKPinAnnotationView *)old setPinColor:BMKPinAnnotationColorPurple];
+    old.image = cn_image(@"icon_normal_nail");
+//    [(BMKPinAnnotationView *)old setPinColor:BMKPinAnnotationColorPurple];
     
     if ([view.annotation isKindOfClass:[BMKPointAnnotation class]]) {
         _pointAnnotation = (BMKPointAnnotation *)(view.annotation);
@@ -561,7 +574,8 @@
     else {
         _pointAnnotation = [self loadPointAnnotationWithTitle:self.addrtitle subTitle:view.annotation.subtitle coor:_coor];
     }
-     [(BMKPinAnnotationView *)view setPinColor:BMKPinAnnotationColorRed];
+    view.image = cn_image(@"icon_selected_nail");
+//     [(BMKPinAnnotationView *)view setPinColor:BMKPinAnnotationColorRed];
     
     [self showAnnotationsWithZoom:0];
 //    [self showBottomPanelWithTitle:view.annotation.title detail:view.annotation.subtitle];

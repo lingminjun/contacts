@@ -25,4 +25,6 @@
 
 @interface CNLocationInputCellModel : CNLabelInputCellModel
 
+@property (nonatomic,copy) NSString *subTitle;
+
 @end

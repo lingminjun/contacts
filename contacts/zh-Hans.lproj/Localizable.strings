@@ -62,7 +62,7 @@
 "user.biotope.label"            = "小区";
 "user.building.label"           = "大厦";
 "user.biotope.placeholder"      = "请填写小区名称";
-"user.building.placeholder"     = "请填写大厦或者街道名称";
+"user.building.placeholder"     = "请填写大厦名称";
 
 "user.room.label"               = "门牌";
 "user.floor.label"              = "楼层";

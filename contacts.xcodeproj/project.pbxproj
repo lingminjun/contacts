@@ -36,6 +36,8 @@
 		534CF5291B15FE6900369645 /* CNUserCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 534CF5281B15FE6900369645 /* CNUserCenter.m */; };
 		534F91AD1B272B83003399D7 /* UIButton+UIDic.m in Sources */ = {isa = PBXBuildFile; fileRef = 534F91AC1B272B83003399D7 /* UIButton+UIDic.m */; };
 		535306CE1B175CCA00EE92AA /* CNTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 535306CD1B175CCA00EE92AA /* CNTableViewCell.m */; };
+		5353374A1B48170B00E09C20 /* icon_normal_nail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 535337481B48170B00E09C20 /* icon_normal_nail@2x.png */; };
+		5353374B1B48170B00E09C20 /* icon_selected_nail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 535337491B48170B00E09C20 /* icon_selected_nail@2x.png */; };
 		5358DB481B14CE3B0082E726 /* welcome01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5358DB451B14CE3B0082E726 /* welcome01.jpg */; };
 		5358DB491B14CE3B0082E726 /* welcome02.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5358DB461B14CE3B0082E726 /* welcome02.jpg */; };
 		5358DB4A1B14CE3B0082E726 /* welcome03.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5358DB471B14CE3B0082E726 /* welcome03.jpg */; };
@@ -275,6 +277,8 @@
 		534F91AC1B272B83003399D7 /* UIButton+UIDic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+UIDic.m"; sourceTree = "<group>"; };
 		535306CC1B175CCA00EE92AA /* CNTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNTableViewCell.h; sourceTree = "<group>"; };
 		535306CD1B175CCA00EE92AA /* CNTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNTableViewCell.m; sourceTree = "<group>"; };
+		535337481B48170B00E09C20 /* icon_normal_nail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_normal_nail@2x.png"; sourceTree = "<group>"; };
+		535337491B48170B00E09C20 /* icon_selected_nail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_selected_nail@2x.png"; sourceTree = "<group>"; };
 		5358DB451B14CE3B0082E726 /* welcome01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = welcome01.jpg; sourceTree = "<group>"; };
 		5358DB461B14CE3B0082E726 /* welcome02.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = welcome02.jpg; sourceTree = "<group>"; };
 		5358DB471B14CE3B0082E726 /* welcome03.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = welcome03.jpg; sourceTree = "<group>"; };
@@ -890,6 +894,8 @@
 		537F396C1B11FCC400EE8230 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				535337481B48170B00E09C20 /* icon_normal_nail@2x.png */,
+				535337491B48170B00E09C20 /* icon_selected_nail@2x.png */,
 				53F2137F1B3E916C00CA60B7 /* icon_location@2x.png */,
 				53A48D0D1B19432400AC46D3 /* icon_disclosure_indicator@2x.png */,
 				53A48D041B18B98600AC46D3 /* icon_radio_normal@2x.png */,
@@ -1731,6 +1737,7 @@
 				53A48E641B1A023400AC46D3 /* unicode_to_pinyin.txt in Resources */,
 				5358DB491B14CE3B0082E726 /* welcome02.jpg in Resources */,
 				536448411B2DDAB5001F7CF2 /* user_header_bg@2x.png in Resources */,
+				5353374B1B48170B00E09C20 /* icon_selected_nail@2x.png in Resources */,
 				53918F741B116B2F00381368 /* page_map.plist in Resources */,
 				537F397F1B11FCC400EE8230 /* icon_nearby_normal@2x.png in Resources */,
 				537F398A1B11FCC400EE8230 /* icon_friends_selected@3x.png in Resources */,
@@ -1770,6 +1777,7 @@
 				53A48E651B1A023400AC46D3 /* unicode_to_pinyin_tone.txt in Resources */,
 				537F39811B11FCC400EE8230 /* icon_nearby_selected@2x.png in Resources */,
 				53A48E931B1A023400AC46D3 /* ssn_pull_refresh_white_arrow@3x.png in Resources */,
+				5353374A1B48170B00E09C20 /* icon_normal_nail@2x.png in Resources */,
 				537F39921B12005600EE8230 /* CNPerson.json in Resources */,
 				53A48E4A1B1A023400AC46D3 /* SSNABPerson.json in Resources */,
 				53A48E7D1B1A023400AC46D3 /* Navigator介绍.txt in Resources */,

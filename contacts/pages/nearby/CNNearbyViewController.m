@@ -443,13 +443,14 @@
         ((BMKPinAnnotationView*)annotationView).animatesDrop = NO;
     }
     
-    
     if (annotation == _pointAnnotation) {
-        ((BMKPinAnnotationView*)annotationView).pinColor = BMKPinAnnotationColorRed;
+        annotationView.image = cn_image(@"icon_selected_nail");
+        //        annotationView.pinColor = BMKPinAnnotationColorRed;
     }
     else {
         // 设置颜色
-        ((BMKPinAnnotationView*)annotationView).pinColor = BMKPinAnnotationColorPurple;
+        annotationView.image = cn_image(@"icon_normal_nail");
+        //        annotationView.pinColor = BMKPinAnnotationColorPurple;
     }
     
     // 设置位置
@@ -480,7 +481,8 @@
     _coor = view.annotation.coordinate;
     
     BMKAnnotationView *old = [mapView viewForAnnotation:_pointAnnotation];
-    [(BMKPinAnnotationView *)old setPinColor:BMKPinAnnotationColorPurple];
+    old.image = cn_image(@"icon_normal_nail");
+//    [(BMKPinAnnotationView *)old setPinColor:BMKPinAnnotationColorPurple];
     
     if ([view.annotation isKindOfClass:[BMKPointAnnotation class]]) {
         _pointAnnotation = (BMKPointAnnotation *)(view.annotation);
@@ -493,7 +495,8 @@
 //        _pointAnnotation = [self loadPointAnnotationWithTitle:self.addrtitle subTitle:view.annotation.subtitle coor:_coor];
     }
     
-    [(BMKPinAnnotationView *)view setPinColor:BMKPinAnnotationColorRed];
+    view.image = cn_image(@"icon_selected_nail");
+//    [(BMKPinAnnotationView *)view setPinColor:BMKPinAnnotationColorRed];
     [self showAnnotationsWithZoom:0];
 }
 - (void)mapView:(BMKMapView *)mapView didAddAnnotationViews:(NSArray *)views

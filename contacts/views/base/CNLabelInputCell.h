@@ -23,7 +23,8 @@
 
 @property (nonatomic,strong,readonly) UILabel *title;
 @property (nonatomic,strong,readonly) UITextField *input;
-@property (nonatomic,strong,readonly) UILabel *subTitle;
+
+@property (nonatomic,strong) SSNUITableLayout *layout;
 
 @end
 
@@ -32,7 +33,6 @@
 @property (nonatomic,copy) NSString *title;
 @property (nonatomic,copy) NSString *input;
 @property (nonatomic,copy) NSString *inputPlaceholder;
-@property (nonatomic,copy) NSString *subTitle;
 
 @property (nonatomic) UIKeyboardType keyboardType; 
 @property (nonatomic) NSUInteger inputMaxLength;//最大输入限制，传入0表示不限制
