@@ -89,7 +89,7 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     }
     
     _picker = [[CNPicker alloc] init];
-    _picker.componentCount = 3;
+    _picker.componentCount = 2;
     _picker.delegate = self;
     return _picker;
 }
@@ -204,8 +204,13 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     
     _person.province = [addr[0] title];//前半段
     _person.city = [addr[1] title];//后半段
-    _person.region = [addr[2] title];//后半段
-    _provinceCell.subTitle = [NSString stringWithFormat:@"%@ %@ %@",[addr[0] title],[addr[1] title],[addr[2] title]];
+//    _person.region = [addr[2] title];//后半段
+//    _provinceCell.subTitle = [NSString stringWithFormat:@"%@ %@ %@",[addr[0] title],[addr[1] title],[addr[2] title]];
+    NSString *str = [NSString stringWithFormat:@"%@ %@",[addr[0] title],[addr[1] title]];
+    if (![_provinceCell.subTitle hasPrefix:str]) {
+        _provinceCell.subTitle = str;
+    }
+    
     NSInteger row = [_items indexOfObject:_provinceCell];
     NSIndexPath *path = cn_index_path(row, 0);
     

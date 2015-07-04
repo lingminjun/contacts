@@ -204,6 +204,8 @@
     else {
         [self.navigationController setNavigationBarHidden:NO animated:animated];
     }
+    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
