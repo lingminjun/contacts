@@ -147,7 +147,11 @@ static char *ssn_dbfetch_rowid_key = NULL;
 }
 
 - (NSString *)fetchForRowidSql {
-    return [NSString stringWithFormat:@"SELECT rowid AS ssn_dbfetch_rowid,* FROM %@ WHERE rowid = ? LIMIT 0,1", _dbTable];
+    //添加where子句
+    if (_predicate) {
+        return [NSString stringWithFormat:@"SELECT rowid AS ssn_dbfetch_rowid,* FROM %@ WHERE (rowid = ?) AND (%@) LIMIT 0,1", _dbTable,[_predicate predicateFormat]];
+    }
+    return [NSString stringWithFormat:@"SELECT rowid AS ssn_dbfetch_rowid,* FROM %@ WHERE (rowid = ?) LIMIT 0,1", _dbTable];
 }
 
 @end
@@ -286,6 +290,10 @@ static char *ssn_dbfetch_rowid_key = NULL;
 }
 
 - (NSString *)fetchForRowidSql {
+    //添加where子句
+    if (_predicate) {
+        return [NSString stringWithFormat:@"SELECT rowid AS ssn_dbfetch_rowid,* FROM %@ WHERE (rowid = ?) AND (%@) LIMIT 0,1", _dbTable,[_predicate predicateFormat]];
+    }
     return [NSString stringWithFormat:@"SELECT rowid AS ssn_dbfetch_rowid,* FROM %@ WHERE rowid = ? LIMIT 0,1", _dbTable];
 }
 
