@@ -166,6 +166,8 @@
     self.tabBarItem.image = cn_image(@"icon_nearby_normal");
     self.tabBarItem.selectedImage = cn_image(@"icon_nearby_selected");
     
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:cn_image(@"icon_me_location") style:UIBarButtonItemStylePlain target:self action:@selector(here:)];
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:cn_image(@"location_list") style:UIBarButtonItemStylePlain target:self action:@selector(gotoList:)];
     
     _mapView = [[BMKMapView alloc] initWithFrame:self.view.bounds];
@@ -179,6 +181,12 @@
 
 - (void)gotoList:(id)sender {
     
+}
+
+- (void)here:(id)sender {
+    if (self.here.latitude != 0.0 && self.here.longitude != 0.0) {
+        [_mapView setCenterCoordinate:_here animated:YES];
+    }
 }
 
 - (void)loadCoor {
