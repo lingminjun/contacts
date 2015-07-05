@@ -16,6 +16,7 @@
     
     BMKPointAnnotation* _pointAnnotation;
     CLLocationCoordinate2D _coor;//经纬度
+    NSString * _selectedPointAddressDesc;
 }
 
 @property (nonatomic,strong) BMKPointAnnotation *pointAnnotation;
@@ -272,6 +273,8 @@
         [self.pointAnnotations removeAllObjects];
     }
     
+    _selectedPointAddressDesc = apoint.address;
+    
     //显示新的气泡
     [self.searchPoints enumerateObjectsUsingBlock:^(CNLocationPoint *point, NSUInteger idx, BOOL *stop) {
         BMKPointAnnotation *annotation = [self loadPointAnnotationWithTitle:point.name subTitle:point.address coor:point.pt];
@@ -466,6 +469,7 @@
     _coor = coordinate;
     
     _pointAnnotation.title = cn_localized(@"location.selected.button");
+    _selectedPointAddressDesc = nil;
     
     SSNLog(@"选择精度维度%f,%f",_coor.longitude,_coor.latitude);
     [self showAnnotationsWithZoom:0];
@@ -510,6 +514,11 @@
         
         if (addr) {
             self.addr = addr;
+            
+            if (self->_selectedPointAddressDesc) {
+                addrDes = self->_selectedPointAddressDesc;
+            }
+            
             self.addrdes = addrDes;
             self.pointAnnotation.subtitle = addrDes;
             if (self.pointAnnotation.title) {
@@ -574,6 +583,8 @@
     else {
         _pointAnnotation = [self loadPointAnnotationWithTitle:self.addrtitle subTitle:view.annotation.subtitle coor:_coor];
     }
+    
+    _selectedPointAddressDesc = _pointAnnotation.subtitle;
     view.image = cn_image(@"icon_selected_nail");
 //     [(BMKPinAnnotationView *)view setPinColor:BMKPinAnnotationColorRed];
     
