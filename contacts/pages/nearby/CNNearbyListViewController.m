@@ -7,6 +7,7 @@
 //
 
 #import "CNNearbyListViewController.h"
+#import "CNNearbyPerson.h"
 #import "CNNearbyPersonCell.h"
 #import <BaiduMapAPI/BMapKit.h>
 
@@ -14,7 +15,7 @@
 
 @property (nonatomic) CLLocationCoordinate2D here;//当前位置
 
-@property (nonatomic,strong) CNPerson *selectdPerson;
+@property (nonatomic,strong) CNNearbyPerson *selectdPerson;
 
 @end
 

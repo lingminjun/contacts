@@ -9,7 +9,7 @@
 #import "CNTableViewCell.h"
 
 
-@class CNNearbyPersonCell;
+@class CNNearbyPerson,CNNearbyPersonCell;
 @protocol CNNearbyPersonCellDelegate <NSObject>
 
 @optional
@@ -33,6 +33,6 @@
 
 @interface CNNearbyPersonCellModel : CNCellModel
 
-@property (nonatomic,strong) CNPerson *person;
+@property (nonatomic,strong) CNNearbyPerson *person;
 
 @end

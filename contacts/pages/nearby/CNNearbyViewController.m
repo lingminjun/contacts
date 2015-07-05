@@ -10,6 +10,7 @@
 #import <BaiduMapAPI/BMapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "CNNearbyServer.h"
+#import "CNNearbyPerson.h"
 #import "CNPerson.h"
 
 @interface CNNearbyViewController ()<BMKMapViewDelegate,UIGestureRecognizerDelegate>
@@ -20,7 +21,7 @@
 
 @property (nonatomic) CLLocationCoordinate2D here;//当前位置
 
-@property (nonatomic,strong) CNPerson *selectdPerson;
+@property (nonatomic,strong) CNNearbyPerson *selectdPerson;
 @property (nonatomic,strong) BMKPointAnnotation *pointAnnotation;//选中
 @property (nonatomic) CLLocationCoordinate2D coor;//选中
 
@@ -219,18 +220,31 @@
             return ;
         }
         
+        NSMutableArray *temList = [NSMutableArray array];
+        [persons enumerateObjectsUsingBlock:^(CNPerson *obj, NSUInteger idx, BOOL *stop) {
+            CNNearbyPerson *person = [[CNNearbyPerson alloc] init];
+            [person ssn_setObject:obj];
+            CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(person.latitude, person.longitude);
+            person.nearbyDistance = [[CNBMKMapDelegate delegate] kilometersFromCoordinate:_here toCoordinate:coor];
+            [temList addObject:person];
+        }];
+        [temList sortUsingSelector:@selector(compareByNearbyDistance:)];
+        [temList enumerateObjectsUsingBlock:^(CNNearbyPerson *obj, NSUInteger idx, BOOL *stop) {
+            obj.nearbyIndex = idx + 1;
+        }];
+        
         if (self.annotations) {
             [self.annotations removeObject:self.pointAnnotation];//选中不需要移除
             [self.mapView removeAnnotations:self.annotations];
             [self.annotations removeAllObjects];
         }
         
-        if (persons) {
-            [self.nearbyPersons setArray:persons];
+        if (temList) {
+            [self.nearbyPersons setArray:temList];
         }
         
         //显示新的气泡
-        [self.nearbyPersons enumerateObjectsUsingBlock:^(CNPerson *person, NSUInteger idx, BOOL *stop) {
+        [self.nearbyPersons enumerateObjectsUsingBlock:^(CNNearbyPerson *person, NSUInteger idx, BOOL *stop) {
             
             CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(person.latitude, person.longitude);
             BMKPointAnnotation *annotation = [self loadPointAnnotationWithTitle:person.name subTitle:person.street coor:coor];
@@ -429,17 +443,17 @@
 //        [_mapView setCenterCoordinate:_coor animated:YES];
 //    }
     
-    __weak typeof(self) w_self = self;
-    [[CNBMKMapDelegate delegate] reverseGeoCodeWithLocationCoordinate:_coor completion:^(CNAddress *addr, NSString *addrDes, NSError *error) {
-        __strong typeof(w_self) self = w_self;
-        
-        if (addr) {
-            self.pointAnnotation.subtitle = addrDes;
-            double distance = [[CNBMKMapDelegate delegate] kilometersFromCoordinate:_here toCoordinate:_coor];
-            NSString *distanceStr = [NSString stringWithFormat:@"距离:%.2fkm",distance];
-            [self showBottomPanelWithTitle:self.selectdPerson.name distance:distanceStr detail:addrDes];
-        }
-    }];
+//    __weak typeof(self) w_self = self;
+//    [[CNBMKMapDelegate delegate] reverseGeoCodeWithLocationCoordinate:_coor completion:^(CNAddress *addr, NSString *addrDes, NSError *error) {
+//        __strong typeof(w_self) self = w_self;
+//    
+//        if (addr) {
+    self.pointAnnotation.subtitle = self.selectdPerson.street;
+    NSString *distanceStr = [NSString stringWithFormat:@"距离:%.2fkm",self.selectdPerson.nearbyDistance];
+    NSString *showTitle = [NSString stringWithFormat:@"%ld.%@",(long)(self.selectdPerson.nearbyIndex),self.selectdPerson.name];
+    [self showBottomPanelWithTitle:showTitle distance:distanceStr detail:self.selectdPerson.street];
+//        }
+//    }];
 }
 
 
@@ -507,6 +521,11 @@
 
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view
 {
+    //我的位置不需要处理
+    if ([[view.annotation title] isEqualToString:cn_localized(@"location.me.location")]) {
+        return ;
+    }
+    
     if (view.annotation == _pointAnnotation) {
         return ;
     }
