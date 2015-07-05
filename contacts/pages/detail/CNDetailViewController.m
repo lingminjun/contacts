@@ -211,10 +211,11 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
         _provinceCell.subTitle = str;
     }
     
-    NSInteger row = [_items indexOfObject:_provinceCell];
-    NSIndexPath *path = cn_index_path(row, 0);
-    
-    [self.ssn_tableViewConfigurator.listFetchController updateDatasAtIndexPaths:@[path] withContext:NULL];
+    _locationPointNameCell.input = nil;
+    _streetAddrCell.input = nil;
+    _addressDetailCell.input = nil;
+    [self.tableView reloadData];
+
     
     [self dismissPicker];
 }
@@ -544,11 +545,6 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     
     if ([[_locationPointNameCell.input ssn_trimWhitespace] ssn_non_empty]) {
         [dic setObject:[_locationPointNameCell.input ssn_trimWhitespace] forKey:@"addrtitle"];
-    }
-    else {
-        if ([_person.locationPointName ssn_non_empty]) {
-            [dic setObject:_person.locationPointName forKey:@"addrtitle"];
-        }
     }
     
     
