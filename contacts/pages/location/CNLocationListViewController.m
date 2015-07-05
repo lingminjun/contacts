@@ -65,7 +65,7 @@
                                                 pointType:CNLocationNormalPoint
                                                searchText:self.searchText
                                                 pageIndex:self.pageIndex
-                                                 pageSize:30
+                                                 pageSize:10
                                                completion:^(NSArray *list, NSError *error) {
                                                    
                                                    NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
@@ -79,7 +79,7 @@
                                                        [self.datas addObjectsFromArray:list];
                                                    }
                                                    
-                                                   completion(items,[list count] > 0,nil,YES);
+                                                   completion(items,[list count] > 0,nil,NO);
                                                }];
     }
     

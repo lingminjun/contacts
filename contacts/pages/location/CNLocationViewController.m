@@ -319,7 +319,7 @@
     
     if ([searchText ssn_non_empty]) {
         __weak typeof(self) w_self = self;
-        [[CNBMKMapDelegate delegate] pointsSearchWithCity:city pointType:CNLocationNormalPoint searchText:_searchBar.text pageIndex:0 pageSize:30 completion:^(NSArray *list, NSError *error) {
+        [[CNBMKMapDelegate delegate] pointsSearchWithCity:city pointType:CNLocationNormalPoint searchText:_searchBar.text pageIndex:0 pageSize:10 completion:^(NSArray *list, NSError *error) {
             __strong typeof(w_self) self = w_self;
             
             if ([list count]) {
