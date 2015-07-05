@@ -12,6 +12,8 @@
 	<string>CNFriendsViewController</string>
 	<key>nearby</key>
 	<string>CNNearbyViewController</string>
+	<key>nearbylist</key>
+	<string>CNNearbyListViewController</string>
 	<key>setting</key>
 	<string>CNSettingViewController</string>
 	<key>detail</key>

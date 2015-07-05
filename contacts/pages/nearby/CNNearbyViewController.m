@@ -180,7 +180,13 @@
 }
 
 - (void)gotoList:(id)sender {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     
+    [dic setValue:[NSArray arrayWithArray:self.nearbyPersons] forKey:@"results"];
+    [dic setValue:[NSString stringWithFormat:@"%lf", self.here.latitude] forKey:@"latitude"];
+    [dic setValue:[NSString stringWithFormat:@"%lf", self.here.longitude] forKey:@"longitude"];
+    
+    [self.ssn_router open:cn_combine_path(@"nav/nearbylist") query:dic];
 }
 
 - (void)here:(id)sender {

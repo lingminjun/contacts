@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		48165CAC1B3FF450002FF911 /* img_setting_header@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 48165CAB1B3FF450002FF911 /* img_setting_header@2x.jpg */; };
+		487AF9BA1B494B4600018D28 /* CNNearbyListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 487AF9B91B494B4600018D28 /* CNNearbyListViewController.m */; };
+		487AF9C51B49506000018D28 /* CNNearbyPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 487AF9C41B49506000018D28 /* CNNearbyPersonCell.m */; };
 		532300041B11634F00FC8658 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 532300031B11634F00FC8658 /* main.m */; };
 		532300071B11634F00FC8658 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 532300061B11634F00FC8658 /* AppDelegate.m */; };
 		5323000A1B11634F00FC8658 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 532300091B11634F00FC8658 /* ViewController.m */; };
@@ -233,6 +235,10 @@
 
 /* Begin PBXFileReference section */
 		48165CAB1B3FF450002FF911 /* img_setting_header@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "img_setting_header@2x.jpg"; sourceTree = "<group>"; };
+		487AF9B81B494B4600018D28 /* CNNearbyListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNNearbyListViewController.h; sourceTree = "<group>"; };
+		487AF9B91B494B4600018D28 /* CNNearbyListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNNearbyListViewController.m; sourceTree = "<group>"; };
+		487AF9C31B49506000018D28 /* CNNearbyPersonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNNearbyPersonCell.h; sourceTree = "<group>"; };
+		487AF9C41B49506000018D28 /* CNNearbyPersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNNearbyPersonCell.m; sourceTree = "<group>"; };
 		532300021B11634F00FC8658 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		532300031B11634F00FC8658 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		532300051B11634F00FC8658 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -618,6 +624,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		487AF9C21B494F7100018D28 /* nearby */ = {
+			isa = PBXGroup;
+			children = (
+				487AF9C31B49506000018D28 /* CNNearbyPersonCell.h */,
+				487AF9C41B49506000018D28 /* CNNearbyPersonCell.m */,
+			);
+			path = nearby;
+			sourceTree = "<group>";
+		};
 		532300001B11634F00FC8658 /* contacts */ = {
 			isa = PBXGroup;
 			children = (
@@ -769,6 +784,7 @@
 		535306CA1B175BFC00EE92AA /* views */ = {
 			isa = PBXGroup;
 			children = (
+				487AF9C21B494F7100018D28 /* nearby */,
 				53F2137B1B3E853000CA60B7 /* location */,
 				5364485F1B37CCB9001F7CF2 /* picker */,
 				534F91AA1B272935003399D7 /* uidic */,
@@ -1090,6 +1106,8 @@
 			children = (
 				539190021B1174FB00381368 /* CNNearbyViewController.h */,
 				539190031B1174FB00381368 /* CNNearbyViewController.m */,
+				487AF9B81B494B4600018D28 /* CNNearbyListViewController.h */,
+				487AF9B91B494B4600018D28 /* CNNearbyListViewController.m */,
 			);
 			path = nearby;
 			sourceTree = "<group>";
@@ -1816,6 +1834,7 @@
 				5343A3F61B1A1577005BCDC4 /* CNIconTitleCell.m in Sources */,
 				5364483C1B2DBFB0001F7CF2 /* CNLabelCell.m in Sources */,
 				53A48E661B1A023400AC46D3 /* SSNQuantum.m in Sources */,
+				487AF9BA1B494B4600018D28 /* CNNearbyListViewController.m in Sources */,
 				53A48E791B1A023400AC46D3 /* SSNUISiteLayout.m in Sources */,
 				53A48E541B1A023400AC46D3 /* db.md in Sources */,
 				53A48E2A1B1A023400AC46D3 /* ssncrc64.c in Sources */,
@@ -1940,6 +1959,7 @@
 				53A48E6C1B1A023400AC46D3 /* UIViewController+SSNToast.m in Sources */,
 				537F39A31B12014D00EE8230 /* CNPerson.m in Sources */,
 				53A48E581B1A023400AC46D3 /* SSNDBFetchController.m in Sources */,
+				487AF9C51B49506000018D28 /* CNNearbyPersonCell.m in Sources */,
 				53A48E7A1B1A023400AC46D3 /* SSNUITableLayout.m in Sources */,
 				53A48E801B1A023400AC46D3 /* NSURL+Router.m in Sources */,
 				53A48E6B1B1A023400AC46D3 /* UIViewController+SSNCategory.m in Sources */,
