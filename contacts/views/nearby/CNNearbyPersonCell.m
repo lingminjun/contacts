@@ -54,7 +54,7 @@
         _addressLabel = [UILabel ssn_labelWithWidth:cn_screen_width - (cn_left_edge_width + cn_right_edge_width)
                                                font:cn_normal_font
                                               color:cn_text_assist_color
-                                          backgroud:[UIColor redColor]
+                                          backgroud:[UIColor clearColor]
                                           alignment:NSTextAlignmentLeft
                                           multiLine:NO];
         ssn_layout_add_v2(layout, _addressLabel, 1, ssn_layout_table_cell_v2(SSNUIContentModeCenter), _addressLabel);
