@@ -42,6 +42,7 @@
 		5353374B1B48170B00E09C20 /* icon_selected_nail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 535337491B48170B00E09C20 /* icon_selected_nail@2x.png */; };
 		5353374D1B4830EE00E09C20 /* icon_me_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5353374C1B4830EE00E09C20 /* icon_me_location@2x.png */; };
 		535337521B49764900E09C20 /* CNNearbyPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 535337511B49764900E09C20 /* CNNearbyPerson.m */; };
+		535337551B497D4F00E09C20 /* CNSeparatorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 535337541B497D4F00E09C20 /* CNSeparatorCell.m */; };
 		5358DB481B14CE3B0082E726 /* welcome01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5358DB451B14CE3B0082E726 /* welcome01.jpg */; };
 		5358DB491B14CE3B0082E726 /* welcome02.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5358DB461B14CE3B0082E726 /* welcome02.jpg */; };
 		5358DB4A1B14CE3B0082E726 /* welcome03.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5358DB471B14CE3B0082E726 /* welcome03.jpg */; };
@@ -290,6 +291,8 @@
 		5353374C1B4830EE00E09C20 /* icon_me_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_me_location@2x.png"; sourceTree = "<group>"; };
 		535337501B49764900E09C20 /* CNNearbyPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNNearbyPerson.h; sourceTree = "<group>"; };
 		535337511B49764900E09C20 /* CNNearbyPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNNearbyPerson.m; sourceTree = "<group>"; };
+		535337531B497D4F00E09C20 /* CNSeparatorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNSeparatorCell.h; sourceTree = "<group>"; };
+		535337541B497D4F00E09C20 /* CNSeparatorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNSeparatorCell.m; sourceTree = "<group>"; };
 		5358DB451B14CE3B0082E726 /* welcome01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = welcome01.jpg; sourceTree = "<group>"; };
 		5358DB461B14CE3B0082E726 /* welcome02.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = welcome02.jpg; sourceTree = "<group>"; };
 		5358DB471B14CE3B0082E726 /* welcome03.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = welcome03.jpg; sourceTree = "<group>"; };
@@ -813,6 +816,8 @@
 				536448381B2DBB00001F7CF2 /* CNSectionCell.m */,
 				5364483A1B2DBFB0001F7CF2 /* CNLabelCell.h */,
 				5364483B1B2DBFB0001F7CF2 /* CNLabelCell.m */,
+				535337531B497D4F00E09C20 /* CNSeparatorCell.h */,
+				535337541B497D4F00E09C20 /* CNSeparatorCell.m */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -1926,6 +1931,7 @@
 				53A48E2C1B1A023400AC46D3 /* NSObject+SSNTracking.m in Sources */,
 				539190041B1174FB00381368 /* CNNearbyViewController.m in Sources */,
 				53A48E3A1B1A023400AC46D3 /* NSURL+SSN.m in Sources */,
+				535337551B497D4F00E09C20 /* CNSeparatorCell.m in Sources */,
 				53A48E531B1A023400AC46D3 /* SSNDBTable.m in Sources */,
 				53A48E951B1A023400AC46D3 /* UIViewController+SSNTableViewDBConfigure.m in Sources */,
 				53A48E3E1B1A023400AC46D3 /* SSNCuteSerialQueue.m in Sources */,

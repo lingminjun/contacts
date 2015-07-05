@@ -8,6 +8,7 @@
 
 #import "CNNearbyListViewController.h"
 #import "CNNearbyPerson.h"
+#import "CNSeparatorCell.h"
 #import "CNNearbyPersonCell.h"
 #import <BaiduMapAPI/BMapKit.h>
 
@@ -56,11 +57,17 @@
 - (void)ssn_configurator:(id<SSNTableViewConfigurator>)configurator controller:(id<SSNFetchControllerPrototol>)controller loadDataWithOffset:(NSUInteger)offset limit:(NSUInteger)limit userInfo:(NSDictionary *)userInfo completion:(void (^)(NSArray *results, BOOL hasMore, NSDictionary *userInfo, BOOL finished))completion {
     
     NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
-    for (CNPerson *person in self.results) {
+    [self.results enumerateObjectsUsingBlock:^(CNNearbyPerson *person, NSUInteger idx, BOOL *stop) {
+        
+        if (idx != 0) {
+            CNSeparatorCelllModel *separator = [[CNSeparatorCelllModel alloc] init];
+            [items addObject:separator];
+        }
+        
         CNNearbyPersonCellModel *cellModel = [[CNNearbyPersonCellModel alloc] init];
         cellModel.person = person;
         [items addObject:cellModel];
-    }
+    }];
     completion(items,NO,nil,YES);
     
 }
