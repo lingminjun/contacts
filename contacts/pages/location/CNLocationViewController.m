@@ -9,6 +9,7 @@
 #import <BaiduMapAPI/BMapKit.h>
 #import "CNTableViewCell.h"
 #import "CNLocalPointCell.h"
+#import "CNPointAnnotation.h"
 
 @interface CNLocationViewController () <BMKMapViewDelegate,UIGestureRecognizerDelegate,UISearchBarDelegate>
 {
@@ -277,7 +278,8 @@
     
     //显示新的气泡
     [self.searchPoints enumerateObjectsUsingBlock:^(CNLocationPoint *point, NSUInteger idx, BOOL *stop) {
-        BMKPointAnnotation *annotation = [self loadPointAnnotationWithTitle:point.name subTitle:point.address coor:point.pt];
+        CNPointAnnotation *annotation = [self loadPointAnnotationWithTitle:point.name subTitle:point.address coor:point.pt];
+        
         [self.pointAnnotations addObject:annotation];
         
         if ((apoint == nil && idx == 0) || apoint == point) {
@@ -287,11 +289,15 @@
             self.coor = point.pt;
             self.addrtitle = apoint.name;
             self.pointAnnotation = annotation;
-            [self showAnnotationsWithZoom:0.01f];
         }
+        annotation.index = idx;
     }];
     
     [self->_mapView addAnnotations:self.pointAnnotations];
+    
+    if ([self.searchPoints count]) {
+        [self showAnnotationsWithZoom:0.01f];
+    }
 }
 
 - (void)removeSearchPoints {
@@ -481,10 +487,28 @@
 }
 
 #pragma mark 添加标注
+- (UIImage *)pointAnnotationImageWithIndex:(NSUInteger)idx selected:(BOOL)selected {
+    if (idx > 9) {
+        if (selected) {
+            return cn_image(@"icon_selected_nail");
+        }
+        else {
+            return cn_image(@"icon_normal_nail");
+        }
+    }
+    else {
+        if (selected) {
+            return cn_image(([NSString stringWithFormat:@"red_%ld", (long)(idx + 1)]));
+        }
+        else {
+            return cn_image(([NSString stringWithFormat:@"blue_%ld", (long)(idx + 1)]));
+        }
+    }
+}
 
-- (BMKPointAnnotation *)loadPointAnnotationWithTitle:(NSString *)title subTitle:(NSString *)subTitle coor:(CLLocationCoordinate2D)coor {
+- (CNPointAnnotation *)loadPointAnnotationWithTitle:(NSString *)title subTitle:(NSString *)subTitle coor:(CLLocationCoordinate2D)coor {
     
-    BMKPointAnnotation *point = [[BMKPointAnnotation alloc]init];
+    CNPointAnnotation *point = [[CNPointAnnotation alloc]init];
     point.title = title;
     point.subtitle = subTitle;
     point.coordinate = coor;
@@ -524,7 +548,13 @@
             if (self.pointAnnotation.title) {
                 self.addrtitle = self.pointAnnotation.title;
             }
-            [self showBottomPanelWithTitle:self.pointAnnotation.title detail:addrDes];
+            
+            NSString *atitle = self.pointAnnotation.title;
+            if ([self.pointAnnotation isKindOfClass:[CNPointAnnotation class]]) {
+                CNPointAnnotation *ann = (CNPointAnnotation *)self.pointAnnotation;
+                atitle = [NSString stringWithFormat:@"%ld.%@",(ann.index+1),ann.title];
+            }
+            [self showBottomPanelWithTitle:atitle detail:addrDes];
         }
     }];
 }
@@ -543,14 +573,24 @@
         annotationView.canShowCallout = NO;
     }
     
-    if (annotation == _pointAnnotation) {
-        annotationView.image = cn_image(@"icon_selected_nail");
-//        annotationView.pinColor = BMKPinAnnotationColorRed;
+    if ([annotation isKindOfClass:[CNPointAnnotation class]]) {
+        CNPointAnnotation *ann = (CNPointAnnotation *)annotation;
+        if (annotation == _pointAnnotation) {
+            annotationView.image = [self pointAnnotationImageWithIndex:ann.index selected:YES];
+        }
+        else {
+            // 设置颜色
+            annotationView.image = [self pointAnnotationImageWithIndex:ann.index selected:NO];
+        }
     }
     else {
-        // 设置颜色
-        annotationView.image = cn_image(@"icon_normal_nail");
-//        annotationView.pinColor = BMKPinAnnotationColorPurple;
+        if (annotation == _pointAnnotation) {
+            annotationView.image = cn_image(@"icon_selected_nail");
+        }
+        else {
+            // 设置颜色
+            annotationView.image = cn_image(@"icon_normal_nail");
+        }
     }
     
     return annotationView;
@@ -574,8 +614,14 @@
 //    }
     
     BMKAnnotationView *old = [mapView viewForAnnotation:_pointAnnotation];
-    old.image = cn_image(@"icon_normal_nail");
-//    [(BMKPinAnnotationView *)old setPinColor:BMKPinAnnotationColorPurple];
+    if ([old.annotation isKindOfClass:[CNPointAnnotation class]]) {
+        CNPointAnnotation *ann = (CNPointAnnotation *)old.annotation;
+        old.image = [self pointAnnotationImageWithIndex:ann.index selected:NO];
+    }
+    else {
+        old.image = cn_image(@"icon_normal_nail");
+    }
+    
     
     if ([view.annotation isKindOfClass:[BMKPointAnnotation class]]) {
         _pointAnnotation = (BMKPointAnnotation *)(view.annotation);
@@ -585,8 +631,14 @@
     }
     
     _selectedPointAddressDesc = _pointAnnotation.subtitle;
-    view.image = cn_image(@"icon_selected_nail");
-//     [(BMKPinAnnotationView *)view setPinColor:BMKPinAnnotationColorRed];
+    
+    if ([view.annotation isKindOfClass:[CNPointAnnotation class]]) {
+        CNPointAnnotation *ann = (CNPointAnnotation *)view.annotation;
+        view.image = [self pointAnnotationImageWithIndex:ann.index selected:YES];
+    }
+    else {
+        view.image = cn_image(@"icon_selected_nail");
+    }
     
     [self showAnnotationsWithZoom:0];
 //    [self showBottomPanelWithTitle:view.annotation.title detail:view.annotation.subtitle];

@@ -12,6 +12,7 @@
 #import "CNNearbyServer.h"
 #import "CNNearbyPerson.h"
 #import "CNPerson.h"
+#import "CNPointAnnotation.h"
 
 @interface CNNearbyViewController ()<BMKMapViewDelegate,UIGestureRecognizerDelegate>
 {
@@ -247,7 +248,10 @@
         [self.nearbyPersons enumerateObjectsUsingBlock:^(CNNearbyPerson *person, NSUInteger idx, BOOL *stop) {
             
             CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(person.latitude, person.longitude);
-            BMKPointAnnotation *annotation = [self loadPointAnnotationWithTitle:person.name subTitle:person.street coor:coor];
+            CNPointAnnotation *annotation = [self loadPointAnnotationWithTitle:person.name subTitle:person.street coor:coor];
+            annotation.person = person;
+            annotation.index = person.nearbyIndex;
+            
             [self.annotations addObject:annotation];
             
             if ((_selectdPerson == nil && idx == 0) || [_selectdPerson.uid isEqualToString:person.uid]) {
@@ -416,9 +420,9 @@
 }
 
 #pragma mark - Annotation
-- (BMKPointAnnotation *)loadPointAnnotationWithTitle:(NSString *)title subTitle:(NSString *)subTitle coor:(CLLocationCoordinate2D)coor {
+- (CNPointAnnotation *)loadPointAnnotationWithTitle:(NSString *)title subTitle:(NSString *)subTitle coor:(CLLocationCoordinate2D)coor {
     
-    BMKPointAnnotation *point = [[BMKPointAnnotation alloc]init];
+    CNPointAnnotation *point = [[CNPointAnnotation alloc]init];
     point.title = title;
     point.subtitle = subTitle;
     point.coordinate = coor;
@@ -490,14 +494,24 @@
         ((BMKPinAnnotationView*)annotationView).animatesDrop = NO;
     }
     
-    if (annotation == _pointAnnotation) {
-        annotationView.image = cn_image(@"icon_selected_nail");
-        //        annotationView.pinColor = BMKPinAnnotationColorRed;
+    if ([annotation isKindOfClass:[CNPointAnnotation class]]) {
+        CNPointAnnotation *ann = (CNPointAnnotation *)annotation;
+        if (annotation == _pointAnnotation) {
+            annotationView.image = [self pointAnnotationImageWithIndex:ann.index selected:YES];
+        }
+        else {
+            // 设置颜色
+            annotationView.image = [self pointAnnotationImageWithIndex:ann.index selected:NO];
+        }
     }
     else {
-        // 设置颜色
-        annotationView.image = cn_image(@"icon_normal_nail");
-        //        annotationView.pinColor = BMKPinAnnotationColorPurple;
+        if (annotation == _pointAnnotation) {
+            annotationView.image = cn_image(@"icon_selected_nail");
+        }
+        else {
+            // 设置颜色
+            annotationView.image = cn_image(@"icon_normal_nail");
+        }
     }
     
     // 设置位置
@@ -519,6 +533,25 @@
     
 }
 
+- (UIImage *)pointAnnotationImageWithIndex:(NSUInteger)idx selected:(BOOL)selected {
+    if (idx > 10) {
+        if (selected) {
+            return cn_image(@"icon_selected_nail");
+        }
+        else {
+            return cn_image(@"icon_normal_nail");
+        }
+    }
+    else {
+        if (selected) {
+            return cn_image(([NSString stringWithFormat:@"red_%ld", (long)idx]));
+        }
+        else {
+            return cn_image(([NSString stringWithFormat:@"blue_%ld", (long)idx]));
+        }
+    }
+}
+
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view
 {
     //我的位置不需要处理
@@ -533,7 +566,13 @@
     _coor = view.annotation.coordinate;
     
     BMKAnnotationView *old = [mapView viewForAnnotation:_pointAnnotation];
-    old.image = cn_image(@"icon_normal_nail");
+    if ([old.annotation isKindOfClass:[CNPointAnnotation class]]) {
+        CNPointAnnotation *ann = (CNPointAnnotation *)old.annotation;
+        old.image = [self pointAnnotationImageWithIndex:ann.index selected:NO];
+    }
+    else {
+        old.image = cn_image(@"icon_normal_nail");
+    }
 //    [(BMKPinAnnotationView *)old setPinColor:BMKPinAnnotationColorPurple];
     
     if ([view.annotation isKindOfClass:[BMKPointAnnotation class]]) {
@@ -547,8 +586,15 @@
 //        _pointAnnotation = [self loadPointAnnotationWithTitle:self.addrtitle subTitle:view.annotation.subtitle coor:_coor];
     }
     
-    view.image = cn_image(@"icon_selected_nail");
-//    [(BMKPinAnnotationView *)view setPinColor:BMKPinAnnotationColorRed];
+    if ([view.annotation isKindOfClass:[CNPointAnnotation class]]) {
+        CNPointAnnotation *ann = (CNPointAnnotation *)view.annotation;
+        view.image = [self pointAnnotationImageWithIndex:ann.index selected:YES];
+    }
+    else {
+        view.image = cn_image(@"icon_selected_nail");
+    }
+    
+
     [self showAnnotationsWithZoom:0];
 }
 - (void)mapView:(BMKMapView *)mapView didAddAnnotationViews:(NSArray *)views
