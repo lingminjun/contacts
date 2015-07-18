@@ -15,7 +15,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-         _icon = [UIImageView ssn_imageViewWithImage:cn_image(@"icon_location")];
+         _icon = [UIImageView ssn_imageViewWithImage:cn_image(@"")];
         
         NSUInteger name_width = cn_screen_width - cn_left_edge_width - cn_right_edge_width - cn_hor_space_width - _icon.ssn_width;
         
@@ -56,7 +56,12 @@
     [super ssn_configureCellWithModel:model atIndexPath:indexPath inTableView:tableView];
     
     if ([model isKindOfClass:[CNLocalPointCellModel class]]) {
-        _name.text = model.point.name;
+        if (model.needShowIndex) {
+            _name.text = [NSString stringWithFormat:@"%ld.%@", indexPath.row + 1, model.point.name];
+        }else{
+            _name.text = model.point.name;
+        }
+        
         _address.text = model.point.address;
     }
     

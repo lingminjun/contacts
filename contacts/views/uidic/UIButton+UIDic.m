@@ -82,7 +82,7 @@
     CGSize size = CGSizeMake(100, 30);
     
     UIButton *btn = [UIButton ssn_buttonWithSize:size
-                                            font:cn_title_font
+                                            font:cn_normal_font
                                            color:cn_text_normal_color
                                         selected:nil
                                         disabled:nil

@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		48165CAC1B3FF450002FF911 /* img_setting_header@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 48165CAB1B3FF450002FF911 /* img_setting_header@2x.jpg */; };
+		484F5A171B5A846300CC198D /* CNLocationLableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 484F5A161B5A846300CC198D /* CNLocationLableCell.m */; };
+		484F5A1A1B5A84BD00CC198D /* CNLocationTaggingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 484F5A191B5A84BD00CC198D /* CNLocationTaggingCell.m */; };
+		484F5A1C1B5A9FFB00CC198D /* location_map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 484F5A1B1B5A9FFB00CC198D /* location_map@2x.png */; };
+		484F5A1E1B5AA14700CC198D /* icon_add_friend@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 484F5A1D1B5AA14700CC198D /* icon_add_friend@2x.png */; };
 		487AF9BA1B494B4600018D28 /* CNNearbyListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 487AF9B91B494B4600018D28 /* CNNearbyListViewController.m */; };
 		487AF9C51B49506000018D28 /* CNNearbyPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 487AF9C41B49506000018D28 /* CNNearbyPersonCell.m */; };
 		5305EB991B517724004CD4B8 /* blue_10@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5305EB851B517724004CD4B8 /* blue_10@2x.png */; };
@@ -258,6 +262,12 @@
 
 /* Begin PBXFileReference section */
 		48165CAB1B3FF450002FF911 /* img_setting_header@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "img_setting_header@2x.jpg"; sourceTree = "<group>"; };
+		484F5A151B5A846300CC198D /* CNLocationLableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNLocationLableCell.h; sourceTree = "<group>"; };
+		484F5A161B5A846300CC198D /* CNLocationLableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNLocationLableCell.m; sourceTree = "<group>"; };
+		484F5A181B5A84BD00CC198D /* CNLocationTaggingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNLocationTaggingCell.h; sourceTree = "<group>"; };
+		484F5A191B5A84BD00CC198D /* CNLocationTaggingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNLocationTaggingCell.m; sourceTree = "<group>"; };
+		484F5A1B1B5A9FFB00CC198D /* location_map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location_map@2x.png"; sourceTree = "<group>"; };
+		484F5A1D1B5AA14700CC198D /* icon_add_friend@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_add_friend@2x.png"; sourceTree = "<group>"; };
 		487AF9B81B494B4600018D28 /* CNNearbyListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNNearbyListViewController.h; sourceTree = "<group>"; };
 		487AF9B91B494B4600018D28 /* CNNearbyListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CNNearbyListViewController.m; sourceTree = "<group>"; };
 		487AF9C31B49506000018D28 /* CNNearbyPersonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CNNearbyPersonCell.h; sourceTree = "<group>"; };
@@ -901,6 +911,10 @@
 				5364483E1B2DCD44001F7CF2 /* CNUserHeaderCell.m */,
 				5364486A1B3844D6001F7CF2 /* CNLocationInputCell.h */,
 				5364486B1B3844D6001F7CF2 /* CNLocationInputCell.m */,
+				484F5A151B5A846300CC198D /* CNLocationLableCell.h */,
+				484F5A161B5A846300CC198D /* CNLocationLableCell.m */,
+				484F5A181B5A84BD00CC198D /* CNLocationTaggingCell.h */,
+				484F5A191B5A84BD00CC198D /* CNLocationTaggingCell.m */,
 			);
 			path = detail;
 			sourceTree = "<group>";
@@ -927,6 +941,7 @@
 		5364482D1B2C7230001F7CF2 /* contacts */ = {
 			isa = PBXGroup;
 			children = (
+				484F5A1B1B5A9FFB00CC198D /* location_map@2x.png */,
 				53F213871B3FE23F00CA60B7 /* location_list@2x.png */,
 				53F213811B3EE25A00CA60B7 /* no_friends_icon@2x.png */,
 				5364486D1B3845E1001F7CF2 /* location_label_icon@2x.png */,
@@ -1000,6 +1015,7 @@
 		537F396C1B11FCC400EE8230 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				484F5A1D1B5AA14700CC198D /* icon_add_friend@2x.png */,
 				5353374C1B4830EE00E09C20 /* icon_me_location@2x.png */,
 				535337481B48170B00E09C20 /* icon_normal_nail@2x.png */,
 				535337491B48170B00E09C20 /* icon_selected_nail@2x.png */,
@@ -1862,6 +1878,7 @@
 				53F2138C1B401AAB00CA60B7 /* icon_call@2x.png in Resources */,
 				5305EB9B1B517725004CD4B8 /* blue_2@2x.png in Resources */,
 				537F398E1B11FD9E00EE8230 /* Localizable.strings in Resources */,
+				484F5A1E1B5AA14700CC198D /* icon_add_friend@2x.png in Resources */,
 				53A48E8B1B1A023400AC46D3 /* ssn_pull_refresh_blue_arrow.png in Resources */,
 				537F39851B11FCC400EE8230 /* icon_setting_selected@2x.png in Resources */,
 				53F213801B3E916C00CA60B7 /* icon_location@2x.png in Resources */,
@@ -1909,6 +1926,7 @@
 				53A48E931B1A023400AC46D3 /* ssn_pull_refresh_white_arrow@3x.png in Resources */,
 				5353374A1B48170B00E09C20 /* icon_normal_nail@2x.png in Resources */,
 				537F39921B12005600EE8230 /* CNPerson.json in Resources */,
+				484F5A1C1B5A9FFB00CC198D /* location_map@2x.png in Resources */,
 				5305EB9C1B517725004CD4B8 /* blue_3@2x.png in Resources */,
 				53A48E4A1B1A023400AC46D3 /* SSNABPerson.json in Resources */,
 				5305EBAC1B517725004CD4B8 /* red_9@2x.png in Resources */,
@@ -1966,6 +1984,7 @@
 				536448621B37CCF1001F7CF2 /* CNPicker.m in Sources */,
 				53A48E401B1A023400AC46D3 /* SSNRigidCache.m in Sources */,
 				536448741B385A93001F7CF2 /* CNLocationListViewController.m in Sources */,
+				484F5A171B5A846300CC198D /* CNLocationLableCell.m in Sources */,
 				53A48E841B1A023400AC46D3 /* SSNDefaultLoadMoreView.m in Sources */,
 				53A48E971B1A023400AC46D3 /* SSNToast.m in Sources */,
 				5305EBB21B517C81004CD4B8 /* CNPointAnnotation.m in Sources */,
@@ -2037,6 +2056,7 @@
 				53F213861B3EF21500CA60B7 /* CNNearbyServer.m in Sources */,
 				536448691B3837FE001F7CF2 /* CNAddress.m in Sources */,
 				53A48E5D1B1A023400AC46D3 /* SSNHosting.m in Sources */,
+				484F5A1A1B5A84BD00CC198D /* CNLocationTaggingCell.m in Sources */,
 				53A48E691B1A023400AC46D3 /* UIAlertView+SSNCategory.m in Sources */,
 				53F2137E1B3E857600CA60B7 /* CNLocalPointCell.m in Sources */,
 				53A48E381B1A023400AC46D3 /* NSString+SSN.m in Sources */,

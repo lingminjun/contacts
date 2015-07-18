@@ -20,6 +20,7 @@
 
 @interface CNLocalPointCellModel : CNCellModel
 
+@property (nonatomic,assign) BOOL needShowIndex;
 @property (nonatomic,strong) CNLocationPoint *point;
 
 @end

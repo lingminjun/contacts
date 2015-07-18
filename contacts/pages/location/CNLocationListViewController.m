@@ -54,6 +54,7 @@
         [self.datas setArray:self.results];
         for (CNLocationPoint *point in self.results) {
             CNLocalPointCellModel *cellModel = [[CNLocalPointCellModel alloc] init];
+            cellModel.needShowIndex = YES;
             cellModel.point = point;
             [items addObject:cellModel];
         }
@@ -71,6 +72,7 @@
                                                    NSMutableArray *items = [NSMutableArray arrayWithCapacity:1];
                                                    for (CNLocationPoint *point in self.results) {
                                                        CNLocalPointCellModel *cellModel = [[CNLocalPointCellModel alloc] init];
+                                                       cellModel.needShowIndex = YES;
                                                        cellModel.point = point;
                                                        [items addObject:cellModel];
                                                    }

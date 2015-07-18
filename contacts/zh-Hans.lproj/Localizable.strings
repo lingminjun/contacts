@@ -40,7 +40,7 @@
 /**********************************************
  好友
  ***********************************************/
-"friends.header.title"          = "朋友";
+"friends.header.title"          = "所有朋友";
 "friends.header.title.format"   = "朋友(%@)";
 "friends.add.friend"            = "添加";
 "friends.add.friend.tip"        = "添加朋友";
@@ -57,17 +57,17 @@
 "user.company.address.label"    = "公司";
 
 "user.detail.addr.label"        = "详细地址";
-"user.detail.addr.placeholder"  = "请填写详细地址信息";
+"user.detail.addr.placeholder"  = "";//"请填写详细地址信息";
 
-"user.biotope.label"            = "小区";
-"user.building.label"           = "大厦";
-"user.biotope.placeholder"      = "请填写小区名称";
-"user.building.placeholder"     = "请填写大厦名称";
+"user.biotope.label"            = "位置名称";
+"user.building.label"           = "位置名称";
+"user.biotope.placeholder"      = "";//"请填写小区名称";
+"user.building.placeholder"     = "";//"请填写大厦名称";
 
-"user.room.label"               = "门牌";
-"user.floor.label"              = "楼层";
-"user.room.placeholder"         = "请填写几幢几室";
-"user.floor.placeholder"        = "请填写几楼几室";
+"user.room.label"               = "备注";
+"user.floor.label"              = "备注";
+"user.room.placeholder"         = "请填写备注";
+"user.floor.placeholder"        = "请填写备注";
 
 "user.name.input.tip"           = "请输入正确的姓名";
 "user.mobile.input.tip"         = "请输入正确的手机号";
@@ -85,7 +85,7 @@
 /**********************************************
  附近
  ***********************************************/
-"nearby.header.title"           = "附近";
+"nearby.header.title"           = "附近朋友";
 "location.header.title"         = "选择位置";
 "location.selected.button"      = "标注位置";
 "location.select.error"         = "请标注详细位置";

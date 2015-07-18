@@ -34,7 +34,7 @@
     [super viewDidLoad];
 
     self.title = cn_localized(@"nearby.header.title");
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:cn_image(@"icon_me_location") style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:cn_image(@"location_map") style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
     
     self.ssn_tableViewConfigurator.tableView = self.tableView;
     self.ssn_tableViewConfigurator.isAutoEnabledLoadMore = YES;//自动控制是否还有更多

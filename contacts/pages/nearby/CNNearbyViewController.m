@@ -50,7 +50,7 @@
         return _bottomPanel;
     }
     
-    CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, 120);
+    CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, 90);
     _bottomPanel = [[UIView alloc] initWithFrame:frame];
     _bottomPanel.backgroundColor = [UIColor clearColor];
     _bottomPanel.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin;
@@ -98,8 +98,8 @@
                                                alignment:NSTextAlignmentLeft
                                                multiLine:NO];
             ssn_layout_add_v2(layout, label, 1, ssn_layout_table_cell_v2(SSNUIContentModeCenter), content);
-            
-            UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width), 40)];
+
+            UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width), 0)];bottomView.backgroundColor = [UIColor redColor];
             {
                 SSNUITableLayout *ly = [bottomView ssn_tableLayoutWithRowCount:1 columnCount:3];
                 [ly setColumnInfo:ssn_layout_table_column_v2(1) atColumn:1];
@@ -544,10 +544,10 @@
     }
     else {
         if (selected) {
-            return cn_image(([NSString stringWithFormat:@"red_%ld", (long)idx]));
+            return cn_image(([NSString stringWithFormat:@"blue_%ld", (long)idx]));
         }
         else {
-            return cn_image(([NSString stringWithFormat:@"blue_%ld", (long)idx]));
+            return cn_image(([NSString stringWithFormat:@"red_%ld", (long)idx]));
         }
     }
 }

@@ -13,8 +13,10 @@
 #import "CNLabelCell.h"
 #import "CNUserHeaderCell.h"
 #import "CNAddress.h"
-#import "CNLocationInputCell.h"
+//#import "CNLocationInputCell.h"
 #import "CNPicker.h"
+#import "CNLocationLableCell.h"
+#import "CNLocationTaggingCell.h"
 
 NSString *const CN_DETAIL_SET_USER_OPTION = @"setuser";
 NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
@@ -33,9 +35,11 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
 @property (nonatomic,strong) CNLabelInputCellModel *mobileCell;
 @property (nonatomic,strong) CNSelectionCellModel *addressTypeCell;
 @property (nonatomic,strong) CNLabelCellModel *provinceCell;
-@property (nonatomic,strong) CNLocationInputCellModel *locationPointNameCell;
-@property (nonatomic,strong) CNLabelInputCellModel *streetAddrCell;//详细地址信息
-@property (nonatomic,strong) CNLabelInputCellModel *addressDetailCell;
+
+@property (nonatomic, strong) CNLocationTaggingCellModel * locationTaggingCellModel;
+@property (nonatomic, strong) CNLocationLableCellModel * locationNameCellModel;
+@property (nonatomic, strong) CNLocationLableCellModel * detailAddressCellModel;
+@property (nonatomic, strong) CNLabelInputCellModel *addressDetailCell;
 
 //本地通讯录选择
 @property (nonatomic,strong) UITableView *selectedTable;
@@ -211,8 +215,8 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
         _provinceCell.subTitle = str;
     }
     
-    _locationPointNameCell.input = nil;
-    _streetAddrCell.input = nil;
+    _locationNameCellModel.subTitle = nil;
+    _detailAddressCellModel.subTitle = nil;
     _addressDetailCell.input = nil;
     [self.tableView reloadData];
 
@@ -308,8 +312,8 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     _person.gender = _genderCell.value == 0 ? CNPersonMaleGender : CNPersonFemaleGender;
     _person.mobile = [[_mobileCell.input ssn_trimAllWhitespace] ssn_trimCountryCodePhoneNumber];
     _person.addressLabel = _addressTypeCell.value == 0 ? CNHomeAddressLabel : CNCompanyAddressLabel;
-    _person.locationPointName = [_locationPointNameCell.input ssn_trimWhitespace];
-    _person.street = [_streetAddrCell.input ssn_trimWhitespace];
+    _person.locationPointName = [_locationNameCellModel.subTitle ssn_trimWhitespace];
+    _person.street = [_detailAddressCellModel.subTitle ssn_trimWhitespace];
     _person.addressDetail = [_addressDetailCell.input ssn_trimWhitespace];
     
     NSString *auid = self.uid;
@@ -501,8 +505,6 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
         if ([_person.name isEqualToString:[_nameCell.input ssn_trimWhitespace]]
             && [_person.mobile isEqualToString:[_mobileCell.input ssn_trimAllWhitespace]]
             && [_person.province isEqualToString:[_provinceCell.subTitle ssn_trimWhitespace]]
-            && [_person.locationPointName isEqualToString:[_locationPointNameCell.input ssn_trimWhitespace]]
-            && [_person.street isEqualToString:[_streetAddrCell.input ssn_trimWhitespace]]
             && [_person.addressDetail isEqualToString:[_addressDetailCell.input ssn_trimWhitespace]]
             && _person.gender == (_genderCell.value == 1 ? CNPersonMaleGender : CNPersonFemaleGender)) {
             self.navigationItem.rightBarButtonItem.enabled = NO;
@@ -522,7 +524,7 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     }
 }
 
-- (void)cellLocationButtonAction:(CNLocationInputCell *)cell {
+- (void)cellLocationButtonAction:(CNLocationTaggingCell *)cell {
     //进入地图选择
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithCapacity:1];
     
@@ -532,7 +534,7 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     addr.district = _person.region;
     
     [dic setValue:addr forKey:@"addr"];
-    NSString *addrdes = [_streetAddrCell.input ssn_trimWhitespace];
+    NSString *addrdes = [_detailAddressCellModel.subTitle ssn_trimWhitespace];
     if (![addrdes ssn_non_empty] && [_person.city ssn_non_empty]) {
         if ([_person.region ssn_non_empty]) {
             addrdes = [NSString stringWithFormat:@"%@%@",_person.city,_person.region];
@@ -543,8 +545,8 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     }
     [dic setValue:addrdes forKey:@"addrdes"];
     
-    if ([[_locationPointNameCell.input ssn_trimWhitespace] ssn_non_empty]) {
-        [dic setObject:[_locationPointNameCell.input ssn_trimWhitespace] forKey:@"addrtitle"];
+    if ([[_locationNameCellModel.subTitle ssn_trimWhitespace] ssn_non_empty]) {
+        [dic setObject:[_locationNameCellModel.subTitle ssn_trimWhitespace] forKey:@"addrtitle"];
     }
     
     
@@ -566,15 +568,6 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     else {
         _person.addressLabel = CNCompanyAddressLabel;
     }
-    
-    _locationPointNameCell.title = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.biotope.label"):cn_localized(@"user.building.label"));
-    _locationPointNameCell.input = _person.locationPointName;
-    _locationPointNameCell.inputPlaceholder = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.biotope.placeholder"):cn_localized(@"user.building.placeholder"));
-    _locationPointNameCell.subTitle = cn_localized(@"user.map.label");
-    
-    _addressDetailCell.title = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.room.label"):cn_localized(@"user.floor.label"));
-    _addressDetailCell.input = _person.addressDetail;
-    _addressDetailCell.inputPlaceholder = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.room.placeholder"):cn_localized(@"user.floor.placeholder"));
     
     [self.ssn_tableViewConfigurator.listFetchController loadData];
 }
@@ -763,23 +756,30 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
         }
         
         {
-            CNLocationInputCellModel *streetAddrCell = [[CNLocationInputCellModel alloc] init];
-            streetAddrCell.title = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.biotope.label"):cn_localized(@"user.building.label"));
-            streetAddrCell.input = _person.locationPointName;
-            streetAddrCell.inputPlaceholder = (_person.addressLabel == CNHomeAddressLabel?cn_localized(@"user.biotope.placeholder"):cn_localized(@"user.building.placeholder"));
-            streetAddrCell.subTitle = cn_localized(@"user.map.label");
-            streetAddrCell.disabledSelect = YES;
-            [models addObject:streetAddrCell];
-            _locationPointNameCell = streetAddrCell;
+            CNLocationTaggingCellModel * taggingCellModel = [CNLocationTaggingCellModel new];
+            taggingCellModel.title = @"位置";
+            taggingCellModel.subTitle = cn_localized(@"user.map.label");
+            taggingCellModel.disabledSelect = YES;
+            [models addObject:taggingCellModel];
+            _locationTaggingCellModel = taggingCellModel;
         }
         
         {
-            CNLabelInputCellModel *detailStreedAddrCell = [[CNLabelInputCellModel alloc] init];
+            CNLocationLableCellModel * locationNameCellModel = [[CNLocationLableCellModel alloc] init];
+            locationNameCellModel.title = @"位置名称";
+            locationNameCellModel.disabledSelect = YES;
+            locationNameCellModel.subTitle = _person.locationPointName;
+            [models addObject:locationNameCellModel];
+            _locationNameCellModel = locationNameCellModel;
+        }
+        
+        {
+            CNLocationLableCellModel * detailStreedAddrCell = [[CNLocationLableCellModel alloc] init];
             detailStreedAddrCell.title = cn_localized(@"user.detail.addr.label");
-            detailStreedAddrCell.input = _person.street;
-            detailStreedAddrCell.inputPlaceholder = cn_localized(@"user.detail.addr.placeholder");
+            detailStreedAddrCell.disabledSelect = YES;
+            detailStreedAddrCell.subTitle = _person.street;
             [models addObject:detailStreedAddrCell];
-            _streetAddrCell = detailStreedAddrCell;
+            _detailAddressCellModel = detailStreedAddrCell;
         }
         
         {
@@ -830,11 +830,11 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     CNAddress *addr = [query objectForKey:@"addr"];
     
     if ([addrName length]) {
-        _locationPointNameCell.input = addrName;
+        _locationNameCellModel.subTitle = addrName;
     }
     
     if ([addrdes length]) {
-        _streetAddrCell.input = addrdes;
+        _detailAddressCellModel.subTitle = addrdes;
     }
     
     if (addr) {
@@ -852,8 +852,8 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     _coor.longitude = longitude;
     
     NSInteger addrIndex= [_items indexOfObject:_provinceCell];
-    NSInteger street = [_items indexOfObject:_streetAddrCell];
-    NSInteger location = [_items indexOfObject:_locationPointNameCell];
+    NSInteger street = [_items indexOfObject:_detailAddressCellModel];
+    NSInteger location = [_items indexOfObject:_locationNameCellModel];
     
     [self.ssn_tableViewConfigurator.listFetchController updateDatasAtIndexPaths:@[cn_index_path(addrIndex,0),cn_index_path(street,0),cn_index_path(location,0)] withContext:nil];
     

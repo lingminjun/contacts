@@ -60,8 +60,8 @@
             layout.contentInset = cn_panel_edge;
             
             UILabel *label = [UILabel ssn_labelWithWidth:backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width)
-                                                    font:cn_normal_font
-                                                   color:cn_text_assist_color
+                                                    font:cn_title_font
+                                                   color:cn_text_normal_color
                                                backgroud:[UIColor clearColor]
                                                alignment:NSTextAlignmentLeft
                                                multiLine:NO];
@@ -69,8 +69,8 @@
             ssn_layout_add_v2(layout, label, 0, ssn_layout_table_cell_v2(SSNUIContentModeCenter), title);
             
             label = [UILabel ssn_labelWithWidth:backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width)
-                                           font:cn_title_font
-                                          color:cn_text_normal_color
+                                           font:cn_normal_font
+                                          color:cn_text_assist_color
                                       backgroud:[UIColor clearColor]
                                       alignment:NSTextAlignmentLeft
                                       multiLine:NO];
@@ -472,13 +472,14 @@
 }
 
 - (void)mapView:(BMKMapView *)mapView onClickedMapBlank:(CLLocationCoordinate2D)coordinate {
-    _coor = coordinate;
-    
-    _pointAnnotation.title = cn_localized(@"location.selected.button");
-    _selectedPointAddressDesc = nil;
-    
-    SSNLog(@"选择精度维度%f,%f",_coor.longitude,_coor.latitude);
-    [self showAnnotationsWithZoom:0];
+    return;
+//    _coor = coordinate;
+//    
+//    _pointAnnotation.title = cn_localized(@"location.selected.button");
+//    _selectedPointAddressDesc = nil;
+//    
+//    SSNLog(@"选择精度维度%f,%f",_coor.longitude,_coor.latitude);
+//    [self showAnnotationsWithZoom:0];
 }
 
 - (void)mapview:(BMKMapView *)mapView onDoubleClick:(CLLocationCoordinate2D)coordinate {
@@ -498,10 +499,10 @@
     }
     else {
         if (selected) {
-            return cn_image(([NSString stringWithFormat:@"red_%ld", (long)(idx + 1)]));
+            return cn_image(([NSString stringWithFormat:@"blue_%ld", (long)(idx + 1)]));
         }
         else {
-            return cn_image(([NSString stringWithFormat:@"blue_%ld", (long)(idx + 1)]));
+            return cn_image(([NSString stringWithFormat:@"red_%ld", (long)(idx + 1)]));
         }
     }
 }

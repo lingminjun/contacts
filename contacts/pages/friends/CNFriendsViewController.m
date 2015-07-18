@@ -103,7 +103,7 @@
         NSNumber *first = [sums firstObject];
         if ([first integerValue] > 0) {
             if (self.navigationItem.rightBarButtonItem == nil) {
-                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:cn_localized(@"friends.add.friend") style:UIBarButtonItemStylePlain target:self action:@selector(addPerson:)];
+                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:cn_image(@"icon_add_friend") style:UIBarButtonItemStylePlain target:self action:@selector(addPerson:)];
                 self.parentViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
             }
             [self.noResultPlaceholder removeFromSuperview];
