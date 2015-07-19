@@ -65,7 +65,7 @@
         
         {
             SSNUITableLayout *layout = [backgroud ssn_tableLayoutWithRowCount:3 columnCount:1];
-            layout.contentInset = cn_panel_edge;
+            layout.contentInset = UIEdgeInsetsMake(0, cn_left_edge_width, 0, cn_right_edge_width);
             
             UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width), 30)];
             {
@@ -97,9 +97,9 @@
                                                backgroud:[UIColor clearColor]
                                                alignment:NSTextAlignmentLeft
                                                multiLine:NO];
-            ssn_layout_add_v2(layout, label, 1, ssn_layout_table_cell_v2(SSNUIContentModeCenter), content);
+            ssn_layout_add_v2(layout, label, 1, ssn_layout_table_cell_v2(SSNUIContentModeTop), content);
 
-            UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width), 0)];bottomView.backgroundColor = [UIColor redColor];
+            UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width), 30)];
             {
                 SSNUITableLayout *ly = [bottomView ssn_tableLayoutWithRowCount:1 columnCount:3];
                 [ly setColumnInfo:ssn_layout_table_column_v2(1) atColumn:1];
