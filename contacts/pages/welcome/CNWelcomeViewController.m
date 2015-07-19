@@ -39,35 +39,38 @@
         imgV.frame = _pageView.bounds;
         imgV.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         [_pageView addView:imgV atIndex:index];
+        
+        if (index == cn_page_count - 1) {
+            imgV.userInteractionEnabled = YES;
+            [imgV addSubview:[self skipButton]];
+        }
     }
     
     return _pageView;
 }
 
 - (UIPageControl *)dotView {
-    if (_dotView) {
-        return _dotView;
-    }
-    
-    _dotView = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 0, (cn_page_count - 1)*cn_dot_width, 8)];
-    _dotView.numberOfPages = cn_page_count;
-    [_dotView sizeToFit];
-    _dotView.ssn_bottom = self.view.ssn_height - 20;
-    _dotView.ssn_center_x = self.view.ssn_center_x;
-    _dotView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
-    return _dotView;
+    return nil;
+//    if (_dotView) {
+//        return _dotView;
+//    }
+//    
+//    _dotView = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 0, (cn_page_count - 1)*cn_dot_width, 8)];
+//    _dotView.numberOfPages = cn_page_count;
+//    [_dotView sizeToFit];
+//    _dotView.ssn_bottom = self.view.ssn_height - 20;
+//    _dotView.ssn_center_x = self.view.ssn_center_x;
+//    _dotView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
+//    return _dotView;
 }
 
 - (UIButton *)skipButton {
-    UIButton *btn = [UIButton ssn_buttonWithSize:CGSizeMake(120, 40) font:[UIFont systemFontOfSize:14] color:[UIColor blackColor] selected:nil disabled:nil backgroud:nil selected:nil disabled:nil];
-    UIImage *img = [[UIImage ssn_imageWithColor:cn_button_normal_color border:0 color:nil cornerRadius:2] ssn_centerStretchImage];
+    UIButton *btn = [UIButton ssn_buttonWithSize:CGSizeMake(195, 40) font:[UIFont systemFontOfSize:14] color:[UIColor blackColor] selected:nil disabled:nil backgroud:nil selected:nil disabled:nil];
+    UIImage *img = cn_image(@"icon_welcome_enter");
     btn.ssn_normalBackgroundImage = img;
     btn.ssn_center_y = self.view.ssn_height - 70;
     btn.ssn_center_x = ssn_center([UIScreen mainScreen].bounds).x;
     [btn ssn_addTarget:self touchAction:@selector(skipAction:)];
-    btn.ssn_normalTitleColor = [UIColor whiteColor];
-    btn.titleLabel.font = cn_normal_font;
-    btn.ssn_normalTitle = cn_localized(@"welcome.skip.button");
     return btn;
 }
 
@@ -78,7 +81,6 @@
 
     [self.view addSubview:self.pageView];
     [self.view addSubview:self.dotView];
-    [self.view addSubview:[self skipButton]];
 }
 
 - (void)skipAction:(id)sender {

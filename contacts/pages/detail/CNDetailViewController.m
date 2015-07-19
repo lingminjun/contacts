@@ -833,6 +833,8 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     
     if ([addrName length]) {
         _locationNameCellModel.subTitle = addrName;
+    }else{
+        _locationNameCellModel.subTitle = addrdes;
     }
     
     if ([addrdes length]) {
