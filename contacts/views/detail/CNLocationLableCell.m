@@ -16,14 +16,14 @@
         
         NSUInteger title_width = 60;
         
-        _title = [UILabel ssn_labelWithWidth:title_width font:cn_normal_font color:cn_text_normal_color backgroud:cn_clear_color alignment:NSTextAlignmentLeft multiLine:NO];
+        _title = [UILabel ssn_labelWithWidth:title_width font:cn_normal_font color:cn_text_normal_color backgroud:cn_clear_color alignment:NSTextAlignmentLeft multiLine:NO]; _title.backgroundColor = [UIColor redColor];
         
-        _subTitle = [UILabel ssn_labelWithWidth:self.ssn_width - title_width font:cn_normal_font color:cn_text_normal_color backgroud:cn_clear_color alignment:NSTextAlignmentLeft multiLine:NO];
+        _subTitle = [UILabel ssn_labelWithWidth:self.ssn_width - title_width font:cn_normal_font color:cn_text_normal_color backgroud:cn_clear_color alignment:NSTextAlignmentLeft multiLine:NO]; _subTitle.backgroundColor = [UIColor greenColor];
         
         
         //开始布局
         SSNUITableLayout *layout = [self.contentView ssn_tableLayoutWithRowCount:1 columnCount:2];
-        layout.contentInset = UIEdgeInsetsMake(0, cn_left_edge_width, 0, cn_right_edge_width);
+        layout.contentInset = UIEdgeInsetsMake(0, cn_left_edge_width, 0, 0);
         _layout = layout;
         
         //固定左右列宽度
