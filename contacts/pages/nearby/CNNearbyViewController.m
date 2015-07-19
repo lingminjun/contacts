@@ -171,6 +171,7 @@
     }
     
     _zoomPanel = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 81)];
+    _zoomPanel.backgroundColor = cn_backgroud_white_color;
     {
         SSNUITableLayout *layout = [_zoomPanel ssn_tableLayoutWithRowCount:3 columnCount:1];
         
@@ -179,9 +180,10 @@
                                                color:cn_text_assist_color
                                             selected:nil
                                             disabled:nil
-                                           backgroud:cn_image(@"icon_scal_up")
+                                           backgroud:nil
                                             selected:nil
                                             disabled:nil];
+        btn.ssn_normalImage = cn_image(@"icon_scal_up");
         [btn ssn_addTarget:self touchAction:@selector(addAction:)];
         ssn_layout_add_v2(layout, btn, 0, ssn_layout_table_cell_v2(SSNUIContentModeCenter), addZoomButton);
         
@@ -195,9 +197,10 @@
                                                color:cn_text_assist_color
                                             selected:nil
                                             disabled:nil
-                                           backgroud:cn_image(@"icon_scal_down")
+                                           backgroud:nil
                                             selected:nil
                                             disabled:nil];
+        btn.ssn_normalImage = cn_image(@"icon_scal_down");
         [btn ssn_addTarget:self touchAction:@selector(reduceAction:)];
         ssn_layout_add_v2(layout, btn, 2, ssn_layout_table_cell_v2(SSNUIContentModeCenter), reduceZoomButton);
         

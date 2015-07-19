@@ -685,7 +685,7 @@ static void addressBookExternalChangeCallback (ABAddressBookRef addressBook, CFD
 
 #pragma mark 其他接口支持
 - (NSString *)keyWithCrc64:(NSString *)crc64 recordID:(ABRecordID)recordID {
-    return [NSString stringWithUTF8Format:"%s-%d",[crc64 UTF8String],recordID];
+    return [NSString stringWithFormat:@"%@-%d",crc64,recordID];
 }
 
 
