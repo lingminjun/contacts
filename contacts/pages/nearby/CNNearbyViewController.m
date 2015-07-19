@@ -64,7 +64,7 @@
         ssn_panel_set(_bottomPanel, backgroud, backgroud);
         
         {
-            SSNUITableLayout *layout = [backgroud ssn_tableLayoutWithRowCount:3 columnCount:1];
+            SSNUITableLayout *layout = [backgroud ssn_tableLayoutWithRowCount:4 columnCount:1];
             layout.contentInset = UIEdgeInsetsMake(0, cn_left_edge_width, 0, cn_right_edge_width);
             
             UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width), 30)];
@@ -98,6 +98,11 @@
                                                alignment:NSTextAlignmentLeft
                                                multiLine:NO];
             ssn_layout_add_v2(layout, label, 1, ssn_layout_table_cell_v2(SSNUIContentModeTop), content);
+            
+            //划线
+            [layout setRowInfo:ssn_layout_table_row(1) atRow:2];
+            UIImageView *line = [UIImageView ssn_lineWithWidth:backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width) color:cn_separator_line_color orientation:UIInterfaceOrientationPortraitUpsideDown];
+            ssn_layout_add_v2(layout, line, 2, ssn_layout_table_cell_v2(SSNUIContentModeCenter), line);
 
             UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, backgroud.ssn_width - (cn_left_edge_width + cn_right_edge_width), 30)];
             {
@@ -110,7 +115,7 @@
                 [btn ssn_addTarget:self touchAction:@selector(callAction:)];
                 ssn_layout_add_v2(ly, btn, 0, ssn_layout_table_cell_v2(SSNUIContentModeCenter), call);
                 
-                UIImageView *line = [UIImageView ssn_lineWithWidth:30 color:cn_separator_line_color orientation:UIInterfaceOrientationLandscapeLeft];
+                UIImageView *line = [UIImageView ssn_lineWithWidth:24 color:cn_separator_line_color orientation:UIInterfaceOrientationLandscapeLeft];
                 ssn_layout_add_v2(ly, line, 1, ssn_layout_table_cell_v2(SSNUIContentModeCenter), line);
                 
                 btn = [UIButton cn_transparent_button];
@@ -121,8 +126,8 @@
                 ssn_layout_add_v2(ly, btn, 2, ssn_layout_table_cell_v2(SSNUIContentModeCenter), gps);
             }
             
-            [layout setRowInfo:ssn_layout_table_row(bottomView.ssn_height) atRow:2];
-            ssn_layout_add_v2(layout, bottomView, 2, ssn_layout_table_cell_v2(SSNUIContentModeCenter), bottomView);
+            [layout setRowInfo:ssn_layout_table_row(bottomView.ssn_height) atRow:3];
+            ssn_layout_add_v2(layout, bottomView, 3, ssn_layout_table_cell_v2(SSNUIContentModeCenter), bottomView);
         }
         
         self.bottomPanel.hidden = YES;
