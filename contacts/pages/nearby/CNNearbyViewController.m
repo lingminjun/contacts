@@ -150,11 +150,10 @@
                                            color:cn_text_assist_color
                                         selected:nil
                                         disabled:nil
-                                       backgroud:cn_image(@"")
+                                       backgroud:cn_image(@"icon_me_location")
                                         selected:nil
                                         disabled:nil];
     [btn ssn_addTarget:self touchAction:@selector(here:)];
-    btn.backgroundColor = [UIColor redColor];
     _atHereButton = btn;
     
     SSNUITableLayout *layout = [self.view ssn_tableLayoutWithRowCount:1 columnCount:1];
@@ -172,7 +171,6 @@
     }
     
     _zoomPanel = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 81)];
-    _zoomPanel.backgroundColor = [UIColor redColor];
     {
         SSNUITableLayout *layout = [_zoomPanel ssn_tableLayoutWithRowCount:3 columnCount:1];
         
@@ -181,7 +179,7 @@
                                                color:cn_text_assist_color
                                             selected:nil
                                             disabled:nil
-                                           backgroud:cn_image(@"")
+                                           backgroud:cn_image(@"icon_scal_up")
                                             selected:nil
                                             disabled:nil];
         [btn ssn_addTarget:self touchAction:@selector(addAction:)];
@@ -197,7 +195,7 @@
                                                color:cn_text_assist_color
                                             selected:nil
                                             disabled:nil
-                                           backgroud:cn_image(@"")
+                                           backgroud:cn_image(@"icon_scal_down")
                                             selected:nil
                                             disabled:nil];
         [btn ssn_addTarget:self touchAction:@selector(reduceAction:)];
@@ -212,7 +210,7 @@
     
     ssn_layout_add(layout, _zoomPanel, 0, zoomPanel);
     
-    return _atHereButton;
+    return _zoomPanel;
 
 }
 
@@ -261,8 +259,6 @@
     self.title = cn_localized(@"nearby.header.title");
     self.tabBarItem.image = cn_image(@"icon_nearby_normal");
     self.tabBarItem.selectedImage = cn_image(@"icon_nearby_selected");
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:cn_image(@"icon_me_location") style:UIBarButtonItemStylePlain target:self action:@selector(here:)];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:cn_image(@"location_list") style:UIBarButtonItemStylePlain target:self action:@selector(gotoList:)];
     
