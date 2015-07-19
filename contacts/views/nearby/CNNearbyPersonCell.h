@@ -22,6 +22,7 @@
 @interface CNNearbyPersonCell : CNTableViewCell
 
 @property (nonatomic, strong, readonly) UILabel * nameLabel;
+@property (nonatomic, strong, readonly) UILabel * locationNameLabel;
 @property (nonatomic, strong, readonly) UILabel * addressLabel;
 @property (nonatomic, strong, readonly) UILabel * distanceLabel;
 @property (nonatomic, strong, readonly) UIButton * callPhoneBtn;

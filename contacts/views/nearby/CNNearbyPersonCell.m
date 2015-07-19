@@ -22,8 +22,8 @@
             ssn_panel_set(self.contentView, backgroud, backgroud);
         
         
-        SSNUITableLayout *layout = [self.contentView ssn_tableLayoutWithRowCount:3 columnCount:1];
-        layout.contentInset = cn_panel_edge;
+        SSNUITableLayout *layout = [self.contentView ssn_tableLayoutWithRowCount:4 columnCount:1];
+        layout.contentInset = UIEdgeInsetsMake(0, cn_left_edge_width, 0, cn_right_edge_width);
         
         //头部
         UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cn_screen_width - cn_left_edge_width - cn_right_edge_width, 30)];
@@ -50,6 +50,16 @@
         }
         ssn_layout_add_v2(layout, topView, 0, ssn_layout_table_cell_v2(SSNUIContentModeCenter), topView);
         
+        //地址名称
+        _locationNameLabel = [UILabel ssn_labelWithWidth:cn_screen_width - (cn_left_edge_width + cn_right_edge_width)
+                                               font:cn_normal_font
+                                              color:cn_text_assist_color
+                                          backgroud:[UIColor clearColor]
+                                          alignment:NSTextAlignmentLeft
+                                          multiLine:NO];
+        [layout setRowInfo:ssn_layout_table_row(20) atRow:1];
+        ssn_layout_add_v2(layout, _locationNameLabel, 1, ssn_layout_table_cell_v2(SSNUIContentModeCenter), _locationNameLabel);
+        
         //内容
         _addressLabel = [UILabel ssn_labelWithWidth:cn_screen_width - (cn_left_edge_width + cn_right_edge_width)
                                                font:cn_normal_font
@@ -57,8 +67,8 @@
                                           backgroud:[UIColor clearColor]
                                           alignment:NSTextAlignmentLeft
                                           multiLine:NO];
-        ssn_layout_add_v2(layout, _addressLabel, 1, ssn_layout_table_cell_v2(SSNUIContentModeCenter), _addressLabel);
-        
+        [layout setRowInfo:ssn_layout_table_row(20) atRow:2];
+        ssn_layout_add_v2(layout, _addressLabel, 2, ssn_layout_table_cell_v2(SSNUIContentModeBottom), _addressLabel);
         //底部
         UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cn_screen_width - cn_left_edge_width - cn_right_edge_width, 40)];
         {
@@ -85,7 +95,7 @@
         }
         
         [layout setRowInfo:ssn_layout_table_row(bottomView.ssn_height) atRow:2];
-        ssn_layout_add_v2(layout, bottomView, 2, ssn_layout_table_cell_v2(SSNUIContentModeCenter), bottomView);
+        ssn_layout_add_v2(layout, bottomView, 3, ssn_layout_table_cell_v2(SSNUIContentModeCenter), bottomView);
     }
     return self;
 }
@@ -96,6 +106,7 @@
     _nameLabel.text = nil;
     _addressLabel.text = nil;
     _distanceLabel.text = nil;
+    _locationNameLabel.text = nil;
 }
 
 
@@ -118,6 +129,7 @@
     
     if ([model isKindOfClass:[CNNearbyPersonCellModel class]]) {
         NSString * addressLabel = model.person.addressLabel == CNCompanyAddressLabel ? @"公司" : @"家";
+        _locationNameLabel.text = model.person.locationPointName;
         _nameLabel.text = [NSString stringWithFormat:@"%ld.%@-%@",(long)model.person.nearbyIndex,model.person.name, addressLabel];
         _addressLabel.text = model.person.street;
         if (model.person.distance > 0.009f ) {
