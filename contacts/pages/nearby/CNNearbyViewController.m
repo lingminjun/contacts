@@ -31,6 +31,9 @@
 
 @property (nonatomic,strong) UIView *bottomPanel;//显示选中地址信息
 
+@property (nonatomic,strong) UIButton *atHereButton;
+@property (nonatomic,strong) UIView *zoomPanel;//放大缩小按钮
+
 @end
 
 @implementation CNNearbyViewController
@@ -137,6 +140,82 @@
     return _bottomPanel;
 }
 
+- (UIButton *)atHereButton {
+    if (_atHereButton) {
+        return _atHereButton;
+    }
+    
+    UIButton *btn = [UIButton ssn_buttonWithSize:CGSizeMake(40, 40)
+                                            font:cn_assist_font
+                                           color:cn_text_assist_color
+                                        selected:nil
+                                        disabled:nil
+                                       backgroud:cn_image(@"")
+                                        selected:nil
+                                        disabled:nil];
+    [btn ssn_addTarget:self touchAction:@selector(here:)];
+    btn.backgroundColor = [UIColor redColor];
+    _atHereButton = btn;
+    
+    SSNUITableLayout *layout = [self.view ssn_tableLayoutWithRowCount:1 columnCount:1];
+    [layout setLayoutID:@"atHereButtonLayout"];
+    layout.contentInset = UIEdgeInsetsMake(0, cn_left_edge_width, cn_bottom_edge_height, 0);
+    layout.contentMode = SSNUIContentModeBottomLeft;
+    
+    ssn_layout_add(layout, _atHereButton, 0, atHereButton);
+    
+    return _atHereButton;
+}
+- (UIView *)zoomPanel {
+    if (_zoomPanel) {
+        return _zoomPanel;
+    }
+    
+    _zoomPanel = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 81)];
+    _zoomPanel.backgroundColor = [UIColor redColor];
+    {
+        SSNUITableLayout *layout = [_zoomPanel ssn_tableLayoutWithRowCount:3 columnCount:1];
+        
+        UIButton *btn = [UIButton ssn_buttonWithSize:CGSizeMake(40, 40)
+                                                font:cn_assist_font
+                                               color:cn_text_assist_color
+                                            selected:nil
+                                            disabled:nil
+                                           backgroud:cn_image(@"")
+                                            selected:nil
+                                            disabled:nil];
+        [btn ssn_addTarget:self touchAction:@selector(addAction:)];
+        ssn_layout_add_v2(layout, btn, 0, ssn_layout_table_cell_v2(SSNUIContentModeCenter), addZoomButton);
+        
+        //划线
+        [layout setRowInfo:ssn_layout_table_row(1) atRow:1];
+        UIImageView *line = [UIImageView ssn_lineWithWidth:_zoomPanel.ssn_width - (cn_left_edge_width + cn_right_edge_width) color:cn_separator_line_color orientation:UIInterfaceOrientationPortraitUpsideDown];
+        ssn_layout_add_v2(layout, line, 1, ssn_layout_table_cell_v2(SSNUIContentModeCenter), line);
+        
+        btn = [UIButton ssn_buttonWithSize:CGSizeMake(40, 40)
+                                                font:cn_assist_font
+                                               color:cn_text_assist_color
+                                            selected:nil
+                                            disabled:nil
+                                           backgroud:cn_image(@"")
+                                            selected:nil
+                                            disabled:nil];
+        [btn ssn_addTarget:self touchAction:@selector(reduceAction:)];
+        ssn_layout_add_v2(layout, btn, 2, ssn_layout_table_cell_v2(SSNUIContentModeCenter), reduceZoomButton);
+        
+    }
+    
+    SSNUITableLayout *layout = [self.view ssn_tableLayoutWithRowCount:1 columnCount:1];
+    [layout setLayoutID:@"zoomPanelLayout"];
+    layout.contentInset = UIEdgeInsetsMake(0, 0, 2*cn_bottom_edge_height, cn_right_edge_width);
+    layout.contentMode = SSNUIContentModeBottomRight;
+    
+    ssn_layout_add(layout, _zoomPanel, 0, zoomPanel);
+    
+    return _atHereButton;
+
+}
+
 - (void)showBottomPanelWithTitle:(NSString *)title distance:(NSString *)distance detail:(NSString *)detail {
     if (self.bottomPanel.hidden) {
         self.bottomPanel.ssn_bottom = self.view.bounds.size.height - cn_bottom_edge_height;
@@ -145,6 +224,16 @@
         
         _bottomPanel.hidden = NO;
     }
+    
+    SSNUILayout *layout = [self.view ssn_layoutForID:@"zoomPanelLayout"];
+    UIEdgeInsets insert = layout.contentInset;
+    insert.bottom = 2*cn_bottom_edge_height + _bottomPanel.ssn_height + cn_bottom_edge_height;
+    layout.contentInset = insert;
+    
+    layout = [self.view ssn_layoutForID:@"atHereButtonLayout"];
+    insert = layout.contentInset;
+    insert.bottom = cn_bottom_edge_height + _bottomPanel.ssn_height + cn_bottom_edge_height;
+    layout.contentInset = insert;
     
     UIView *backgroud = ssn_panel_get(UIView, _bottomPanel, backgroud);
     
@@ -184,6 +273,9 @@
     [self loadCoor];
     
     [self flushLocation];
+    
+    [self atHereButton];
+    [self zoomPanel];
 }
 
 - (void)gotoList:(id)sender {
@@ -200,6 +292,20 @@
     if (self.here.latitude != 0.0 && self.here.longitude != 0.0) {
         [_mapView setCenterCoordinate:_here animated:YES];
     }
+}
+
+- (void)addAction:(id)sender {
+    BMKCoordinateRegion region = self.mapView.region;
+    region.span.latitudeDelta -= 0.01;
+    region.span.longitudeDelta -= 0.01;
+    [self.mapView setRegion:region animated:YES];
+}
+
+- (void)reduceAction:(id)sender {
+    BMKCoordinateRegion region = self.mapView.region;
+    region.span.latitudeDelta += 0.01;
+    region.span.longitudeDelta += 0.01;
+    [self.mapView setRegion:region animated:YES];
 }
 
 - (void)loadCoor {
