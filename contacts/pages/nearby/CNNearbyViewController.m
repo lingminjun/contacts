@@ -454,7 +454,8 @@
 //        if (addr) {
     self.pointAnnotation.subtitle = self.selectdPerson.street;
     NSString *distanceStr = [NSString stringWithFormat:@"距离:%.2fkm",self.selectdPerson.nearbyDistance];
-    NSString *showTitle = [NSString stringWithFormat:@"%ld.%@",(long)(self.selectdPerson.nearbyIndex),self.selectdPerson.name];
+    NSString * addressLabel = self.selectdPerson.addressLabel == CNCompanyAddressLabel ? @"公司" : @"家";
+    NSString *showTitle = [NSString stringWithFormat:@"%ld.%@-%@",(long)(self.selectdPerson.nearbyIndex),self.selectdPerson.name,addressLabel];
     [self showBottomPanelWithTitle:showTitle distance:distanceStr detail:self.selectdPerson.street];
 //        }
 //    }];

@@ -117,7 +117,8 @@
     [super ssn_configureCellWithModel:model atIndexPath:indexPath inTableView:tableView];
     
     if ([model isKindOfClass:[CNNearbyPersonCellModel class]]) {
-        _nameLabel.text = [NSString stringWithFormat:@"%ld.%@",(long)model.person.nearbyIndex,model.person.name];
+        NSString * addressLabel = model.person.addressLabel == CNCompanyAddressLabel ? @"公司" : @"家";
+        _nameLabel.text = [NSString stringWithFormat:@"%ld.%@-%@",(long)model.person.nearbyIndex,model.person.name, addressLabel];
         _addressLabel.text = model.person.street;
         if (model.person.distance > 0.009f ) {
             _distanceLabel.text = [NSString stringWithFormat:@"%.2fkm",model.person.nearbyDistance];

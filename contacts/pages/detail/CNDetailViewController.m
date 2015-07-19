@@ -506,7 +506,8 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
             && [_person.mobile isEqualToString:[_mobileCell.input ssn_trimAllWhitespace]]
             && [_person.province isEqualToString:[_provinceCell.subTitle ssn_trimWhitespace]]
             && [_person.addressDetail isEqualToString:[_addressDetailCell.input ssn_trimWhitespace]]
-            && _person.gender == (_genderCell.value == 1 ? CNPersonMaleGender : CNPersonFemaleGender)) {
+            && _person.gender == (_genderCell.value == 0 ? CNPersonMaleGender : CNPersonFemaleGender)
+            && _person.addressLabel == (_addressTypeCell.value == 0 ? CNHomeAddressLabel : CNCompanyAddressLabel)) {
             self.navigationItem.rightBarButtonItem.enabled = NO;
         }
         else {
@@ -557,18 +558,19 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
 }
 
 - (void)cellRadioDidSelect:(CNSelectionCell *)cell {
-    CNSelectionCellModel *model = (CNSelectionCellModel *)cell.ssn_cellModel;
-    if (![model.title isEqualToString:cn_localized(@"user.address.type.label")]) {
-        [self checkButtonStatus];
-        return ;
-    }
-    if (model.value == 0) {
-        _person.addressLabel = CNHomeAddressLabel;
-    }
-    else {
-        _person.addressLabel = CNCompanyAddressLabel;
-    }
+//    CNSelectionCellModel *model = (CNSelectionCellModel *)cell.ssn_cellModel;
+//    if (![model.title isEqualToString:cn_localized(@"user.address.type.label")]) {
+//        [self checkButtonStatus];
+//        return ;
+//    }
+//    if (model.value == 0) {
+//        _person.addressLabel = CNHomeAddressLabel;
+//    }
+//    else {
+//        _person.addressLabel = CNCompanyAddressLabel;
+//    }
     
+    [self checkButtonStatus];
     [self.ssn_tableViewConfigurator.listFetchController loadData];
 }
 

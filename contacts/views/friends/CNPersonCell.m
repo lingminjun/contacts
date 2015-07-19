@@ -16,7 +16,7 @@
         
         NSUInteger name_width = cn_screen_width/2 - cn_left_edge_width - cn_hor_space_width;
         
-        _name = [UILabel ssn_labelWithWidth:name_width font:cn_normal_font color:cn_text_normal_color backgroud:cn_clear_color alignment:NSTextAlignmentLeft multiLine:NO];
+        _name = [UILabel ssn_labelWithWidth:name_width font:cn_title_font color:cn_text_normal_color backgroud:cn_clear_color alignment:NSTextAlignmentLeft multiLine:NO];
         
         _distanceLabel = [UILabel ssn_labelWithWidth:name_width font:cn_normal_font color:cn_text_assist_color backgroud:cn_clear_color alignment:NSTextAlignmentLeft multiLine:NO];
         
@@ -45,7 +45,8 @@
     [super ssn_configureCellWithModel:model atIndexPath:indexPath inTableView:tableView];
     
     if ([model isKindOfClass:[CNPersonCellModel class]]) {
-        _name.text = model.person.name;
+        NSString * addressLabel = model.person.addressLabel == CNCompanyAddressLabel ? @"公司" : @"家";
+        _name.text = [NSString stringWithFormat:@"%@-%@", model.person.name, addressLabel];
         if (model.person.distance > 0.009f ) {
             _distanceLabel.text = [NSString stringWithFormat:@"%.2fkm",model.person.distance];
         }
