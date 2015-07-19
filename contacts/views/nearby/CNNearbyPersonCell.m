@@ -53,8 +53,8 @@
         
         //地址名称
         _locationNameLabel = [UILabel ssn_labelWithWidth:cn_screen_width - (cn_left_edge_width + cn_right_edge_width)
-                                               font:cn_normal_font
-                                              color:cn_text_assist_color
+                                               font:[UIFont systemFontOfSize:13]
+                                              color:[UIColor blackColor]
                                           backgroud:[UIColor clearColor]
                                           alignment:NSTextAlignmentLeft
                                           multiLine:NO];
@@ -63,7 +63,7 @@
         
         //内容
         _addressLabel = [UILabel ssn_labelWithWidth:cn_screen_width - (cn_left_edge_width + cn_right_edge_width)
-                                               font:cn_normal_font
+                                               font:[UIFont systemFontOfSize:12]
                                               color:cn_text_assist_color
                                           backgroud:[UIColor clearColor]
                                           alignment:NSTextAlignmentLeft
