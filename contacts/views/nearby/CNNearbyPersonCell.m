@@ -22,11 +22,11 @@
             ssn_panel_set(self.contentView, backgroud, backgroud);
         
         
-        SSNUITableLayout *layout = [self.contentView ssn_tableLayoutWithRowCount:4 columnCount:1];
-        layout.contentInset = UIEdgeInsetsMake(0, cn_left_edge_width, 0, cn_right_edge_width);
+        SSNUITableLayout *layout = [self.contentView ssn_tableLayoutWithRowCount:5 columnCount:1];
+        layout.contentInset = UIEdgeInsetsMake(cn_top_edge_height, cn_left_edge_width, 0, cn_right_edge_width);
         
         //头部
-        UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cn_screen_width - cn_left_edge_width - cn_right_edge_width, 30)];
+        UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cn_screen_width - cn_left_edge_width - cn_right_edge_width, 24)];
         {
             int local_width = 100;
             SSNUITableLayout *ly = [topView ssn_tableLayoutWithRowCount:1 columnCount:2];
@@ -49,6 +49,7 @@
             ssn_layout_add_v2(ly, _distanceLabel, 1, ssn_layout_table_cell_v2(SSNUIContentModeCenter), _distanceLabel);
         }
         ssn_layout_add_v2(layout, topView, 0, ssn_layout_table_cell_v2(SSNUIContentModeCenter), topView);
+        [layout setRowInfo:ssn_layout_table_row(topView.ssn_height) atRow:0];
         
         //地址名称
         _locationNameLabel = [UILabel ssn_labelWithWidth:cn_screen_width - (cn_left_edge_width + cn_right_edge_width)
@@ -67,8 +68,14 @@
                                           backgroud:[UIColor clearColor]
                                           alignment:NSTextAlignmentLeft
                                           multiLine:NO];
-        [layout setRowInfo:ssn_layout_table_row(20) atRow:2];
-        ssn_layout_add_v2(layout, _addressLabel, 2, ssn_layout_table_cell_v2(SSNUIContentModeBottom), _addressLabel);
+        [layout setRowInfo:ssn_layout_table_row(24) atRow:2];
+        ssn_layout_add_v2(layout, _addressLabel, 2, ssn_layout_table_cell_v2(SSNUIContentModeCenter), _addressLabel);
+        
+        //先
+        [layout setRowInfo:ssn_layout_table_row(1) atRow:3];
+        UIImageView *line = [UIImageView ssn_lineWithWidth:cn_screen_width - (cn_left_edge_width + cn_right_edge_width) color:cn_separator_line_color orientation:UIInterfaceOrientationPortraitUpsideDown];
+        ssn_layout_add_v2(layout, line, 3, ssn_layout_table_cell_v2(SSNUIContentModeCenter), line);
+        
         //底部
         UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cn_screen_width - cn_left_edge_width - cn_right_edge_width, 40)];
         {
@@ -94,8 +101,8 @@
             _gpsBtn = btn;
         }
         
-        [layout setRowInfo:ssn_layout_table_row(bottomView.ssn_height) atRow:2];
-        ssn_layout_add_v2(layout, bottomView, 3, ssn_layout_table_cell_v2(SSNUIContentModeCenter), bottomView);
+        [layout setRowInfo:ssn_layout_table_row(bottomView.ssn_height) atRow:4];
+        ssn_layout_add_v2(layout, bottomView, 4, ssn_layout_table_cell_v2(SSNUIContentModeCenter), bottomView);
     }
     return self;
 }
