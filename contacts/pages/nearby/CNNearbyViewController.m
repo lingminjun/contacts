@@ -201,7 +201,7 @@
                                            backgroud:nil
                                             selected:nil
                                             disabled:nil];
-        btn.ssn_normalImage = cn_image(@"icon_scal_down");
+        btn.ssn_normalImage = cn_image(@"icon_scale_down");
         [btn ssn_addTarget:self touchAction:@selector(reduceAction:)];
         ssn_layout_add_v2(layout, btn, 2, ssn_layout_table_cell_v2(SSNUIContentModeCenter), reduceZoomButton);
         
@@ -306,17 +306,11 @@
 }
 
 - (void)addAction:(id)sender {
-    BMKCoordinateRegion region = self.mapView.region;
-    region.span.latitudeDelta -= 0.01;
-    region.span.longitudeDelta -= 0.01;
-    [self.mapView setRegion:region animated:YES];
+    self.mapView.zoomLevel += 1;
 }
 
 - (void)reduceAction:(id)sender {
-    BMKCoordinateRegion region = self.mapView.region;
-    region.span.latitudeDelta += 0.01;
-    region.span.longitudeDelta += 0.01;
-    [self.mapView setRegion:region animated:YES];
+        self.mapView.zoomLevel -= 1;
 }
 
 - (void)loadCoor {
