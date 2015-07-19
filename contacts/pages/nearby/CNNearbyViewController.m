@@ -735,4 +735,52 @@
     return YES;
 }
 
+- (void)ssn_handleNoticeURL:(NSURL *)url query:(NSDictionary *)query {
+    BOOL listCallBack = [[query objectForKey:@"listCallback"] boolValue];
+    if (listCallBack) {
+        
+        CNNearbyPerson *person = [query objectForKey:@"selectedPerson"];
+        
+        __block NSUInteger index = NSNotFound;
+        [_nearbyPersons enumerateObjectsUsingBlock:^(CNNearbyPerson *pn, NSUInteger idx, BOOL *stop) {
+            if ([pn.uid isEqualToString:person.uid]) {
+                index = idx;
+                *stop = YES;
+            }
+        }];
+        
+        if (index >= [_annotations count]) {
+            return ;
+        }
+        
+        BMKPointAnnotation *selectPoint = [_annotations objectAtIndex:index];
+        
+        _coor = selectPoint.coordinate;
+        
+        BMKAnnotationView *old = [_mapView viewForAnnotation:_pointAnnotation];
+        if ([old.annotation isKindOfClass:[CNPointAnnotation class]]) {
+            CNPointAnnotation *ann = (CNPointAnnotation *)old.annotation;
+            old.image = [self pointAnnotationImageWithIndex:ann.index selected:NO];
+        }
+        else {
+            old.image = cn_image(@"icon_normal_nail");
+        }
+        //    [(BMKPinAnnotationView *)old setPinColor:BMKPinAnnotationColorPurple];
+        
+        _pointAnnotation = selectPoint;
+        index = [self.annotations indexOfObject:_pointAnnotation];
+        if (index < [self.nearbyPersons count]) {
+            _selectdPerson = [self.nearbyPersons objectAtIndex:index];
+        }
+        
+        BMKAnnotationView *view = [_mapView viewForAnnotation:_pointAnnotation];
+        CNPointAnnotation *ann = (CNPointAnnotation *)view.annotation;
+        view.image = [self pointAnnotationImageWithIndex:ann.index selected:YES];
+        
+        [self showAnnotationsWithZoom:0];
+        
+        [_mapView setCenterCoordinate:_coor animated:YES];
+    }
+}
+
 @end

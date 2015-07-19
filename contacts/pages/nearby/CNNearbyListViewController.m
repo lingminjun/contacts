@@ -72,6 +72,19 @@
     
 }
 
+//当cell选中时
+- (void)ssn_configurator:(id<SSNTableViewConfigurator>)configurator tableView:(UITableView *)tableView didSelectModel:(CNNearbyPersonCellModel *)model atIndexPath:(NSIndexPath *)indexPath {
+    
+    //进入地图选择
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithCapacity:1];
+    [dic setValue:@(YES) forKey:@"listCallback"];
+    [dic setValue:model.person forKey:@"selectedPerson"];
+    
+    [self.ssn_router noticeURL:[NSURL URLWithString:cn_combine_path(@"nav/main/nearby")] query:dic];
+    
+    [self.ssn_router open:cn_combine_path(@"nav/main/nearby") query:dic];
+
+}
 
 
 

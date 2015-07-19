@@ -60,7 +60,7 @@
     self.searchBar.delegate = self;
     self.searchBar.placeholder = cn_localized(@"friends.search.placeholder");
     self.searchBar.backgroundImage = [UIImage ssn_imageWithColor:cn_bar_color];
-    self.searchBar.searchBarStyle = UISearchBarStyleProminent;
+//    self.searchBar.searchBarStyle = UISearchBarStyleProminent;
     
     self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cn_screen_width, cn_tool_bar_height)];
     self.headerView.backgroundColor = cn_bar_color;

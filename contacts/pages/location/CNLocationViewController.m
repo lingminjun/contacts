@@ -158,7 +158,7 @@
     self.searchBar.delegate = self;
     self.searchBar.placeholder = cn_localized(@"friends.search.placeholder");
     self.searchBar.backgroundImage = [UIImage ssn_imageWithColor:cn_bar_color];
-    self.searchBar.searchBarStyle = UISearchBarStyleProminent;
+//    self.searchBar.searchBarStyle = UISearchBarStyleProminent;
     self.searchBar.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
     [self.view addSubview:self.searchBar];
     
