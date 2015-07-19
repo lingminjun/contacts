@@ -460,6 +460,11 @@ NSString *const CN_DETAIL_ADD_FRIEND_OPTION = @"addfriend";
     CNLabelInputCellModel *model = (CNLabelInputCellModel *)cell.ssn_cellModel;
     
     if ([model.title isEqualToString:cn_localized(@"user.name.label")]) {
+        
+        if ([_uid isEqualToString:[[CNUserCenter center] currentUID]] || [_option isEqualToString:CN_DETAIL_SET_USER_OPTION]) {
+            [self checkButtonStatus];
+            return;
+        }
         //此时需呀开启搜索本地通讯录
         if (![SSNABContactsManager manager].isOpenService) {
             [[SSNABContactsManager manager] openService];
