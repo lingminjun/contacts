@@ -150,10 +150,11 @@
                                            color:cn_text_assist_color
                                         selected:nil
                                         disabled:nil
-                                       backgroud:cn_image(@"icon_me_location")
+                                       backgroud:nil
                                         selected:nil
                                         disabled:nil];
     [btn ssn_addTarget:self touchAction:@selector(here:)];
+    btn.ssn_normalImage = cn_image(@"icon_me_location");
     _atHereButton = btn;
     
     SSNUITableLayout *layout = [self.view ssn_tableLayoutWithRowCount:1 columnCount:1];
@@ -288,9 +289,20 @@
 }
 
 - (void)here:(id)sender {
-    if (self.here.latitude != 0.0 && self.here.longitude != 0.0) {
-        [_mapView setCenterCoordinate:_here animated:YES];
-    }
+    
+    [[CNNearbyServer server] stop];
+    [[CNNearbyServer server] start];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (self.here.latitude != 0.0 && self.here.longitude != 0.0) {
+            [_mapView setCenterCoordinate:_here animated:YES];
+        }
+
+    });
+    
+//    if (self.here.latitude != 0.0 && self.here.longitude != 0.0) {
+//        [_mapView setCenterCoordinate:_here animated:YES];
+//    }
 }
 
 - (void)addAction:(id)sender {
