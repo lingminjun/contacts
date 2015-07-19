@@ -85,36 +85,9 @@
     //由数据库fetch发起
     [self.dbFetchController performFetch];
     
-    //绑定标题
-    [self boundTitleCount];
-}
+    self.navigationItem.rightBarButtonItem = nil;
+    [self.view addSubview:self.noResultPlaceholder];
 
-- (void)boundTitleCount {
-    
-    SSNDBTable *tb = [SSNDBTableManager personTable];
-    
-    NSString *sql = [NSString stringWithFormat:@"select count(*) AS count from %@ where uid <> '%@'",tb.name,[CNUserCenter center].currentUID];
-    
-    __weak typeof(self) w_self = self;
-    [self ssn_boundTable:tb forSQL:sql tieField:@"titleCount" map:^id(SSNDBTable *table, NSString *sql, NSArray *changed_new_values) {
-        __strong typeof(w_self) self = w_self;
-        
-        NSArray *sums = [changed_new_values valueForKey:@"count"];
-        NSNumber *first = [sums firstObject];
-        if ([first integerValue] > 0) {
-            if (self.navigationItem.rightBarButtonItem == nil) {
-                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:cn_image(@"icon_add_friend") style:UIBarButtonItemStylePlain target:self action:@selector(addPerson:)];
-                self.parentViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
-            }
-            [self.noResultPlaceholder removeFromSuperview];
-            return [NSString stringWithFormat:cn_localized(@"friends.header.title.format"),first];
-        }
-        else {
-            self.navigationItem.rightBarButtonItem = nil;
-            [self.view addSubview:self.noResultPlaceholder];
-            return cn_localized(@"friends.header.title");
-        }
-    }];
 }
 
 - (UITableView *)tableView {
@@ -230,6 +203,23 @@
     }
     else {
         [self.ssn_tableViewConfigurator.listFetchController loadData];//连带界面数据重构
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+        
+        //没有好友时显示添加好友
+        if (controller.count > 0) {
+            if (self.navigationItem.rightBarButtonItem == nil) {
+                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:cn_image(@"icon_add_friend") style:UIBarButtonItemStylePlain target:self action:@selector(addPerson:)];
+                self.parentViewController.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+            }
+            [self.noResultPlaceholder removeFromSuperview];
+        }
+        else {
+            self.navigationItem.rightBarButtonItem = nil;
+            [self.view addSubview:self.noResultPlaceholder];
+        }
     }
 }
 
