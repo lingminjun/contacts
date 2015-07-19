@@ -16,9 +16,11 @@
         
         NSUInteger title_width = 60;
         
-        _title = [UILabel ssn_labelWithWidth:title_width font:cn_normal_font color:cn_text_normal_color backgroud:cn_clear_color alignment:NSTextAlignmentLeft multiLine:NO]; _title.backgroundColor = [UIColor redColor];
+        _title = [UILabel ssn_labelWithWidth:title_width font:cn_normal_font color:cn_text_normal_color backgroud:cn_clear_color alignment:NSTextAlignmentLeft multiLine:NO];
+        //_title.backgroundColor = [UIColor redColor];
         
-        _subTitle = [UILabel ssn_labelWithWidth:self.ssn_width - title_width font:cn_normal_font color:cn_text_normal_color backgroud:cn_clear_color alignment:NSTextAlignmentLeft multiLine:NO]; _subTitle.backgroundColor = [UIColor greenColor];
+        _subTitle = [UILabel ssn_labelWithWidth:self.ssn_width - title_width font:cn_normal_font color:cn_text_normal_color backgroud:cn_clear_color alignment:NSTextAlignmentLeft multiLine:NO]; //_subTitle.backgroundColor = [UIColor greenColor];
+        _subTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         
         
         //开始布局
@@ -31,7 +33,7 @@
         
         //添加元素到cell中
         ssn_layout_add_v2(layout, _title, 0, ssn_layout_table_cell_v2(SSNUIContentModeRight), title);
-        ssn_layout_add_v2(layout, _subTitle, 1, ssn_layout_table_cell(0, cn_ver_space_height, 0, cn_right_edge_width, SSNUIContentModeScaleToFill), subTitle);
+        ssn_layout_add_v2(layout, _subTitle, 1, ssn_layout_table_cell(0, cn_hor_space_width, 0, cn_right_edge_width, SSNUIContentModeScaleToFill), subTitle);
         
     }
     return self;
