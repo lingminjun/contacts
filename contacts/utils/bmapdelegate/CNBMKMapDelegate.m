@@ -13,7 +13,7 @@
 NSString *const BMKMapAppKey = @"CqbrjsjvEIfnRyILq9ZoiZhK";
 NSString *const BMKMapErrorDomain = @"CNBMKMap";
 
-const CLLocationCoordinate2D cn_default_location_coordinate = {116.403981f,39.915101f};
+const CLLocationCoordinate2D cn_default_location_coordinate = {121.50626004184372f,31.245369219512355f};
 
 @interface CNBMKMapRequsetDelegate : NSObject<BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,BMKPoiSearchDelegate>
 
