@@ -483,7 +483,7 @@ static void addressBookExternalChangeCallback (ABAddressBookRef addressBook, CFD
         
         for (NSString *phone in phoneNumbers) { @autoreleasepool {
             
-            NSString *mobile = [phone ssn_trimPhoneNumber];
+            NSString *mobile = [phone ssn_trimCountryCodePhoneNumber];
             
             //号码不存在的，过滤掉
             if ([mobile length] == 0) {//没有号码不显示
