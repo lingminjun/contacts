@@ -21,6 +21,7 @@
 @property (nonatomic,strong) BMKMapView *mapView;
 
 @property (nonatomic) CLLocationCoordinate2D here;//当前位置
+@property (nonatomic) BOOL gotoHere;
 
 @property (nonatomic,strong) CNNearbyPerson *selectdPerson;
 @property (nonatomic,strong) BMKPointAnnotation *pointAnnotation;//选中
@@ -291,18 +292,8 @@
 - (void)here:(id)sender {
     
     [[CNNearbyServer server] stop];
-    [[CNNearbyServer server] start];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (self.here.latitude != 0.0 && self.here.longitude != 0.0) {
-            [_mapView setCenterCoordinate:_here animated:YES];
-        }
-
-    });
-    
-//    if (self.here.latitude != 0.0 && self.here.longitude != 0.0) {
-//        [_mapView setCenterCoordinate:_here animated:YES];
-//    }
+    self.gotoHere = YES;
+    [[CNNearbyServer server] start];    
 }
 
 - (void)addAction:(id)sender {
@@ -391,6 +382,14 @@
         [userLocation setValue:[[CLLocation alloc] initWithLatitude:here.latitude longitude:here.longitude] forKey:@"location"];
 //        userLocation.location = ;
         [self.mapView updateLocationData:userLocation];
+        
+        //回到我的位置
+        if (self.gotoHere) {
+            self.gotoHere = NO;
+            if (self.here.latitude != 0.0 && self.here.longitude != 0.0) {
+                [self.mapView setCenterCoordinate:self.here animated:YES];
+            }
+        }
     }];
 }
 

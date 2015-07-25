@@ -20,6 +20,7 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {121.5062600418437
 @property (nonatomic,strong) id service;
 @property (nonatomic,copy) id completion;
 @property (nonatomic,copy) NSDictionary *userInfo;
+@property (nonatomic) NSUInteger tag;
 
 + (instancetype)geoCodeSearchDelegate;
 
@@ -512,6 +513,11 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {121.5062600418437
  */
 - (void)didFailToLocateUserWithError:(NSError *)error
 {
+    //重试5次，最后返回结果
+    if (self.tag < 5) {
+        self.tag++;
+    }
+    
     [(BMKLocationService *)(self.service) setDelegate:nil];
     
     if (self.completion) {
