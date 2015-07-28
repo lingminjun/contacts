@@ -327,6 +327,9 @@
             [self ssn_showToast:cn_localized(@"location.gps.error")];
             return ;
         }
+        else {
+            self.here = here;
+        }
         
         NSMutableArray *temList = [NSMutableArray array];
         [persons enumerateObjectsUsingBlock:^(CNPerson *obj, NSUInteger idx, BOOL *stop) {
