@@ -1827,6 +1827,7 @@
 				TargetAttributes = {
 					532300161B11635000FC8658 = {
 						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = MGL332UAE8;
 						TestTargetID = 5323FFFD1B11634F00FC8658;
 					};
 					5323FFFD1B11634F00FC8658 = {
@@ -2239,7 +2240,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "30275010-be44-44d9-a5c2-254456a8394b";
+				PROVISIONING_PROFILE = "3cf4aef6-4253-43b2-a0ac-0406623d18b7";
 			};
 			name = Debug;
 		};
@@ -2247,7 +2248,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ling minjun (R9Z5D6Q2K2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ling minjun (MGL332UAE8)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/contacts/parts/bmkmap",
@@ -2256,7 +2257,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "30275010-be44-44d9-a5c2-254456a8394b";
+				PROVISIONING_PROFILE = "cbbeaa2a-5e6e-4eef-b077-a5feb7d542ed";
 			};
 			name = Release;
 		};
@@ -2264,6 +2265,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -2275,6 +2278,7 @@
 				INFOPLIST_FILE = contactsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/contacts.app/contacts";
 			};
 			name = Debug;
@@ -2283,6 +2287,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -2290,6 +2296,7 @@
 				INFOPLIST_FILE = contactsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/contacts.app/contacts";
 			};
 			name = Release;
