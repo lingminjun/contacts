@@ -516,6 +516,7 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {31.24536921951235
     //重试5次，最后返回结果
     if (self.tag < 5) {
         self.tag++;
+        return ;
     }
     
     [(BMKLocationService *)(self.service) setDelegate:nil];
