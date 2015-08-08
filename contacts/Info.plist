@@ -39,7 +39,7 @@
 	<true/>
 	<key>NSContactsUsageDescription</key>
 	<string>可以管理来着手机通讯录的朋友</string>
-	<key>NSLocationAlwaysUsageDescription</key>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>开启定位服务可以使用更多功能</string>
 	<key>UILaunchImages</key>
 	<array>
