@@ -520,6 +520,7 @@ const CLLocationCoordinate2D cn_default_location_coordinate = {31.24536921951235
     }
     
     [(BMKLocationService *)(self.service) setDelegate:nil];
+    [(BMKLocationService *)(self.service) stopUserLocationService];
     
     if (self.completion) {
         void (^inner_completion)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error) = (void (^)(CNAddress *address,NSString *addr, CLLocationCoordinate2D coor, NSError *error))self.completion;
