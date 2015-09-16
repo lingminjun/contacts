@@ -33,7 +33,7 @@
     UIImageView * header = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.ssn_width, 175)];
     header.image = cn_image(@"img_setting_header.jpg");
     
-    UILabel *infoLabel = [UILabel ssn_labelWithWidth:(self.view.ssn_width - cn_left_edge_width - cn_right_edge_width) font:cn_normal_font color:cn_text_normal_color backgroud:cn_table_cell_normal_color alignment:NSTextAlignmentLeft multiLine:YES];
+    UILabel *infoLabel = [UILabel ssn_labelWithWidth:(self.view.ssn_width - cn_left_edge_width - cn_right_edge_width) font:[UIFont systemFontOfSize:11] color:cn_text_normal_color backgroud:cn_table_cell_normal_color alignment:NSTextAlignmentLeft multiLine:YES];
     infoLabel.backgroundColor = [UIColor clearColor];
     infoLabel.text = cn_localized(@"setting.about.content");
     [infoLabel ssn_sizeToFit];
